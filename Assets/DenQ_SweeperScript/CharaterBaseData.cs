@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjBaseData : MonoBehaviour {
+public class CharaterBaseData : MonoBehaviour {
 	int MaxHp;
 	int RecHp;
 	// Use this for initialization
