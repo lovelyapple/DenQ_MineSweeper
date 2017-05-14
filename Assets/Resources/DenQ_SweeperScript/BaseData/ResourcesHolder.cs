@@ -11,6 +11,13 @@ public class ResourcesHolder : MonoBehaviour
         PrefabsDict.Clear();
 		LoadBasePrefab();
     }
+
+    public static bool ExistList()
+    {
+        if(PrefabsDict == null)
+        return false;
+        return PrefabsDict.Count > 0;
+    }
     private static void LoadBasePrefab()
     {
         for (int i = 0; i < (uint)PREFABU_NAME.max; i++)

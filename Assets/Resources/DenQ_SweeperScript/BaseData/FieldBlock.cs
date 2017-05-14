@@ -10,7 +10,18 @@ public class FieldBlock : MonoBehaviour
     public BLOCK_TYPE BlockType = BLOCK_TYPE.NONE;
     public FIELD_ITEM ItemType = FIELD_ITEM.NONE;
 
-    public void InitializeFieldBlock(int x, int z, BLOCK_TYPE type) { Pos = new FieldPos(x, z); BlockType = type; }
+    public void InitializeFieldBlock(int x, int z, BLOCK_TYPE type) 
+    { 
+        Pos = new FieldPos(x, z); 
+        BlockType = type; 
+        if(type == BLOCK_TYPE.ITEM)
+        {
+        //========================//
+        var rdm = new System.Random();
+        ItemType = (FIELD_ITEM)rdm.Next((int)FIELD_ITEM.BOMB,(int)FIELD_ITEM.HEALTH);
+        //========================//            
+        }
+    }
     // Use this for initialization
     void Start()
     {

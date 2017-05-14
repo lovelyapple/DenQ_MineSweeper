@@ -70,7 +70,7 @@ public class Field : MonoBehaviour
         if (hited.transform.gameObject.tag == "FieldBlock")
         {
             FieldBlock blockData = hited.transform.gameObject.GetComponent<FieldBlock>();
-            RemoveOneBlock(blockData.Pos);
+            BreakOneBLock(blockData.Pos);
         }
     }
     public void InsertOneBlock(FieldPos fieldPos, BLOCK_TYPE type)
@@ -91,7 +91,7 @@ public class Field : MonoBehaviour
             }
         }
         Vector3 Vecpos = DenQHelper.ConvertFieldPosToWorld(fieldPos);
-        GameObject tempObj = ResourcesHelper.LoadResourcesInstance(prefabBlock, this.gameObject, Vecpos);
+        GameObject tempObj = ResourcesHelper.CreateResourcesInstance(prefabBlock, this.gameObject, Vecpos);
         FieldBlock tempBlock = tempObj.GetComponent<FieldBlock>();
         tempBlock.InitializeFieldBlock(fieldPos.posX, fieldPos.posZ, type);
         FieldData.Add(fieldPos, tempBlock);
@@ -104,22 +104,33 @@ public class Field : MonoBehaviour
             {
                 FieldBlock fieldBlockTemp = FieldData[_pos];
                 BLOCK_TYPE blockType = fieldBlockTemp.GetBLockType();
-                FieldData.Remove(_pos);
-                fieldBlockTemp.Destroy();
                 switch (blockType)
                 {
                     case BLOCK_TYPE.NONE:
                         break;
                     case BLOCK_TYPE.ITEM:
+                    CreateItemOnField(fieldBlockTemp.ItemType,fieldBlockTemp.transform.position);
                         break;
                 }
+                FieldData.Remove(_pos);
+                fieldBlockTemp.Destroy();
                 return;
             }
         }
     }
-    void CreateItemOnField(FIELD_ITEM itemType)
+    void CreateItemOnField(FIELD_ITEM itemType,Vector3 pos)
     {
-        
+        switch(itemType)
+        {
+            case FIELD_ITEM.HEALTH:
+            break;
+            case FIELD_ITEM.BOMB:
+            ResourcesHelper.CreatePrefabinstance((uint)PREFABU_NAME.FiedlBomb,
+            false,
+            BattleScene.GetInstance().BombRootObj,
+            pos);
+            break;
+        }
     }
     public void RemoveOneBlock(FieldPos pos)
     {
@@ -128,7 +139,6 @@ public class Field : MonoBehaviour
             if (_pos.CompareTo(pos) == 0)
             {
                 FieldBlock fieldBlockTemp = FieldData[_pos];
-                BLOCK_TYPE blockType = fieldBlockTemp.GetBLockType();
                 FieldData.Remove(_pos);
                 fieldBlockTemp.Destroy();
                 return;

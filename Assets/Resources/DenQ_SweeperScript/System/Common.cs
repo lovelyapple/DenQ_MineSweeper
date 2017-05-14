@@ -5,10 +5,31 @@ using UnityEngine;
 
 namespace DenQ.BaseStruct
 {
+    public enum BLOCK_TYPE
+    {
+        ITEM,
+        NONE,
+    }
+    public enum FIELD_BOMB
+    {
+        BOMB_NORMAL,
+        BOMB_DELAY,
 
+    }
+    public enum FIELD_ITEM
+    {
+        BOMB = 0,
+        HEALTH,
+        NONE,
+    }
+    public enum BOMB_TYPE
+    {
+        NORMAL = (int)FIELD_BOMB.BOMB_NORMAL,
+        DELAY = (int)FIELD_BOMB.BOMB_DELAY,
+    }
     public enum PREFABU_NAME
     {
-        FieldBlock = 0,
+        FieldBlock,
         FiedlBomb,
         FieldItem,
         max,
@@ -21,6 +42,7 @@ namespace DenQ.BaseStruct
         BOMB_ROOT,
         FIELD_MGR,
     }
+    //Down=========================- FIEL PATH LCASS ================================Down//
     public class FilePath
     {
         public static string[] NormalPrefabPath = new string[]
@@ -46,28 +68,9 @@ namespace DenQ.BaseStruct
             return GodPrefabPath[(uint)name];
         }
     }
-    public enum BLOCK_TYPE
-    {
-        ITEM,
-        NONE,
-    }
-    public enum FIELD_BOMB
-    {
-        BOMB_NORMAL,
-        BOMB_DELAY,
+    //Up==========================- FIEL PATH LCASS =================================Up//
 
-    }
-    public enum FIELD_ITEM
-    {
-        BOMB = 0,
-        HEALTH,
-        NONE,
-    }
-    public enum BOMB_TYPE
-    {
-        NORMAL = (int)FIELD_BOMB.BOMB_NORMAL,
-        DELAY = (int)FIELD_BOMB.BOMB_DELAY,
-    }
+    //Down========================- DIELD POS LCASS ===============================Down//
     public class FieldPos : IComparable<FieldPos>
     {
         public int posX;
@@ -94,6 +97,9 @@ namespace DenQ.BaseStruct
         }
 
     }
+    //UP==========================- DIELD POS LCASS =================================Up//
+    //Prefabを読み込む、ほぼゲーム初期化する時のみに実行
+    //軽いオブジェクトのPrefabはListでRescourcesHolderに保存している。
     public class ResourcesHelper : MonoBehaviour
     {
         public static GameObject LoadResourcesPrefab(string path)
@@ -117,7 +123,8 @@ namespace DenQ.BaseStruct
             }
             return _prefab;
         }
-        public static GameObject LoadResourcesInstance(string path, GameObject parent)
+        //Prefabからゲームオブジェクトのインスタンスを作る
+        public static GameObject CreateResourcesInstance(string path, GameObject parent)
         {
             if (parent == null)
             {
@@ -135,15 +142,91 @@ namespace DenQ.BaseStruct
             }
             return instance;
         }
-        public static GameObject LoadResourcesInstance(GameObject orefabObj, GameObject parent, Vector3 pos)
+        public static GameObject CreateResourcesInstance(GameObject prefabObj, GameObject parent, Vector3 pos)
         {
-            if (orefabObj == null || parent == null)
+            if (prefabObj == null)
             {
                 return null;
             }
-            GameObject instance = Instantiate(orefabObj);
-            instance.transform.parent = parent.transform;
+
+            GameObject instance = Instantiate(prefabObj);
+            if (parent == null)
+            {
+                Debug.LogWarning("there is no parent when create new instance of " + prefabObj.name);
+            }
+            else
+            {
+                instance.transform.parent = parent.transform;
+            }
             instance.transform.position = pos;
+            return instance;
+        }
+        public static GameObject CreateResourcesInstance(GameObject prefabObj, GameObject parent)
+        {
+            if (prefabObj == null)
+            {
+                return null;
+            }
+
+            GameObject instance = Instantiate(prefabObj);
+            if (parent == null)
+            {
+                Debug.LogWarning("there is no parent when create new instance of " + prefabObj.name);
+            }
+            else
+            {
+                instance.transform.parent = parent.transform;
+            }
+            return instance;
+        }
+        public static GameObject CreatePrefabinstance(uint prefabID, bool isGod, GameObject parent, Vector3 pos)
+        {
+            if (!ResourcesHolder.ExistList())
+            {
+                Debug.LogError("There is noth in holder");
+                return null;
+            }
+            GameObject instance = new GameObject();
+            if (isGod)
+            {
+                Debug.LogError("Build GodObejct is not avaliable recently");
+                return null;
+            }
+            else
+            {
+                if (prefabID >= (uint)PREFABU_NAME.max)
+                {
+                    Debug.LogError("wrong id while creating ID");
+                    return null;
+                }
+                instance = CreateResourcesInstance(ResourcesHolder.GetPrefabByName((PREFABU_NAME)prefabID), parent, pos);
+
+            }
+            return instance;
+        }
+        public static GameObject CreatePrefabinstance(uint prefabID, bool isGod, GameObject parent)
+        {
+            if (!ResourcesHolder.ExistList())
+            {
+                Debug.LogError("There is noth in holder");
+                return null;
+            }
+            GameObject instance = new GameObject();
+            if (isGod)
+            {
+                Debug.LogError("Build GodObejct is not avaliable recently");
+                return null;
+            }
+            else
+            {
+                if (prefabID >= (uint)PREFABU_NAME.max)
+                {
+                    Debug.LogError("wrong id while creating ID");
+                    return null;
+                }
+                instance = CreateResourcesInstance(ResourcesHolder.GetPrefabByName((PREFABU_NAME)prefabID), parent);
+
+            }
             return instance;
         }
     }

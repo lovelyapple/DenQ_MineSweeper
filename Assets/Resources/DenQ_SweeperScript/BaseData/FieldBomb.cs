@@ -9,6 +9,13 @@ public class FieldBomb : MonoBehaviour
     public float LengthToCamera = 0.0f;
     public float life = 0;
     public BOMB_TYPE BombType = BOMB_TYPE.NORMAL;
+    /// <summary>
+    /// Awake is called when the script instance is being loaded.
+    /// </summary>
+    void Awake()
+    {
+        Debug.Log(" one bomb is created");
+    }
     public void InitializeFieldBomb(int x, int z, BOMB_TYPE type)
     {
         Pos.posX = x; Pos.posZ = z; BombType = type;
@@ -17,7 +24,7 @@ public class FieldBomb : MonoBehaviour
             case BOMB_TYPE.NORMAL:
                 break;
             case BOMB_TYPE.DELAY:
-                life = 5.0f;
+                life = 300.0f;
                 break;
         }
     }
@@ -36,6 +43,7 @@ public class FieldBomb : MonoBehaviour
         }
         else
         {
+            Debug.Log("this bomb is dead");
             Destroy();
         }
     }

@@ -17,7 +17,7 @@ public class FieldMgr : MangerBase<FieldMgr>
     void Awake()
     {
         SetInstance(this);
-        GameObject fieldObj = ResourcesHelper.LoadResourcesInstance(PrefabFieldPath, this.gameObject);
+        GameObject fieldObj = ResourcesHelper.CreateResourcesInstance(PrefabFieldPath, this.gameObject);
         if (fieldObj)
         {
             FieldData = fieldObj.GetComponent<Field>();
@@ -61,7 +61,8 @@ public class FieldMgr : MangerBase<FieldMgr>
         {
             for (int k = 0; k < FieldSizeX; k++)
             {
-                FieldData.InsertOneBlock(new FieldPos(k, i), BLOCK_TYPE.NONE);
+                BLOCK_TYPE typeTemp = k%3 == 0? BLOCK_TYPE.ITEM :BLOCK_TYPE.NONE;
+                FieldData.InsertOneBlock(new FieldPos(k, i), typeTemp);
                 yield return null;
             }
         }
