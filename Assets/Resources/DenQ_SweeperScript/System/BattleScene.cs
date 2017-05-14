@@ -5,7 +5,9 @@ using DenQ.BaseStruct;
 public class BattleScene : MonoBehaviour
 {
     public GameObject FieldRootObj = null;
-    public GameObject BombManagerObj = null;
+    public GameObject BombRootObj = null;
+    public GameObject ItemRootObj = null;
+
     public GameObject FieldManagerObj = null;
     public FieldMgr FieldManger = null;
     public GameObject ResourcesHolderObj = null;
@@ -60,11 +62,17 @@ public class BattleScene : MonoBehaviour
         if (FieldRootObj == null) {return false;}
         FieldRootObj.transform.position = new Vector3(0,0,0);
 
-        BombManagerObj = ResourcesHelper.LoadResourcesInstance(
-            FilePath.GetGodPrefabPath(GOD_PREFAB_NAME.BOMB_MGR),
-         FieldRootObj);
-        if (BombManagerObj == null) {return false;}
-        BombManagerObj.transform.position = new Vector3(0,0,0);     
+        BombRootObj = ResourcesHelper.LoadResourcesInstance(
+            FilePath.GetGodPrefabPath(GOD_PREFAB_NAME.BOMB_ROOT),
+         this.gameObject);
+        if (BombRootObj == null) {return false;}
+        BombRootObj.transform.position = new Vector3(0,0,0); 
+
+        ItemRootObj = ResourcesHelper.LoadResourcesInstance(
+            FilePath.GetGodPrefabPath(GOD_PREFAB_NAME.ITEM_ROOT),
+            this.gameObject);
+        if (ItemRootObj == null) {return false;}
+        ItemRootObj.transform.position = new Vector3(0,0,0);            
 
         //各オブジェクトのマネージャー作成
         FieldManagerObj = ResourcesHelper.LoadResourcesInstance(

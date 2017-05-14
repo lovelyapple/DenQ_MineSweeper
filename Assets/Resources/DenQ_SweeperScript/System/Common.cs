@@ -17,7 +17,8 @@ namespace DenQ.BaseStruct
     {
         RESOURCES_HOLDER,
         FIELD_ROOT,
-        BOMB_MGR,
+        ITEM_ROOT,
+        BOMB_ROOT,
         FIELD_MGR,
     }
     public class FilePath
@@ -32,7 +33,8 @@ namespace DenQ.BaseStruct
         {
             "DenQ_SweeperPrefab/ManagerPrefab/ResourceHolder",
             "DenQ_SweeperPrefab/RootPrefab/FieldRoot",
-            "DenQ_SweeperPrefab/RootPrefab/BombManager",
+            "DenQ_SweeperPrefab/RootPrefab/ItemRoot",
+            "DenQ_SweeperPrefab/RootPrefab/BombRoot",
             "DenQ_SweeperPrefab/ManagerPrefab/FieldManager",
         };
         public static string GetPrefabPath(PREFABU_NAME name)

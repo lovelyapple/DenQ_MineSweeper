@@ -117,6 +117,10 @@ public class Field : MonoBehaviour
             }
         }
     }
+    void CreateItemOnField(FIELD_ITEM itemType)
+    {
+        
+    }
     public void RemoveOneBlock(FieldPos pos)
     {
         foreach (FieldPos _pos in FieldData.Keys)
