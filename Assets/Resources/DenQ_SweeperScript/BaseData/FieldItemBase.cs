@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharaterBaseData : MonoBehaviour {
-	int MaxHp;
-	int RecHp;
+public class FieldItemBase : MonoBehaviour {
+
 	// Use this for initialization
 	void Start () {
 		
