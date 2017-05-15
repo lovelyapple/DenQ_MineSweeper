@@ -186,7 +186,6 @@ namespace DenQ.BaseStruct
                 Debug.LogError("There is noth in holder");
                 return null;
             }
-            GameObject instance = new GameObject();
             if (isGod)
             {
                 Debug.LogError("Build GodObejct is not avaliable recently");
@@ -199,10 +198,8 @@ namespace DenQ.BaseStruct
                     Debug.LogError("wrong id while creating ID");
                     return null;
                 }
-                instance = CreateResourcesInstance(ResourcesHolder.GetPrefabByName((PREFABU_NAME)prefabID), parent, pos);
-
+                return CreateResourcesInstance(ResourcesHolder.GetPrefabByName((PREFABU_NAME)prefabID), parent, pos);
             }
-            return instance;
         }
         public static GameObject CreatePrefabinstance(uint prefabID, bool isGod, GameObject parent)
         {
@@ -211,7 +208,6 @@ namespace DenQ.BaseStruct
                 Debug.LogError("There is noth in holder");
                 return null;
             }
-            GameObject instance = new GameObject();
             if (isGod)
             {
                 Debug.LogError("Build GodObejct is not avaliable recently");
@@ -224,10 +220,9 @@ namespace DenQ.BaseStruct
                     Debug.LogError("wrong id while creating ID");
                     return null;
                 }
-                instance = CreateResourcesInstance(ResourcesHolder.GetPrefabByName((PREFABU_NAME)prefabID), parent);
 
             }
-            return instance;
+            return CreateResourcesInstance(ResourcesHolder.GetPrefabByName((PREFABU_NAME)prefabID), parent);
         }
     }
     public class DenQHelper : MonoBehaviour
@@ -238,3 +233,4 @@ namespace DenQ.BaseStruct
         }
     }
 }
+

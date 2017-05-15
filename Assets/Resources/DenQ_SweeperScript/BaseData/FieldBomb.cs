@@ -5,7 +5,7 @@ using DenQ.BaseStruct;
 public class FieldBomb : MonoBehaviour
 {
 
-    public FieldPos Pos;
+    public FieldPos Pos = new FieldPos();
     public float LengthToCamera = 0.0f;
     public float life = 0;
     public BOMB_TYPE BombType = BOMB_TYPE.NORMAL;

@@ -3,18 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using DenQ.BaseStruct;
 using DenQ.Prefab;
+using System.Linq;
 public class Field : MonoBehaviour
 {
     private Dictionary<FieldPos, FieldBlock> FieldData = new Dictionary<FieldPos, FieldBlock>();
+
     public bool CanPlay = true;
     private TOUCH_INFO TouchInfo;
+
     void Awake()
     {
     }
     // Use this for initialization
     void Start()
     {
-
     }
 
     // Update is called once per frame
@@ -109,7 +111,7 @@ public class Field : MonoBehaviour
                     case BLOCK_TYPE.NONE:
                         break;
                     case BLOCK_TYPE.ITEM:
-                    CreateItemOnField(fieldBlockTemp.ItemType,fieldBlockTemp.transform.position);
+                        CreateItemOnField(fieldBlockTemp, _pos, fieldBlockTemp.transform.position);
                         break;
                 }
                 FieldData.Remove(_pos);
@@ -118,18 +120,15 @@ public class Field : MonoBehaviour
             }
         }
     }
-    void CreateItemOnField(FIELD_ITEM itemType,Vector3 pos)
+    void CreateItemOnField(FieldBlock blockData, FieldPos fPos, Vector3 vPos)
     {
-        switch(itemType)
+        switch (blockData.ItemType)
         {
             case FIELD_ITEM.HEALTH:
-            break;
+                break;
             case FIELD_ITEM.BOMB:
-            ResourcesHelper.CreatePrefabinstance((uint)PREFABU_NAME.FiedlBomb,
-            false,
-            BattleScene.GetInstance().BombRootObj,
-            pos);
-            break;
+                BombManger.GetInstance().CreateBomb(blockData);
+                break;
         }
     }
     public void RemoveOneBlock(FieldPos pos)
