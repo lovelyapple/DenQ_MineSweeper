@@ -9,6 +9,7 @@ public class FieldBlock : MonoBehaviour
     public float LengthToCamera = 0.0f;
     public BLOCK_TYPE BlockType = BLOCK_TYPE.NONE;
     public FIELD_ITEM ItemType = FIELD_ITEM.NONE;
+    public FIELD_BOMB BombType = FIELD_BOMB.BOMB_DELAY;
 
     public void InitializeFieldBlock(int x, int z, BLOCK_TYPE type) 
     { 
