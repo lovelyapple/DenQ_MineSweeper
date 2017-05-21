@@ -3,8 +3,7 @@
 public class VersionDiscript {
 /*
 	このクラスは何もしない、ただバージョン説明を内部で管理したかった。
-
-
+	
 	[1.0.0.1] 2017.5.21
 	* 主に本番開発に向けて、データー構成を決定した。
 	　* リソースホルダーを統一し、ResourceManagerで管理するようにした。
@@ -19,7 +18,7 @@ public class VersionDiscript {
 	  * デバッグメッセージが増えていくので、DebugMessagerManagerを作成。
 	  * 爆弾の爆発エフェクトを作成
 	  * ゲームステーとの管理仕様作成
-	  
+
 */
 
 }
