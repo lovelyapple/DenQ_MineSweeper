@@ -24,7 +24,7 @@ public class DebugCreateField : EditorWindow
 
                     if (GUILayout.Button("Create"))
                     {
-                        FieldMgr.GetInstance().CreateDebugFieldBlock();
+                        FieldManager.GetInstance().CreateDebugFieldBlock();
                     }
 					GUILayout.BeginHorizontal();
 					{
@@ -43,11 +43,11 @@ public class DebugCreateField : EditorWindow
 
                     if (GUILayout.Button("CreateAll"))
                     {
-                       FieldMgr.GetInstance().CreateDebugFeildAll((uint)SizeX,(uint)SizeZ);
+                       FieldManager.GetInstance().CreateDebugFeildAll((uint)SizeX,(uint)SizeZ);
                     }
                     if (GUILayout.Button("Clear"))
                     {
-                        FieldMgr.GetInstance().ClearField();
+                        FieldManager.GetInstance().ClearField();
                     }
                 }
                 else

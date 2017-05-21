@@ -4,7 +4,8 @@ using UnityEngine;
 using DenQ.BaseStruct;
 public class FieldItemBase : MonoBehaviour
 {
-    FIELD_ITEM ItemType = FIELD_ITEM.NONE;
+    //TODO create item
+    //FIELD_ITEM ItemType = FIELD_ITEM.NONE;
 
     // Use this for initialization
     void Start()

@@ -7,20 +7,22 @@ public class FieldBlock : MonoBehaviour
 
     public FieldPos Pos;
     public float LengthToCamera = 0.0f;
-    public BLOCK_TYPE BlockType = BLOCK_TYPE.NONE;
+    public FIELD_BLOCK BlockType = FIELD_BLOCK.NORMAL;
     public FIELD_ITEM ItemType = FIELD_ITEM.NONE;
-    public FIELD_BOMB BombType = FIELD_BOMB.BOMB_DELAY;
 
-    public void InitializeFieldBlock(int x, int z, BLOCK_TYPE type) 
+    public void InitializeFieldBlock(int x, int z, FIELD_BLOCK blockType,FIELD_ITEM itemType) 
     { 
         Pos = new FieldPos(x, z); 
-        BlockType = type; 
-        if(type == BLOCK_TYPE.ITEM)
+        BlockType = blockType; 
+        ItemType  = itemType;
+        switch(ItemType)
         {
-        //========================//
-        var rdm = new System.Random();
-        ItemType = (FIELD_ITEM)rdm.Next((int)FIELD_ITEM.BOMB,(int)FIELD_ITEM.HEALTH);
-        //========================//            
+            case FIELD_ITEM.NONE:
+            break;
+            case FIELD_ITEM.BOMB_DELAY:
+            break;
+            case FIELD_ITEM.BOMB_NORMAL:
+            break;
         }
     }
     // Use this for initialization
@@ -34,9 +36,13 @@ public class FieldBlock : MonoBehaviour
     {
 
     }
-    public BLOCK_TYPE GetBLockType()
+    public FIELD_BLOCK GetBLockType()
     {
         return BlockType;
+    }
+    public FIELD_ITEM GetBlockItemType()
+    {
+        return ItemType;
     }
     public void Destroy()
     {
