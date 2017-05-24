@@ -11,6 +11,10 @@ public class DebugPrefabChecker : EditorWindow
     [MenuItem("Debug/PrefabChecker", true)]
     static bool OpenChecker()
     {
+        if(!Application.isPlaying)
+        {
+            return false;
+        }
         ExistList = ResourcesManager.GetInstance().GetExistList();
         return ExistList.Count > 0;
     }
