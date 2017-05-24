@@ -1,14 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
-using DenQ.Mgr;
-public class DebugDumpMangerWindow :EditorWindow
-{
-	
-}
-public class DebugDumpManager : MangerBase<DebugDumpManager>
- {
+
+public class SystemManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
@@ -17,6 +11,6 @@ public class DebugDumpManager : MangerBase<DebugDumpManager>
 	
 	// Update is called once per frame
 	void Update () {
-		
+		DenQLogger.Runing();
 	}
 }
