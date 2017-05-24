@@ -53,7 +53,6 @@ public class DenQLogger:MonoBehaviour
 		GDebug("Game debug");
 		GWarn("Game warning");
 		GError("Game error");
-        
 		if(infoList.Count <= 0)
 		{
 			return;

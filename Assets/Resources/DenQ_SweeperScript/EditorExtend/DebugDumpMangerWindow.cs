@@ -63,7 +63,7 @@ public class DebugDumpMangerWindow : EditorWindow
                 {
                     int stepOne = (int)type & dumController;
                     GUILayout.Label(string.Format("{0:s}", stepOne == 0 ? "false" : "true"));
-                    if (GUILayout.Button(string.Format("{0:s}",type.ToString()),GUILayout.Width(150)))
+                    if (GUILayout.Button(string.Format("{0:s}", type.ToString()), GUILayout.Width(150)))
                     {
                         dumController ^= (int)type;
                         DenQLogger.UpdateType(dumController);
@@ -73,7 +73,6 @@ public class DebugDumpMangerWindow : EditorWindow
             }
             GUILayout.Label(string.Format(Convert.ToString(dumController, 2)));
         }
-        GUILayout.EndVertical();
     }
 }
 
