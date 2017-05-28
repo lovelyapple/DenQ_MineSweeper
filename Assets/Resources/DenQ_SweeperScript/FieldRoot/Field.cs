@@ -7,9 +7,11 @@ using System.Linq;
 public class Field : MonoBehaviour
 {
     private Dictionary<FieldPos, FieldBlock> FieldData = new Dictionary<FieldPos, FieldBlock>();
-
+    public FieldPos fieldUnitPos = new FieldPos();
     public bool CanPlay = true;
     private TOUCH_INFO TouchInfo;
+    private const int MaxSizeX = 20;
+    private const int MaxSizeZ = 20;
 
     void Awake()
     {
@@ -78,6 +80,13 @@ public class Field : MonoBehaviour
     }
     public void InsertOneBlock(FieldPos fieldPos, FIELD_BLOCK type, FIELD_ITEM item)
     {
+        //最大一個のユニットにサイズ20
+        fieldPos.posX = Mathf.Min(fieldPos.posX,MaxSizeX);
+        fieldPos.posZ = Mathf.Min(fieldPos.posZ,MaxSizeZ);
+        //最低0を保つ
+        fieldPos.posX = Mathf.Max(fieldPos.posX,0);
+        fieldPos.posZ = Mathf.Max(fieldPos.posZ,0);
+
         foreach (FieldPos _pos in FieldData.Keys)
         {
             if (_pos.CompareTo(fieldPos) == 0)
@@ -99,6 +108,7 @@ public class Field : MonoBehaviour
         blockData.InitializeFieldBlock(fieldPos.posX, fieldPos.posZ, type, item);
         FieldData.Add(fieldPos, blockData);
     }
+    //TODO クソーーーここでダラダラ書きたくないよ！
     public void BreakOneBLock(FieldPos pos)
     {
         foreach (FieldPos _pos in FieldData.Keys)
@@ -110,10 +120,13 @@ public class Field : MonoBehaviour
                 switch (itemType)
                 {
                     case FIELD_ITEM.NONE:
+                        GameObject bladeObj = ResourcesManager.GetInstance().CreateInstance(PREFAB_NAME.FIELD_BLADE, this.gameObject, false);
+                        bladeObj.transform.position = DenQHelper.ConvertFieldPosToWorld(pos);
+                        FieldBladeController bladeCtrl = bladeObj.GetComponent<FieldBladeController>();
+                        bladeCtrl.InitializeBlade();
                         break;
                     case FIELD_ITEM.BOMB_DELAY:
-                        var _instance = ResourcesManager.GetInstance();
-                        GameObject bombObj = _instance.CreateInstance(PREFAB_NAME.FIELD_BOMB, PREFAB_NAME.ITEM_ROOT, false);
+                        GameObject bombObj = ResourcesManager.GetInstance().CreateInstance(PREFAB_NAME.FIELD_BOMB, PREFAB_NAME.ITEM_ROOT, false);
                         if (bombObj != null)
                         {
                             FieldBomb bombData = bombObj.GetComponent<FieldBomb>();
@@ -154,5 +167,4 @@ public class Field : MonoBehaviour
         }
         FieldData.Clear();
     }
-
 }

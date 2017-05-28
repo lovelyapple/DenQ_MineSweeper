@@ -46,6 +46,7 @@ public class DenQLogger:MonoBehaviour
 	}
 	public static void Runing()
 	{
+        /*
 		SDebug("System debug");
 		SWarn("System warning");
 		SError("System error");
@@ -53,7 +54,8 @@ public class DenQLogger:MonoBehaviour
 		GDebug("Game debug");
 		GWarn("Game warning");
 		GError("Game error");
-		if(infoList.Count <= 0)
+		 */
+        if(infoList.Count <= 0)
 		{
 			return;
 		}
