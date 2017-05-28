@@ -53,8 +53,8 @@ public class FieldBomb : MonoBehaviour
             {
                 if(col.gameObject.tag == "FieldBlade")
                 {
-                    FieldPlateController bladeCtrl = col.gameObject.GetComponent<FieldPlateController>();
-                    bladeCtrl.RequestUpdate();
+                    FieldPlateController pladeCtrl = col.gameObject.GetComponent<FieldPlateController>();
+                    pladeCtrl.RequestUpdate();
                 }
             }
             Debug.Log("this bomb is dead");
