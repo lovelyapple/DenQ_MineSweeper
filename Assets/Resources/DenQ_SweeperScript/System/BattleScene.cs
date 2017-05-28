@@ -9,6 +9,7 @@ public class BattleScene : MonoBehaviour
     public GameObject FieldRootObj = null;
     public GameObject BombRootObj = null;
     public GameObject ItemRootObj = null;
+    public GameObject EffectRootOgj = null;
 
     public GameObject FieldManagerObj = null;
     public FieldManager FieldManger = null;
@@ -18,6 +19,7 @@ public class BattleScene : MonoBehaviour
         OVERHEAD,
         INIT,
         UPDATE,
+        WATING_CREATE,
         ERRORED,
     }
     /// <summary>
@@ -58,7 +60,9 @@ public class BattleScene : MonoBehaviour
                 break;
             case BATTLE_STATE.INIT:
                 InitilizeBattleScene();
-                BattleState = BATTLE_STATE.UPDATE;
+                BattleState = BATTLE_STATE.WATING_CREATE;
+                break;
+            case BATTLE_STATE.WATING_CREATE:
                 break;
             case BATTLE_STATE.UPDATE:
                 break;
@@ -86,18 +90,31 @@ public class BattleScene : MonoBehaviour
             BattleState = BATTLE_STATE.ERRORED;
             return;
         }
+        FieldRootObj.transform.position = new Vector3(0,0,0);
+
         ItemRootObj = ResourcesManager.GetInstance().CreateInstance(PREFAB_NAME.ITEM_ROOT, FieldRootObj, false);
         if (ItemRootObj == null)
         {
             BattleState = BATTLE_STATE.ERRORED;
             return;
         }
+        ItemRootObj.transform.position = new Vector3(0,0,0);
+
+        EffectRootOgj = ResourcesManager.GetInstance().CreateInstance(PREFAB_NAME.EFFECT_ROOT, FieldRootObj, false);
+        if (EffectRootOgj == null)
+        {
+            BattleState = BATTLE_STATE.ERRORED;
+            return;
+        }
+        EffectRootOgj.transform.position = new Vector3(0,0,0);
+
         FieldManagerObj = ResourcesManager.GetInstance().CreateInstance(PREFAB_NAME.FIELD_MGR, FieldRootObj, false);
         if (FieldManagerObj == null)
         {
             BattleState = BATTLE_STATE.ERRORED;
             return;
         }
+        FieldManagerObj.transform.position = new Vector3(0,0,0);
         FieldManger = FieldManagerObj.GetComponent<FieldManager>();
         if (FieldManger == null)
         {
@@ -110,21 +127,25 @@ public class BattleScene : MonoBehaviour
         {
             BattleState = BATTLE_STATE.ERRORED;
             return;
-        }else
+        }
+        else
         {
             FieldManger.FieldData = fieldObj.GetComponent<Field>();
         }
+        fieldObj.transform.position = new Vector3(0,0,0);
 
     }
     public GameObject GetWorldParent(PREFAB_NAME name)
     {
-        switch(name)
+        switch (name)
         {
             case PREFAB_NAME.FIELD_ROOT:
-            return FieldRootObj;
+                return FieldRootObj;
             case PREFAB_NAME.ITEM_ROOT:
-            return ItemRootObj;
-            default :return null;
+                return ItemRootObj;
+            case PREFAB_NAME.EFFECT_ROOT:
+                return EffectRootOgj;
+            default: return null;
         }
     }
 

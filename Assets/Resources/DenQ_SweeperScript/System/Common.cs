@@ -6,6 +6,12 @@ using UnityEngine;
 
 namespace DenQ.BaseStruct
 {
+    public enum PARTICLE_TYPE
+    {
+        ONCE_ONLY,
+        RECYCLE,
+        TIMES,
+    }
     public enum FIELD_BLOCK
     {
         NORMAL,
@@ -51,6 +57,11 @@ namespace DenQ.BaseStruct
         {
             return new Vector3(pos.posX * 2.0f, 0.0f, pos.posZ * 2.0f);
         }
+        public static FieldPos ConverWoroldPosToFieldPos(Vector3 pos)
+        {
+            var fieldPos = new FieldPos(((int)pos.x / 2), ((int)pos.z / 2));
+            return fieldPos;
+        }
 
         public static GameObject InstialHelper(GameObject prefab, GameObject parent)
         {
@@ -59,6 +70,17 @@ namespace DenQ.BaseStruct
         public static GameObject InstialHelper(GameObject prefab)
         {
             return (GameObject)Instantiate(prefab);
+        }
+
+        public static Collider[] GetSroundedObejcts(FieldPos pos)
+        {
+            Vector3 center = ConvertFieldPosToWorld(pos);
+            return Physics.OverlapBox(center, new Vector3(2.0f, 2.0f, 2.0f));
+        }
+        public static Collider[] GetSroundedObejcts(Vector3 pos)
+        {
+            Vector3 center = pos;
+            return Physics.OverlapBox(center, new Vector3(2.0f, 2.0f, 2.0f));
         }
     }
 }

@@ -10,19 +10,19 @@ public class FieldBlock : MonoBehaviour
     public FIELD_BLOCK BlockType = FIELD_BLOCK.NORMAL;
     public FIELD_ITEM ItemType = FIELD_ITEM.NONE;
 
-    public void InitializeFieldBlock(int x, int z, FIELD_BLOCK blockType,FIELD_ITEM itemType) 
-    { 
-        Pos = new FieldPos(x, z); 
-        BlockType = blockType; 
-        ItemType  = itemType;
-        switch(ItemType)
+    public void InitializeFieldBlock(int x, int z, FIELD_BLOCK blockType, FIELD_ITEM itemType)
+    {
+        Pos = new FieldPos(x, z);
+        BlockType = blockType;
+        ItemType = itemType;
+        switch (ItemType)
         {
             case FIELD_ITEM.NONE:
-            break;
+                break;
             case FIELD_ITEM.BOMB_DELAY:
-            break;
+                break;
             case FIELD_ITEM.BOMB_NORMAL:
-            break;
+                break;
         }
     }
     // Use this for initialization
@@ -53,5 +53,15 @@ public class FieldBlock : MonoBehaviour
         Vector3 dicVec = Camera.main.transform.position - this.gameObject.transform.position;
         LengthToCamera = dicVec.magnitude;
         return LengthToCamera;
+    }
+    public bool ExistBomb()
+    {
+        if (ItemType == FIELD_ITEM.BOMB_DELAY ||
+            ItemType == FIELD_ITEM.BOMB_NORMAL)
+        {
+            return true;
+        }
+        return false;
+            
     }
 }

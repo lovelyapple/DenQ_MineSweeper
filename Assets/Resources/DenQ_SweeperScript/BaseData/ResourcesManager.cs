@@ -10,6 +10,7 @@ public enum PREFAB_NAME
     RESOURCES_HOLDER = 0,
     FIELD_ROOT,
     ITEM_ROOT,
+    EFFECT_ROOT,
     //BOMB_ROOT,//現段階は使わない
     FIELD_MGR,
     FIELD_FIELD,
@@ -19,6 +20,22 @@ public enum PREFAB_NAME
     FIELD_BLOCK,
     FIELD_BOMB,
     FIELD_ITEM,//暫定
+
+    FIELD_PLATE,
+    //------------NUMBERS
+    FIELD_NUMBERS,
+    FIELD_NUMBER1,
+    FIELD_NUMBER2,
+    FIELD_NUMBER3,
+    FIELD_NUMBER4,
+    FIELD_NUMBER5,
+    FIELD_NUMBER6,
+    FIELD_NUMBER7,
+    FIELD_NUMBER8,
+    FIELD_NUMBER9,
+
+    //------------エフェクト
+    EFFECT_EXPLO_01,
 
     PREFAB_MAX,
 };
@@ -34,6 +51,9 @@ public class ResourcesManager : MangerBase<ResourcesManager>
             new ResourceInfo(PREFAB_NAME.FIELD_ROOT,"DenQ_SweeperPrefab/RootPrefab/FieldRoot")},
             {PREFAB_NAME.ITEM_ROOT,
             new ResourceInfo(PREFAB_NAME.ITEM_ROOT,"DenQ_SweeperPrefab/RootPrefab/ItemRoot")},
+
+            {PREFAB_NAME.EFFECT_ROOT,
+            new ResourceInfo(PREFAB_NAME.ITEM_ROOT,"DenQ_SweeperPrefab/RootPrefab/EffectRoot")},
             //{PREFAB_NAME.BOMB_ROOT,
             //new ResourceInfo(PREFAB_NAME.BOMB_ROOT,"DDenQ_SweeperPrefab/RootPrefab/BombRoot")},
             {PREFAB_NAME.FIELD_MGR,
@@ -45,6 +65,35 @@ public class ResourcesManager : MangerBase<ResourcesManager>
             new ResourceInfo(PREFAB_NAME.FIELD_BLOCK,"DenQ_SweeperPrefab/FieldObejctRootPrefab/FieldBlock")},
             {PREFAB_NAME.FIELD_BOMB,
             new ResourceInfo(PREFAB_NAME.FIELD_BOMB,"DenQ_SweeperPrefab/FieldObejctRootPrefab/FieldBomb")},
+
+            //エフェクト
+            {PREFAB_NAME.EFFECT_EXPLO_01,
+            new ResourceInfo(PREFAB_NAME.EFFECT_EXPLO_01,"DenQ_SweeperPrefab/Fx/Fx_Explo01")},
+            //フィールドブレード
+            {PREFAB_NAME.FIELD_PLATE,
+            new ResourceInfo(PREFAB_NAME.FIELD_PLATE,"DenQ_SweeperPrefab/FieldObejctRootPrefab/FieldPlate")},          
+            //フィールドナンバー
+            {PREFAB_NAME.FIELD_NUMBERS,
+            new ResourceInfo(PREFAB_NAME.FIELD_NUMBERS,"DenQ_SweeperPrefab/FieldObejctRootPrefab/FieldNumbers")},
+            
+            {PREFAB_NAME.FIELD_NUMBER1,
+            new ResourceInfo(PREFAB_NAME.FIELD_NUMBER1,"DenQ_SweeperPrefab/Others/FieldNumber1")},
+            {PREFAB_NAME.FIELD_NUMBER2,
+            new ResourceInfo(PREFAB_NAME.FIELD_NUMBER2,"DenQ_SweeperPrefab/Others/FieldNumber2")},
+            {PREFAB_NAME.FIELD_NUMBER3,
+            new ResourceInfo(PREFAB_NAME.FIELD_NUMBER3,"DenQ_SweeperPrefab/Others/FieldNumber3")},
+            {PREFAB_NAME.FIELD_NUMBER4,
+            new ResourceInfo(PREFAB_NAME.FIELD_NUMBER4,"DenQ_SweeperPrefab/Others/FieldNumber4")},
+            {PREFAB_NAME.FIELD_NUMBER5,
+            new ResourceInfo(PREFAB_NAME.FIELD_NUMBER5,"DenQ_SweeperPrefab/Others/FieldNumber5")},
+            {PREFAB_NAME.FIELD_NUMBER6,
+            new ResourceInfo(PREFAB_NAME.FIELD_NUMBER6,"DenQ_SweeperPrefab/Others/FieldNumber6")},
+            {PREFAB_NAME.FIELD_NUMBER7,
+            new ResourceInfo(PREFAB_NAME.FIELD_NUMBER7,"DenQ_SweeperPrefab/Others/FieldNumber7")},
+            {PREFAB_NAME.FIELD_NUMBER8,
+            new ResourceInfo(PREFAB_NAME.FIELD_NUMBER8,"DenQ_SweeperPrefab/Others/FieldNumber8")},
+            {PREFAB_NAME.FIELD_NUMBER9,
+            new ResourceInfo(PREFAB_NAME.FIELD_NUMBER9,"DenQ_SweeperPrefab/Others/FieldNumber9")},
     };
     void Awake()
     {
@@ -106,8 +155,8 @@ public class ResourcesManager : MangerBase<ResourcesManager>
         ResourceInfo _prefabInfo;
         if (PrefabHolders.TryGetValue(name, out _prefabInfo))
         {
-            if(BattleScene.Get() != null)
-            return _prefabInfo.CreateInstance(BattleScene.Get().GetWorldParent(parentName));
+            if (BattleScene.Get() != null)
+                return _prefabInfo.CreateInstance(BattleScene.Get().GetWorldParent(parentName));
         }
         else
         {

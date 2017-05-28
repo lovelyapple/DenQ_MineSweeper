@@ -32,14 +32,14 @@ public class DebugCreateField : EditorWindow
 						GUILayout.Label(string.Format("{0}",SizeX),GUILayout.Width(100));
 					}
 					GUILayout.EndHorizontal();
-					SizeX = (int)GUILayout.HorizontalScrollbar(SizeX,1,1,501);
+					SizeX = (int)GUILayout.HorizontalScrollbar(SizeX,1,1,51);
 					GUILayout.BeginHorizontal();
 					{
 						GUILayout.Label("Field Size Z:",GUILayout.Width(100));
 						GUILayout.Label(string.Format("{0}",SizeZ),GUILayout.Width(100));
 					}
 					GUILayout.EndHorizontal();					
-					SizeZ = (int)GUILayout.HorizontalScrollbar(SizeZ,1,1,501);
+					SizeZ = (int)GUILayout.HorizontalScrollbar(SizeZ,1,1,51);
 
                     if (GUILayout.Button("CreateAll"))
                     {

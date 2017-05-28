@@ -16,7 +16,7 @@ namespace DenQ.BombDelegate
 }
 public class FieldBomb : MonoBehaviour
 {
-    public FieldPos Pos = new FieldPos();
+    public FieldPos fieldPos = new FieldPos();
     public float LengthToCamera = 0.0f;
     public float life = 0;
     private BOMB_TYPE BombType = BOMB_TYPE.BOMB_NORMAL;
@@ -27,12 +27,12 @@ public class FieldBomb : MonoBehaviour
     }
     public void InitializeFieldBomb(int x, int z, FIELD_ITEM type)
     {
-        Pos.posX = x; Pos.posZ = z; BombType = ConvItemTypeToBombType(type);
-        this.gameObject.transform.position = DenQHelper.ConvertFieldPosToWorld(Pos);
+        fieldPos.posX = x; fieldPos.posZ = z; BombType = ConvItemTypeToBombType(type);
+        this.gameObject.transform.position = DenQHelper.ConvertFieldPosToWorld(fieldPos);
         switch (BombType)
         {
             case BOMB_TYPE.BOMB_DELAY:
-                life = 300.0f;//TODO 暫定デバッグ生存時間
+                life = 120.0f;//TODO 暫定デバッグ生存時間
                 break;
             case BOMB_TYPE.BOMB_NORMAL:
                 break;
@@ -47,12 +47,24 @@ public class FieldBomb : MonoBehaviour
         }
         else
         {
+            //TODO フィールド大規模ユニット分割できたら、FieldManager で実行
+            Collider[] cols = DenQHelper.GetSroundedObejcts(this.fieldPos);
+            foreach(Collider col in cols)
+            {
+                if(col.gameObject.tag == "FieldBlade")
+                {
+                    FieldPlateController bladeCtrl = col.gameObject.GetComponent<FieldPlateController>();
+                    bladeCtrl.RequestUpdate();
+                }
+            }
             Debug.Log("this bomb is dead");
             Destroy();
         }
     }
     public void Destroy()
     {
+        GameObject fxObj = ResourcesManager.GetInstance().CreateInstance(PREFAB_NAME.EFFECT_EXPLO_01,PREFAB_NAME.EFFECT_ROOT,false);
+        fxObj.transform.position = this.gameObject.transform.position;
         GameObject.Destroy(this.gameObject);
     }
     public FIELD_ITEM GetTypeConverted()
