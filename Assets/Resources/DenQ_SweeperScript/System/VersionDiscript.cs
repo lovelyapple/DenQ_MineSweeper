@@ -2,7 +2,7 @@
 
 public class VersionDiscript {
 
-	// test32
+	// test32333444444443333
 /// <summary>
 /// このクラスは何もしない、ただバージョン説明を内部で管理したかった。
 /// </summary>
