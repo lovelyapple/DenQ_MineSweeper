@@ -21,7 +21,7 @@ public enum PREFAB_NAME
     FIELD_BOMB,
     FIELD_ITEM,//暫定
 
-    FIELD_BLADE,
+    FIELD_PLATE,
     //------------NUMBERS
     FIELD_NUMBERS,
     FIELD_NUMBER1,
@@ -70,8 +70,8 @@ public class ResourcesManager : MangerBase<ResourcesManager>
             {PREFAB_NAME.EFFECT_EXPLO_01,
             new ResourceInfo(PREFAB_NAME.EFFECT_EXPLO_01,"DenQ_SweeperPrefab/Fx/Fx_Explo01")},
             //フィールドブレード
-            {PREFAB_NAME.FIELD_BLADE,
-            new ResourceInfo(PREFAB_NAME.FIELD_BLADE,"DenQ_SweeperPrefab/FieldObejctRootPrefab/FieldBlade")},          
+            {PREFAB_NAME.FIELD_PLATE,
+            new ResourceInfo(PREFAB_NAME.FIELD_PLATE,"DenQ_SweeperPrefab/FieldObejctRootPrefab/FieldPlate")},          
             //フィールドナンバー
             {PREFAB_NAME.FIELD_NUMBERS,
             new ResourceInfo(PREFAB_NAME.FIELD_NUMBERS,"DenQ_SweeperPrefab/FieldObejctRootPrefab/FieldNumbers")},

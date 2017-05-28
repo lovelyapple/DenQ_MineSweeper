@@ -120,10 +120,10 @@ public class Field : MonoBehaviour
                 switch (itemType)
                 {
                     case FIELD_ITEM.NONE:
-                        GameObject bladeObj = ResourcesManager.GetInstance().CreateInstance(PREFAB_NAME.FIELD_BLADE, this.gameObject, false);
-                        bladeObj.transform.position = DenQHelper.ConvertFieldPosToWorld(pos);
-                        FieldBladeController bladeCtrl = bladeObj.GetComponent<FieldBladeController>();
-                        bladeCtrl.InitializeBlade();
+                        GameObject plateObj = ResourcesManager.GetInstance().CreateInstance(PREFAB_NAME.FIELD_PLATE, this.gameObject, false);
+                        plateObj.transform.position = DenQHelper.ConvertFieldPosToWorld(pos);
+                        FieldPlateController PlateCtrl = plateObj.GetComponent<FieldPlateController>();
+                        PlateCtrl.InitializePlate();
                         break;
                     case FIELD_ITEM.BOMB_DELAY:
                         GameObject bombObj = ResourcesManager.GetInstance().CreateInstance(PREFAB_NAME.FIELD_BOMB, PREFAB_NAME.ITEM_ROOT, false);
