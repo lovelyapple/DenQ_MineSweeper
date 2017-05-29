@@ -5,17 +5,19 @@ using DenQ.BaseStruct;
 public class FieldBlock : MonoBehaviour
 {
 
-    public FieldPos Pos;
-    public float LengthToCamera = 0.0f;
-    public FIELD_BLOCK BlockType = FIELD_BLOCK.NORMAL;
-    public FIELD_ITEM ItemType = FIELD_ITEM.NONE;
+    public FieldPos fieldPos;
+    public float lengthToCamera = 0.0f;
+    public FIELD_BLOCK blockType = FIELD_BLOCK.NORMAL;
+    public FIELD_ITEM itemType = FIELD_ITEM.NONE;
 
+    public GameObject blockObj = null;
+    public FieldPlateController plateCtrl = null;
     public void InitializeFieldBlock(int x, int z, FIELD_BLOCK blockType, FIELD_ITEM itemType)
     {
-        Pos = new FieldPos(x, z);
-        BlockType = blockType;
-        ItemType = itemType;
-        switch (ItemType)
+        fieldPos = new FieldPos(x, z);
+        this.blockType = blockType;
+        this.itemType = itemType;
+        switch (this.itemType)
         {
             case FIELD_ITEM.NONE:
                 break;
@@ -38,11 +40,11 @@ public class FieldBlock : MonoBehaviour
     }
     public FIELD_BLOCK GetBLockType()
     {
-        return BlockType;
+        return blockType;
     }
     public FIELD_ITEM GetBlockItemType()
     {
-        return ItemType;
+        return itemType;
     }
     public void Destroy()
     {
@@ -51,17 +53,30 @@ public class FieldBlock : MonoBehaviour
     public float GetRangeToMainCamera()
     {
         Vector3 dicVec = Camera.main.transform.position - this.gameObject.transform.position;
-        LengthToCamera = dicVec.magnitude;
-        return LengthToCamera;
+        lengthToCamera = dicVec.magnitude;
+        return lengthToCamera;
+    }
+    public void BreakBlock()
+    {
+        GameObject.Destroy(blockObj);
+        blockObj = null;
+        GameObject plateObj = ResourcesManager.GetInstance().CreateInstance(PREFAB_NAME.FIELD_PLATE, this.gameObject, false);
+        plateObj.transform.position = this.gameObject.transform.position;
+        plateCtrl = plateObj.GetComponent<FieldPlateController>();
+        plateCtrl.InitializePlate();
+    }
+    public bool IsBroken()
+    {
+        return blockObj == null;
     }
     public bool ExistBomb()
     {
-        if (ItemType == FIELD_ITEM.BOMB_DELAY ||
-            ItemType == FIELD_ITEM.BOMB_NORMAL)
+        if (itemType == FIELD_ITEM.BOMB_DELAY ||
+            itemType == FIELD_ITEM.BOMB_NORMAL)
         {
             return true;
         }
         return false;
-            
+
     }
 }

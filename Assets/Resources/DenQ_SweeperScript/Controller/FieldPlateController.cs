@@ -32,7 +32,7 @@ public class FieldPlateController : MonoBehaviour
             if (col.gameObject.tag == "FieldBlock")
             {
                 FieldBlock blockData = col.gameObject.GetComponent<FieldBlock>();
-                if (blockData.ExistBomb())
+                if (!blockData.IsBroken() && blockData.ExistBomb())
                 {
                     bombCnt++;
                 }

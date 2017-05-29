@@ -75,7 +75,7 @@ public class Field : MonoBehaviour
         if (hited.transform.gameObject.tag == "FieldBlock")
         {
             FieldBlock blockData = hited.transform.gameObject.GetComponent<FieldBlock>();
-            BreakOneBLock(blockData.Pos);
+            BreakOneBLock(blockData.fieldPos);
         }
     }
     public void InsertOneBlock(FieldPos fieldPos, FIELD_BLOCK type, FIELD_ITEM item)
@@ -117,13 +117,10 @@ public class Field : MonoBehaviour
             {
                 FieldBlock fieldBlockTemp = FieldData[_pos];
                 FIELD_ITEM itemType = fieldBlockTemp.GetBlockItemType();
+                fieldBlockTemp.BreakBlock();
                 switch (itemType)
                 {
-                    case FIELD_ITEM.NONE:
-                        GameObject plateObj = ResourcesManager.GetInstance().CreateInstance(PREFAB_NAME.FIELD_PLATE, this.gameObject, false);
-                        plateObj.transform.position = DenQHelper.ConvertFieldPosToWorld(pos);
-                        FieldPlateController PlateCtrl = plateObj.GetComponent<FieldPlateController>();
-                        PlateCtrl.InitializePlate();
+                    case FIELD_ITEM.NONE:                        
                         break;
                     case FIELD_ITEM.BOMB_DELAY:
                         GameObject bombObj = ResourcesManager.GetInstance().CreateInstance(PREFAB_NAME.FIELD_BOMB, PREFAB_NAME.ITEM_ROOT, false);
@@ -136,8 +133,6 @@ public class Field : MonoBehaviour
                     case FIELD_ITEM.BOMB_NORMAL:
                         break;
                 }
-                FieldData.Remove(_pos);
-                fieldBlockTemp.Destroy();
                 return;
             }
         }
