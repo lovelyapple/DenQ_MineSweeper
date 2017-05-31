@@ -121,18 +121,12 @@ public class BattleScene : MonoBehaviour
             BattleState = BATTLE_STATE.ERRORED;
             return;
         }
-
-        GameObject fieldObj = ResourcesManager.GetInstance().CreateInstance(PREFAB_NAME.FIELD_FIELD, FieldManagerObj, false);
-        if (fieldObj == null)
+        if(!FieldManager.GetInstance().DebugInitializeField())
         {
             BattleState = BATTLE_STATE.ERRORED;
-            return;
         }
-        else
-        {
-            FieldManger.FieldData = fieldObj.GetComponent<Field>();
-        }
-        fieldObj.transform.position = new Vector3(0,0,0);
+
+
 
     }
     public GameObject GetWorldParent(PREFAB_NAME name)

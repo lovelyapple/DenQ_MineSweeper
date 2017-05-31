@@ -8,6 +8,7 @@ public class Field : MonoBehaviour
 {
     private Dictionary<FieldPos, FieldBlock> FieldData = new Dictionary<FieldPos, FieldBlock>();
     public FieldPos fieldUnitPos = new FieldPos();
+    public DistributionMap ditributionMap = new DistributionMap();
     public bool CanPlay = true;
     private TOUCH_INFO TouchInfo;
     private const int MaxSizeX = 20;
@@ -81,11 +82,11 @@ public class Field : MonoBehaviour
     public void InsertOneBlock(FieldPos fieldPos, FIELD_BLOCK type, FIELD_ITEM item)
     {
         //最大一個のユニットにサイズ20
-        fieldPos.posX = Mathf.Min(fieldPos.posX,MaxSizeX);
-        fieldPos.posZ = Mathf.Min(fieldPos.posZ,MaxSizeZ);
+        fieldPos.posX = Mathf.Min(fieldPos.posX, MaxSizeX);
+        fieldPos.posZ = Mathf.Min(fieldPos.posZ, MaxSizeZ);
         //最低0を保つ
-        fieldPos.posX = Mathf.Max(fieldPos.posX,0);
-        fieldPos.posZ = Mathf.Max(fieldPos.posZ,0);
+        fieldPos.posX = Mathf.Max(fieldPos.posX, 0);
+        fieldPos.posZ = Mathf.Max(fieldPos.posZ, 0);
 
         foreach (FieldPos _pos in FieldData.Keys)
         {
@@ -120,7 +121,7 @@ public class Field : MonoBehaviour
                 fieldBlockTemp.BreakBlock();
                 switch (itemType)
                 {
-                    case FIELD_ITEM.NONE:                        
+                    case FIELD_ITEM.NONE:
                         break;
                     case FIELD_ITEM.BOMB_DELAY:
                         GameObject bombObj = ResourcesManager.GetInstance().CreateInstance(PREFAB_NAME.FIELD_BOMB, PREFAB_NAME.ITEM_ROOT, false);
@@ -137,7 +138,7 @@ public class Field : MonoBehaviour
             }
         }
     }
-    public void RemoveOneBlock(FieldPos pos)
+    public void RemoveOneBlock(FieldPos pos)//基本使わない
     {
         foreach (FieldPos _pos in FieldData.Keys)
         {

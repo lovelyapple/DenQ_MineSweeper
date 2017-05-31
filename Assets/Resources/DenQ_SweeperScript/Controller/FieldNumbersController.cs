@@ -19,15 +19,14 @@ public class FieldNumbersController : MonoBehaviour
     }
     public void UpdateNumber(int number)
     {
+        GameObject.Destroy(numberObj);
+        numberObj = null;
         if (number <= 0 || number >= 10)
         {
-            if (numberObj != null)
-            {
-                GameObject.Destroy(numberObj);
-            }
             posObj.SetActive(true);
             return;
         }
+
         int nameTemp = (int)PREFAB_NAME.FIELD_NUMBER1 + (number - 1);
         numberObj = ResourcesManager.GetInstance().CreateInstance((PREFAB_NAME)nameTemp, this.gameObject, false);
         if (numberObj == null)

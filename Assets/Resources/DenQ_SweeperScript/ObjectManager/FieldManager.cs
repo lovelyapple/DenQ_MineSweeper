@@ -5,10 +5,11 @@ using DenQ.Mgr;
 using DenQ.BaseStruct;
 public class FieldManager : MangerBase<FieldManager>
 {
-    public Field FieldData = null;
+    public List<Field> fieldDatas = new List<Field>();
 
-    public uint FieldSizeX = 1;
-    public uint FieldSizeZ = 1;
+    public Field fieldData = null;//Debug用に作られている
+    public uint fieldSizeX = 1;//Debug用に作られている
+    public uint fieldSizeZ = 1;//Debug用に作られている
 
     private static bool isCreatingMap = false;
     // Use this for initialization
@@ -27,17 +28,37 @@ public class FieldManager : MangerBase<FieldManager>
     public void CreateField()
     {
     }
-    public void CreateDebugFieldBlock()
+    public void ClearField()
     {
-        FieldData.InsertOneBlock(new FieldPos(0, 0), FIELD_BLOCK.NORMAL,FIELD_ITEM.NONE);
+        fieldData.ClearField();
     }
-    public void CreateDebugFeildAll(uint sizeX, uint sizeZ)
+    //================Debug 用機能 =========================//
+    //private void Debug
+    public bool DebugInitializeField()
+    {
+        GameObject fieldObj = ResourcesManager.GetInstance().CreateInstance(PREFAB_NAME.FIELD_FIELD, this.gameObject, false);
+        if (fieldObj == null)
+        {
+            return false;
+        }
+        else
+        {
+            fieldData = fieldObj.GetComponent<Field>();
+        }
+        fieldObj.transform.position = new Vector3(0,0,0);   
+        return true;   
+    }
+    public void DebugCreateFieldBlock()
+    {
+        fieldData.InsertOneBlock(new FieldPos(0, 0), FIELD_BLOCK.NORMAL, FIELD_ITEM.NONE);
+    }
+    public void DebugCreateFeildAll(uint sizeX, uint sizeZ)
     {
         if (!isCreatingMap)
         {
-            FieldSizeX = sizeX;
-            FieldSizeZ = sizeZ;
-            StartCoroutine(CreateDebugFieldAllCoroutine());
+            fieldSizeX = sizeX;
+            fieldSizeZ = sizeZ;
+            StartCoroutine(DebugCreateFieldAllCoroutine());
         }
         else
         {
@@ -45,17 +66,17 @@ public class FieldManager : MangerBase<FieldManager>
             return;
         }
     }
-    IEnumerator CreateDebugFieldAllCoroutine()
+    IEnumerator DebugCreateFieldAllCoroutine()
     {
         isCreatingMap = true;
         Debug.Log("start to create field");
 
-        for (int i = 0; i < FieldSizeZ; i++)
+        for (int i = 0; i < fieldSizeZ; i++)
         {
-            for (int k = 0; k < FieldSizeX; k++)
+            for (int k = 0; k < fieldSizeX; k++)
             {
-                FIELD_ITEM itemType = k%3 == 0? FIELD_ITEM.BOMB_DELAY :FIELD_ITEM.NONE;
-                FieldData.InsertOneBlock(new FieldPos(k, i), FIELD_BLOCK.NORMAL,itemType);
+                FIELD_ITEM itemType = k % 3 == 0 ? FIELD_ITEM.BOMB_DELAY : FIELD_ITEM.NONE;
+                fieldData.InsertOneBlock(new FieldPos(k, i), FIELD_BLOCK.NORMAL, itemType);
                 yield return null;
             }
         }
@@ -71,8 +92,5 @@ public class FieldManager : MangerBase<FieldManager>
             yield return null;
         }
     }
-    public void ClearField()
-    {
-        FieldData.ClearField();
-    }
+
 }

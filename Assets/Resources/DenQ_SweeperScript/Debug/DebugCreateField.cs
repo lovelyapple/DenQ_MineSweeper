@@ -4,8 +4,8 @@ using UnityEngine;
 using UnityEditor;
 public class DebugCreateField : EditorWindow
 {
-	public static int SizeX = 1;
-	public static int SizeZ = 1;
+	public static int SizeX = 5;
+	public static int SizeZ = 5;
 
     [MenuItem("Debug/CreateField")]
     static void Opend()
@@ -24,8 +24,9 @@ public class DebugCreateField : EditorWindow
 
                     if (GUILayout.Button("Create"))
                     {
-                        FieldManager.GetInstance().CreateDebugFieldBlock();
+                        FieldManager.GetInstance().DebugCreateFieldBlock();
                     }
+                    
 					GUILayout.BeginHorizontal();
 					{
 						GUILayout.Label("Field Size X:",GUILayout.Width(100));
@@ -33,6 +34,7 @@ public class DebugCreateField : EditorWindow
 					}
 					GUILayout.EndHorizontal();
 					SizeX = (int)GUILayout.HorizontalScrollbar(SizeX,1,1,51);
+
 					GUILayout.BeginHorizontal();
 					{
 						GUILayout.Label("Field Size Z:",GUILayout.Width(100));
@@ -43,7 +45,7 @@ public class DebugCreateField : EditorWindow
 
                     if (GUILayout.Button("CreateAll"))
                     {
-                       FieldManager.GetInstance().CreateDebugFeildAll((uint)SizeX,(uint)SizeZ);
+                       FieldManager.GetInstance().DebugCreateFeildAll((uint)SizeX,(uint)SizeZ);
                     }
                     if (GUILayout.Button("Clear"))
                     {
