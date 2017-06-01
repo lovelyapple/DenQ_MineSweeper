@@ -10,7 +10,8 @@ public class FieldManager : MangerBase<FieldManager>
     public Field fieldData = null;//Debug用に作られている
     public uint fieldSizeX = 1;//Debug用に作られている
     public uint fieldSizeZ = 1;//Debug用に作られている
-
+    public DistributionMap DebugDitributionMap = new DistributionMap();
+    
     private static bool isCreatingMap = false;
     // Use this for initialization
     void Awake()
@@ -75,7 +76,8 @@ public class FieldManager : MangerBase<FieldManager>
         {
             for (int k = 0; k < fieldSizeX; k++)
             {
-                FIELD_ITEM itemType = k % 3 == 0 ? FIELD_ITEM.BOMB_DELAY : FIELD_ITEM.NONE;
+                //FIELD_ITEM itemType = k % 3 == 0 ? FIELD_ITEM.BOMB_DELAY : FIELD_ITEM.NONE;
+                FIELD_ITEM itemType = DebugDitributionMap.GetItemTypeRandam();
                 fieldData.InsertOneBlock(new FieldPos(k, i), FIELD_BLOCK.NORMAL, itemType);
                 yield return null;
             }

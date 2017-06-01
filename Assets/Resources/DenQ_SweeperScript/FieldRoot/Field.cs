@@ -8,7 +8,7 @@ public class Field : MonoBehaviour
 {
     private Dictionary<FieldPos, FieldBlock> FieldData = new Dictionary<FieldPos, FieldBlock>();
     public FieldPos fieldUnitPos = new FieldPos();
-    public DistributionMap ditributionMap = new DistributionMap();
+    public int distributionMapId = 0;
     public bool CanPlay = true;
     private TOUCH_INFO TouchInfo;
     private const int MaxSizeX = 20;
