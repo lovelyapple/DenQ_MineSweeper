@@ -23,7 +23,6 @@ public class FieldBomb : MonoBehaviour
 
     void Awake()
     {
-        Debug.Log(" one bomb is created");
     }
     public void InitializeFieldBomb(int x, int z, FIELD_ITEM type)
     {
@@ -57,7 +56,6 @@ public class FieldBomb : MonoBehaviour
                     pladeCtrl.RequestUpdate();
                 }
             }
-            Debug.Log("this bomb is dead");
             Destroy();
         }
     }

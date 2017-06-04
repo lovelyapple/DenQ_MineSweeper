@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 namespace DenQ.BaseStruct
@@ -83,5 +84,26 @@ namespace DenQ.BaseStruct
             return Physics.OverlapBox(center, new Vector3(2.0f, 2.0f, 2.0f));
         }
     }
+    public class DenQUIhelper
+    {
+        //TODO null? にしたほうがいいかな
+        public static Vector2 GetPanelPosition(RectTransform canvasRect, RectTransform panelRect, Vector3 screenPos)
+        {
+            Vector2 panelPos = new Vector2();
+            Vector2 aspectCanvas = new Vector2(canvasRect.rect.width / Camera.main.pixelWidth,
+                                                canvasRect.rect.height / Camera.main.pixelHeight);
+            panelPos.x = aspectCanvas.x * screenPos.x;
+            panelPos.y = aspectCanvas.y * screenPos.y;
+            panelPos.x = panelPos.x - canvasRect.rect.width / 2.0f;
+            panelPos.y = panelPos.y - canvasRect.rect.height / 2.0f;
+            panelPos  -= panelRect.anchoredPosition;
+            return panelPos;
+        }
+        public static Vector2 GetPanelPosition(RectTransform canvasRect, RectTransform panelRect)
+        {           
+            return GetPanelPosition(canvasRect,panelRect,DenQ_Input.GetTouchPosition());
+        }
+    }
+
 }
 
