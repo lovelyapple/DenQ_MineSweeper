@@ -5,8 +5,8 @@ using DenQ.Mgr;
 using DenQ.BaseStruct;
 public class FieldManager : MangerBase<FieldManager>
 {
-    public List<Field> fieldDatas = new List<Field>();
-
+    public Dictionary<int,Field> fieldsDataDic = new Dictionary<int,Field>();
+    public Vector3 satrtPos = new Vector3();
     public Field fieldData = null;//Debug用に作られている
     public uint fieldSizeX = 1;//Debug用に作られている
     public uint fieldSizeZ = 1;//Debug用に作られている
@@ -94,5 +94,6 @@ public class FieldManager : MangerBase<FieldManager>
             yield return null;
         }
     }
+    
 
 }

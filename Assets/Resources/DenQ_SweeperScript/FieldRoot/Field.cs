@@ -7,12 +7,11 @@ using System.Linq;
 public class Field : MonoBehaviour
 {
     private Dictionary<FieldPos, FieldBlock> FieldData = new Dictionary<FieldPos, FieldBlock>();
-    public FieldPos fieldUnitPos = new FieldPos();
+    public int unitCode = 0;
+    public Vector2 startPosition = new Vector2();
     public int distributionMapId = 0;
     public bool CanPlay = true;
     private TOUCH_INFO TouchInfo;
-    private const int MaxSizeX = 20;
-    private const int MaxSizeZ = 20;
 
     void Awake()
     {
@@ -82,8 +81,8 @@ public class Field : MonoBehaviour
     public void InsertOneBlock(FieldPos fieldPos, FIELD_BLOCK type, FIELD_ITEM item)
     {
         //最大一個のユニットにサイズ20
-        fieldPos.posX = Mathf.Min(fieldPos.posX, MaxSizeX);
-        fieldPos.posZ = Mathf.Min(fieldPos.posZ, MaxSizeZ);
+        fieldPos.posX = Mathf.Min(fieldPos.posX, DenQHelper.maxFieldBlockCount);
+        fieldPos.posZ = Mathf.Min(fieldPos.posZ, DenQHelper.maxFieldBlockCount);
         //最低0を保つ
         fieldPos.posX = Mathf.Max(fieldPos.posX, 0);
         fieldPos.posZ = Mathf.Max(fieldPos.posZ, 0);

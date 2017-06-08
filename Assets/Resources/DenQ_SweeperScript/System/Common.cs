@@ -50,17 +50,30 @@ namespace DenQ.BaseStruct
         }
 
     }
-    //UP==========================- DIELD POS LCASS =================================Up//
-
+    //UP==========================- DIELD POS LCASS =================================Up//S
     public class DenQHelper : MonoBehaviour
     {
-        public static Vector3 ConvertFieldPosToWorld(FieldPos pos)
+        public static int maxFieldBlockCount{get{return 30;}}
+        public static float fieldBlcokSize{get{return 2.0f;}}
+        public static float maxFieldSize{ get{return (float)((float)maxFieldBlockCount * fieldBlcokSize);}}
+        
+        //フィールドの番後から、開始位置を検索
+        public static Vector3 ConvertFieldPosToWorld(FieldPos pos,int fieldUnitCode)
         {
-            return new Vector3(pos.posX * 2.0f, 0.0f, pos.posZ * 2.0f);
+            return ConvertFieldPosToWorld(pos ,GetUnitStartPosition(fieldUnitCode));
         }
-        public static FieldPos ConverWoroldPosToFieldPos(Vector3 pos)
+        public static Vector3 ConvertFieldPosToWorld(FieldPos pos,Vector3 startPos)
         {
-            var fieldPos = new FieldPos(((int)pos.x / 2), ((int)pos.z / 2));
+            return new Vector3(pos.posX * fieldBlcokSize, 0.0f, pos.posZ * fieldBlcokSize);
+        }
+
+        public static FieldPos ConverWoroldPosToFieldPos(Vector3 pos,int fieldUnitCode)
+        {
+            var fieldPos = new FieldPos(((int)pos.x / (int)fieldBlcokSize), ((int)pos.z / (int)fieldBlcokSize));
+            int fieldCodeX = fieldUnitCode % 100;
+            int fieldCodeZ = fieldUnitCode / 100;
+            fieldPos.posX -= fieldCodeX * maxFieldBlockCount;
+            fieldPos.posZ -= fieldCodeZ * maxFieldBlockCount;
             return fieldPos;
         }
 
@@ -73,15 +86,24 @@ namespace DenQ.BaseStruct
             return (GameObject)Instantiate(prefab);
         }
 
-        public static Collider[] GetSroundedObejcts(FieldPos pos)
+        public static Collider[] GetSroundedObejcts(FieldPos pos,int fieldUnitCode)
         {
-            Vector3 center = ConvertFieldPosToWorld(pos);
-            return Physics.OverlapBox(center, new Vector3(2.0f, 2.0f, 2.0f));
+            Vector3 center = ConvertFieldPosToWorld(pos,fieldUnitCode);
+            return Physics.OverlapBox(center, new Vector3(fieldBlcokSize, fieldBlcokSize, fieldBlcokSize));
         }
         public static Collider[] GetSroundedObejcts(Vector3 pos)
         {
             Vector3 center = pos;
-            return Physics.OverlapBox(center, new Vector3(2.0f, 2.0f, 2.0f));
+            return Physics.OverlapBox(center, new Vector3(fieldBlcokSize, fieldBlcokSize, fieldBlcokSize));
+        }
+        public static Vector2 GetUnitStartPosition(int unitCode)
+        {
+            int fieldCodeX = unitCode % 100;
+            int fieldCodeZ = unitCode / 100;
+            Vector2 startPos = new Vector2();
+            startPos.x = (float)fieldCodeX * maxFieldSize;
+            startPos.y = (float)fieldCodeZ * maxFieldSize;
+            return startPos;
         }
     }
     public class DenQUIhelper
@@ -94,8 +116,8 @@ namespace DenQ.BaseStruct
                                                 canvasRect.rect.height / Camera.main.pixelHeight);
             panelPos.x = aspectCanvas.x * screenPos.x;
             panelPos.y = aspectCanvas.y * screenPos.y;
-            panelPos.x = panelPos.x - canvasRect.rect.width / 2.0f;
-            panelPos.y = panelPos.y - canvasRect.rect.height / 2.0f;
+            panelPos.x = panelPos.x - canvasRect.rect.width / DenQHelper.fieldBlcokSize;
+            panelPos.y = panelPos.y - canvasRect.rect.height / DenQHelper.fieldBlcokSize;
             panelPos  -= panelRect.anchoredPosition;
             return panelPos;
         }
