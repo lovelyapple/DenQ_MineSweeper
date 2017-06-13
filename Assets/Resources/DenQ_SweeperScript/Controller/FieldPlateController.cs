@@ -6,6 +6,7 @@ public class FieldPlateController : MonoBehaviour
 {
 
     public FieldNumbersController numberCtrl = null;
+    public int fieldUnitCode = 0;
     public FieldPos fieldPos = new FieldPos();
     public int bombCnt = 0;
     // Use this for initialization
@@ -17,16 +18,17 @@ public class FieldPlateController : MonoBehaviour
     {
     }
     //TODO :クソーーーFieldMgr使いたい！
-    public void InitializePlate()
+    public void InitializePlate(int fieldCode)
     {
-        fieldPos = DenQHelper.ConverWoroldPosToFieldPos(this.gameObject.transform.position);
+        this.fieldUnitCode = fieldCode;
+        fieldPos = DenQHelper.ConverWoroldPosToFieldPos(this.gameObject.transform.position,fieldUnitCode);
 
         RequestUpdate();
     }
     public void RequestUpdate()
     {
         bombCnt = 0;
-        Collider[] cols = DenQHelper.GetSroundedObejcts(this.fieldPos);
+        Collider[] cols = DenQHelper.GetSroundedObejcts(this.fieldPos,fieldUnitCode);
         foreach (Collider col in cols)
         {
             if (col.gameObject.tag == "FieldBlock")

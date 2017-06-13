@@ -12,11 +12,11 @@ public class BombManger : MangerBase<BombManger>
     {
         SetInstance(this);
     }
-    public void CreateBomb(FieldBlock blockData)
+    public void CreateBomb(FieldBlock blockData,int fieldCode)
     {
         GameObject bombTemp = ResourcesManager.GetInstance().CreateInstance(PREFAB_NAME.FIELD_BOMB,PREFAB_NAME.ITEM_ROOT,false);
 
         FieldBomb bombData = bombTemp.GetComponent<FieldBomb>();
-        bombData.InitializeFieldBomb(blockData.fieldPos.posX, blockData.fieldPos.posZ, FIELD_ITEM.BOMB_DELAY);
+        bombData.InitializeFieldBomb(blockData.fieldPos.posX, blockData.fieldPos.posZ, FIELD_ITEM.BOMB_DELAY,fieldCode);
     }
 }

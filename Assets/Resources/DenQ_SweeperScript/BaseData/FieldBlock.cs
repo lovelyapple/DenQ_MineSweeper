@@ -5,6 +5,7 @@ using DenQ.BaseStruct;
 public class FieldBlock : MonoBehaviour
 {
 
+    public int fieldUnitCode = 0;
     public FieldPos fieldPos;
     public float lengthToCamera = 0.0f;
     public FIELD_BLOCK blockType = FIELD_BLOCK.NORMAL;
@@ -12,8 +13,9 @@ public class FieldBlock : MonoBehaviour
 
     public GameObject blockObj = null;
     public FieldPlateController plateCtrl = null;
-    public void InitializeFieldBlock(int x, int z, FIELD_BLOCK blockType, FIELD_ITEM itemType)
+    public void InitializeFieldBlock(int x, int z, FIELD_BLOCK blockType, FIELD_ITEM itemType,int fieldCode)
     {
+        this.fieldUnitCode = fieldCode;
         fieldPos = new FieldPos(x, z);
         this.blockType = blockType;
         this.itemType = itemType;
@@ -63,7 +65,7 @@ public class FieldBlock : MonoBehaviour
         GameObject plateObj = ResourcesManager.GetInstance().CreateInstance(PREFAB_NAME.FIELD_PLATE, this.gameObject, false);
         plateObj.transform.position = this.gameObject.transform.position;
         plateCtrl = plateObj.GetComponent<FieldPlateController>();
-        plateCtrl.InitializePlate();
+        plateCtrl.InitializePlate(fieldUnitCode);
     }
     public bool IsBroken()
     {

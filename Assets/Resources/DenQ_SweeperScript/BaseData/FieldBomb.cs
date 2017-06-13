@@ -16,6 +16,7 @@ namespace DenQ.BombDelegate
 }
 public class FieldBomb : MonoBehaviour
 {
+    public int fieldUnitCode = 0;
     public FieldPos fieldPos = new FieldPos();
     public float LengthToCamera = 0.0f;
     public float life = 0;
@@ -24,10 +25,11 @@ public class FieldBomb : MonoBehaviour
     void Awake()
     {
     }
-    public void InitializeFieldBomb(int x, int z, FIELD_ITEM type)
+    public void InitializeFieldBomb(int x, int z, FIELD_ITEM type,int fieldCode)
     {
+        this.fieldUnitCode = fieldCode;
         fieldPos.posX = x; fieldPos.posZ = z; BombType = ConvItemTypeToBombType(type);
-        this.gameObject.transform.position = DenQHelper.ConvertFieldPosToWorld(fieldPos);
+        this.gameObject.transform.position = DenQHelper.ConvertFieldPosToWorld(fieldPos,fieldUnitCode);
         switch (BombType)
         {
             case BOMB_TYPE.BOMB_DELAY:
@@ -47,7 +49,7 @@ public class FieldBomb : MonoBehaviour
         else
         {
             //TODO フィールド大規模ユニット分割できたら、FieldManager で実行
-            Collider[] cols = DenQHelper.GetSroundedObejcts(this.fieldPos);
+            Collider[] cols = DenQHelper.GetSroundedObejcts(this.fieldPos,fieldUnitCode);
             foreach(Collider col in cols)
             {
                 if(col.gameObject.tag == "FieldBlade")

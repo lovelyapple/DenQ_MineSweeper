@@ -102,10 +102,10 @@ public class Field : MonoBehaviour
             return;
         }
 
-        Vector3 Vecpos = DenQHelper.ConvertFieldPosToWorld(fieldPos);
+        Vector3 Vecpos = DenQHelper.ConvertFieldPosToWorld(fieldPos,unitCode);
         newBlockObj.transform.position = Vecpos;
         FieldBlock blockData = newBlockObj.GetComponent<FieldBlock>();
-        blockData.InitializeFieldBlock(fieldPos.posX, fieldPos.posZ, type, item);
+        blockData.InitializeFieldBlock(fieldPos.posX, fieldPos.posZ, type, item,unitCode);
         FieldData.Add(fieldPos, blockData);
     }
     //TODO クソーーーここでダラダラ書きたくないよ！
@@ -127,7 +127,7 @@ public class Field : MonoBehaviour
                         if (bombObj != null)
                         {
                             FieldBomb bombData = bombObj.GetComponent<FieldBomb>();
-                            bombData.InitializeFieldBomb(_pos.posX, _pos.posZ, itemType);
+                            bombData.InitializeFieldBomb(_pos.posX, _pos.posZ, itemType,unitCode);
                         }
                         break;
                     case FIELD_ITEM.BOMB_NORMAL:
