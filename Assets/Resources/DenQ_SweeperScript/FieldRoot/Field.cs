@@ -75,6 +75,10 @@ public class Field : MonoBehaviour
         if (hited.transform.gameObject.tag == "FieldBlock")
         {
             FieldBlock blockData = hited.transform.gameObject.GetComponent<FieldBlock>();
+            if(blockData.IsBroken())           
+            {
+                return;
+            }
             BreakOneBLock(blockData.fieldPos);
         }
     }
@@ -133,6 +137,8 @@ public class Field : MonoBehaviour
                     case FIELD_ITEM.BOMB_NORMAL:
                         break;
                 }
+                //ここでNONEを指定しないと、コライダーが爆弾を生成指定しまう
+                itemType = FIELD_ITEM.NONE;
                 return;
             }
         }
