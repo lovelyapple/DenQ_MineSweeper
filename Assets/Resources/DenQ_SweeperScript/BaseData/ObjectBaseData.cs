@@ -6,7 +6,7 @@ namespace DenQ
 {
     public class ObjectBaseData : MonoBehaviour
     {
-
+        [SerializeField]private long objectId = 0;
         public FieldPos fieldPos = null;
         //基本データ
         private int _max_Hp = 0;
@@ -25,5 +25,9 @@ namespace DenQ
         public float normal_SearchRange = 0.0f;
         public float normal_AttackRange = 0.0f;
 
+        void Awake()
+        {
+        objectId = GameObjectsManager.GetInstance().RigistObjectId();
+        }
     }
 }
