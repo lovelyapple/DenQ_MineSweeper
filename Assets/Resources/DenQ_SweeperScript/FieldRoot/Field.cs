@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DenQ.BaseStruct;
-using DenQ.Prefab;
 using System.Linq;
 public class Field : MonoBehaviour
 {
-    private Dictionary<FieldPos, FieldBlock> FieldData = new Dictionary<FieldPos, FieldBlock>();
+    //private Dictionary<FieldPos, FieldBlock> FieldData = new Dictionary<FieldPos, FieldBlock>();
+    private Dictionary<long, FieldBlock> fieldData = new Dictionary<long, FieldBlock>();
     public int unitCode = 0;
     public Vector2 startPosition = new Vector2();
     public int distributionMapId = 0;
@@ -15,6 +15,7 @@ public class Field : MonoBehaviour
 
     void Awake()
     {
+        fieldData = DenQHelper.GetIinitiatedField();
     }
     // Use this for initialization
     void Start()
@@ -75,7 +76,7 @@ public class Field : MonoBehaviour
         if (hited.transform.gameObject.tag == "FieldBlock")
         {
             FieldBlock blockData = hited.transform.gameObject.GetComponent<FieldBlock>();
-            if(blockData.IsBroken())           
+            if (blockData.IsBroken())
             {
                 return;
             }
@@ -84,77 +85,49 @@ public class Field : MonoBehaviour
     }
     public void InsertOneBlock(FieldPos fieldPos, FIELD_BLOCK type, FIELD_ITEM item)
     {
-        //最大一個のユニットにサイズ20
-        fieldPos.posX = Mathf.Min(fieldPos.posX, DenQHelper.maxFieldBlockCount);
-        fieldPos.posZ = Mathf.Min(fieldPos.posZ, DenQHelper.maxFieldBlockCount);
-        //最低0を保つ
-        fieldPos.posX = Mathf.Max(fieldPos.posX, 0);
-        fieldPos.posZ = Mathf.Max(fieldPos.posZ, 0);
-
-        foreach (FieldPos _pos in FieldData.Keys)
+        var fieldCode = DenQHelper.ConvertFieldPosToCode(fieldPos);
+        fieldCode = (long)Mathf.Clamp(fieldCode, 0, DenQHelper.maxFieldCode);
+        if (fieldData[fieldCode] != null)
         {
-            if (_pos.CompareTo(fieldPos) == 0)
-            {
-                Debug.Log("error:can not plate a block where exist already");
-                return;
-            }
+            DenQLogger.GError("error:can not plate a block where exist already");
         }
         GameObject newBlockObj = ResourcesManager.GetInstance().CreateInstance(PREFAB_NAME.FIELD_BLOCK, this.gameObject, false);
         if (newBlockObj == null)
         {
-            Debug.Log("error:can not plate a block,could not read from ResourceManagr!");
+            DenQLogger.GError("error:can not plate a block,could not read from ResourceManagr!");
             return;
         }
-
-        Vector3 Vecpos = DenQHelper.ConvertFieldPosToWorld(fieldPos,unitCode);
+        Vector3 Vecpos = DenQHelper.ConvertFieldPosToWorld(fieldPos, unitCode);
         newBlockObj.transform.position = Vecpos;
         FieldBlock blockData = newBlockObj.GetComponent<FieldBlock>();
-        blockData.InitializeFieldBlock(fieldPos.posX, fieldPos.posZ, type, item,unitCode);
-        FieldData.Add(fieldPos, blockData);
+        blockData.InitializeFieldBlock(fieldPos.posX, fieldPos.posZ, type, item, unitCode);
+        fieldData[fieldCode] = blockData;
     }
     //TODO クソーーーここでダラダラ書きたくないよ！
     public void BreakOneBLock(FieldPos pos)
     {
-        foreach (FieldPos _pos in FieldData.Keys)
+        var code = DenQHelper.ConvertFieldPosToCode(pos);
+        var data = fieldData[code];
+        if (data.IsBroken()) { return; }
+        var itemType = data.GetBlockItemType();
+        data.BreakBlock();
+        switch (itemType)
         {
-            if (_pos.CompareTo(pos) == 0)
-            {
-                FieldBlock fieldBlockTemp = FieldData[_pos];
-                FIELD_ITEM itemType = fieldBlockTemp.GetBlockItemType();
-                fieldBlockTemp.BreakBlock();
-                switch (itemType)
+            case FIELD_ITEM.NONE:
+                break;
+            case FIELD_ITEM.BOMB_DELAY:
+                GameObject bombObj = ResourcesManager.GetInstance().CreateInstance(PREFAB_NAME.FIELD_BOMB, PREFAB_NAME.ITEM_ROOT, false);
+                if (bombObj != null)
                 {
-                    case FIELD_ITEM.NONE:
-                        break;
-                    case FIELD_ITEM.BOMB_DELAY:
-                        GameObject bombObj = ResourcesManager.GetInstance().CreateInstance(PREFAB_NAME.FIELD_BOMB, PREFAB_NAME.ITEM_ROOT, false);
-                        if (bombObj != null)
-                        {
-                            FieldBomb bombData = bombObj.GetComponent<FieldBomb>();
-                            bombData.InitializeFieldBomb(_pos.posX, _pos.posZ, itemType,unitCode);
-                        }
-                        break;
-                    case FIELD_ITEM.BOMB_NORMAL:
-                        break;
+                    FieldBomb bombData = bombObj.GetComponent<FieldBomb>();
+                    bombData.InitializeFieldBomb(pos.posX, pos.posZ, itemType, unitCode);
                 }
-                //ここでNONEを指定しないと、コライダーが爆弾を生成指定しまう
-                itemType = FIELD_ITEM.NONE;
-                return;
-            }
+                break;
+            case FIELD_ITEM.BOMB_NORMAL:
+                break;
         }
-    }
-    public void RemoveOneBlock(FieldPos pos)//基本使わない
-    {
-        foreach (FieldPos _pos in FieldData.Keys)
-        {
-            if (_pos.CompareTo(pos) == 0)
-            {
-                FieldBlock fieldBlockTemp = FieldData[_pos];
-                FieldData.Remove(_pos);
-                fieldBlockTemp.Destroy();
-                return;
-            }
-        }
+        //ここでNONEを指定しないと、コライダーが爆弾を生成指定しまう
+        itemType = FIELD_ITEM.NONE;
     }
     public void RemoveField()
     {
@@ -162,10 +135,11 @@ public class Field : MonoBehaviour
     }
     public void ClearField()
     {
-        foreach (FieldPos pos in FieldData.Keys)
+        foreach (var code in fieldData.Keys)
         {
-            FieldData[pos].Destroy();
+            if(fieldData[code] != null)
+            fieldData[code].Destroy();
         }
-        FieldData.Clear();
+        fieldData = DenQHelper.GetIinitiatedField();
     }
 }

@@ -26,6 +26,7 @@ namespace DenQ.BaseStruct
     //Down========================- DIELD POS LCASS ===============================Down//
     public class FieldPos : IComparable<FieldPos>
     {
+        public int unitCode = 0;
         public int posX;
         //{set { posX = 0; } get { return posX; }  }
         public int posZ;
@@ -53,21 +54,43 @@ namespace DenQ.BaseStruct
     //UP==========================- DIELD POS LCASS =================================Up//S
     public class DenQHelper : MonoBehaviour
     {
-        public static int maxFieldBlockCount{get{return 30;}}
-        public static float fieldBlcokSize{get{return 2.0f;}}
-        public static float maxFieldSize{ get{return (float)((float)maxFieldBlockCount * fieldBlcokSize);}}
-        
-        //フィールドの番後から、開始位置を検索
-        public static Vector3 ConvertFieldPosToWorld(FieldPos pos,int fieldUnitCode)
-        {
-            return ConvertFieldPosToWorld(pos ,GetUnitStartPosition(fieldUnitCode));
+        public static int maxFieldBlockCount { get { return 5; } }
+        public static float fieldBlcokSize { get { return 2.0f; } }
+        public static float maxFieldSize { get { return (float)((float)maxFieldBlockCount * fieldBlcokSize); } }
+        public static long maxFieldCode{
+            get{
+                return (maxFieldBlockCount * 100 + maxFieldBlockCount);
+            }
         }
-        public static Vector3 ConvertFieldPosToWorld(FieldPos pos,Vector3 startPos)
+        public static Dictionary<long, FieldBlock> GetIinitiatedField()
+        {
+            var dic = new Dictionary<long, FieldBlock>();
+            for (int x = 0; x < maxFieldBlockCount; x++)
+                for (int z = 0; z < maxFieldBlockCount; z++)
+                {
+                    dic.Add(CreateCodeByPos(x,z),null);
+                }
+            return dic;
+        }
+        public static long ConvertFieldPosToCode(FieldPos fieldPos)
+        {
+            return (long)(fieldPos.posX * 100 + fieldPos.posZ);
+        }
+        public static long CreateCodeByPos(int x,int z)
+        {
+            return x * 100 + z;
+        }
+        //フィールドの番後から、開始位置を検索
+        public static Vector3 ConvertFieldPosToWorld(FieldPos pos, int fieldUnitCode)
+        {
+            return ConvertFieldPosToWorld(pos, GetUnitStartPosition(fieldUnitCode));
+        }
+        public static Vector3 ConvertFieldPosToWorld(FieldPos pos, Vector3 startPos)
         {
             return new Vector3(pos.posX * fieldBlcokSize, 0.0f, pos.posZ * fieldBlcokSize);
         }
 
-        public static FieldPos ConverWoroldPosToFieldPos(Vector3 pos,int fieldUnitCode)
+        public static FieldPos ConverWoroldPosToFieldPos(Vector3 pos, int fieldUnitCode)
         {
             var fieldPos = new FieldPos(((int)pos.x / (int)fieldBlcokSize), ((int)pos.z / (int)fieldBlcokSize));
             int fieldCodeX = fieldUnitCode % 100;
@@ -76,7 +99,6 @@ namespace DenQ.BaseStruct
             fieldPos.posZ -= fieldCodeZ * maxFieldBlockCount;
             return fieldPos;
         }
-
         public static GameObject InstialHelper(GameObject prefab, GameObject parent)
         {
             return (GameObject)Instantiate(prefab, parent.transform);
@@ -86,9 +108,9 @@ namespace DenQ.BaseStruct
             return (GameObject)Instantiate(prefab);
         }
 
-        public static Collider[] GetSroundedObejcts(FieldPos pos,int fieldUnitCode)
+        public static Collider[] GetSroundedObejcts(FieldPos pos, int fieldUnitCode)
         {
-            Vector3 center = ConvertFieldPosToWorld(pos,fieldUnitCode);
+            Vector3 center = ConvertFieldPosToWorld(pos, fieldUnitCode);
             return Physics.OverlapBox(center, new Vector3(fieldBlcokSize, fieldBlcokSize, fieldBlcokSize));
         }
         public static Collider[] GetSroundedObejcts(Vector3 pos)
@@ -118,12 +140,12 @@ namespace DenQ.BaseStruct
             panelPos.y = aspectCanvas.y * screenPos.y;
             panelPos.x = panelPos.x - canvasRect.rect.width / DenQHelper.fieldBlcokSize;
             panelPos.y = panelPos.y - canvasRect.rect.height / DenQHelper.fieldBlcokSize;
-            panelPos  -= panelRect.anchoredPosition;
+            panelPos -= panelRect.anchoredPosition;
             return panelPos;
         }
         public static Vector2 GetPanelPosition(RectTransform canvasRect, RectTransform panelRect)
-        {           
-            return GetPanelPosition(canvasRect,panelRect,DenQ_Input.GetTouchPosition());
+        {
+            return GetPanelPosition(canvasRect, panelRect, DenQ_Input.GetTouchPosition());
         }
     }
 

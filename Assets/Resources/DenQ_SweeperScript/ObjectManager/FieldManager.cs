@@ -72,14 +72,13 @@ public class FieldManager : MangerBase<FieldManager>
         isCreatingMap = true;
         Debug.Log("start to create field");
 
-        for (int i = 0; i < fieldSizeZ; i++)
+        for (int z = 0; z < fieldSizeZ; z++)
         {
-            for (int k = 0; k < fieldSizeX; k++)
+            for (int x = 0; x < fieldSizeX; x++)
             {
                 //FIELD_ITEM itemType = k % 3 == 0 ? FIELD_ITEM.BOMB_DELAY : FIELD_ITEM.NONE;
                 FIELD_ITEM itemType = DebugDitributionMap.GetItemTypeRandam();
-                fieldData.InsertOneBlock(new FieldPos(k, i), FIELD_BLOCK.NORMAL, itemType);
-                yield return null;
+                fieldData.InsertOneBlock(new FieldPos(x, z), FIELD_BLOCK.NORMAL, itemType);
             }
         }
         isCreatingMap = false;
