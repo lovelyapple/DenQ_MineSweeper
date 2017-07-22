@@ -1,8 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-namespace DenQ.Prefab
+namespace DenQ
 {
     public class ObjectBaseData : MonoBehaviour
     {
