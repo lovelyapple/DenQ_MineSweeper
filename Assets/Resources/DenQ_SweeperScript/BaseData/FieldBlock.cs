@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+using DenQ;
 using DenQ.BaseStruct;
-public class FieldBlock : MonoBehaviour
+public class FieldBlock : ObjectBaseData
 {
 
     public int fieldUnitCode = 0;
-    public FieldPos fieldPos;
     public float lengthToCamera = 0.0f;
     public FIELD_BLOCK blockType = FIELD_BLOCK.NORMAL;
     public FIELD_ITEM itemType = FIELD_ITEM.NONE;

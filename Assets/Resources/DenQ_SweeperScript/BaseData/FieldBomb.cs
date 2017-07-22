@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+using DenQ;
 using DenQ.BaseStruct;
 using DenQ.BombDelegate;
 
@@ -14,10 +16,9 @@ namespace DenQ.BombDelegate
         BOMB_NORMAL = FIELD_ITEM.BOMB_NORMAL,
     }
 }
-public class FieldBomb : MonoBehaviour
+public class FieldBomb : ObjectBaseData
 {
     public int fieldUnitCode = 0;
-    public FieldPos fieldPos = new FieldPos();
     public float LengthToCamera = 0.0f;
     public float life = 0;
     private BOMB_TYPE BombType = BOMB_TYPE.BOMB_NORMAL;
@@ -28,6 +29,7 @@ public class FieldBomb : MonoBehaviour
     public void InitializeFieldBomb(int x, int z, FIELD_ITEM type,int fieldCode)
     {
         this.fieldUnitCode = fieldCode;
+        fieldPos = new FieldPos();
         fieldPos.posX = x; fieldPos.posZ = z; BombType = ConvItemTypeToBombType(type);
         this.gameObject.transform.position = DenQHelper.ConvertFieldPosToWorld(fieldPos,fieldUnitCode);
         switch (BombType)
