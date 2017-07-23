@@ -6,9 +6,17 @@ namespace DenQ
 {
     public class ObjectBaseData : MonoBehaviour
     {
-        [SerializeField]private long objectId = 0;
+        [SerializeField] private long _objectId = 0;
+        public long objectId
+        {
+            get
+            {
+                return _objectId;
+            }
+        }
         public FieldPos fieldPos = null;
         //基本データ
+        
         private int _max_Hp = 0;
         public int max_Hp
         {
@@ -20,14 +28,21 @@ namespace DenQ
             get { return _rec_Hp; }
         }
 
-        public float normal_MoveSpeed = 0.0f;
-        public float normal_Attake = 0.0f;
-        public float normal_SearchRange = 0.0f;
-        public float normal_AttackRange = 0.0f;
+        [SerializeField] private float normal_MoveSpeed = 0.0f;
+        [SerializeField] private float moveSpeedRate = 1.0f;
+        public  float out_moveSpeed{
+            get
+            {
+                return normal_MoveSpeed * out_moveSpeed;
+            }
+        }
+        [SerializeField] private float normal_Attake = 0.0f;
+        [SerializeField] private float normal_SearchRange = 0.0f;
+        [SerializeField] private float normal_AttackRange = 0.0f;
 
         void Awake()
         {
-        objectId = GameObjectsManager.GetInstance().RigistObjectId();
+            _objectId = GameObjectsManager.GetInstance().RigistObjectId();
         }
     }
 }
