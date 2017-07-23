@@ -36,6 +36,10 @@ public class DenQLogger:MonoBehaviour
         DebugInformation info = new DebugInformation(DUMP_TYPE.GAM_ERROR, msg);
         infoList.Add(info);
     }
+    public static void SErrorId(long objId,string msg)
+    {
+        SError(string.Format("The ObjId with :{0},has a problem {1}",objId,msg));
+    }
 	public static void UpdateType(int type)
 	{
 		MsgTypeController = type;
