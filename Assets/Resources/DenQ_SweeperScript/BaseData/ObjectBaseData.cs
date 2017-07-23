@@ -39,6 +39,13 @@ namespace DenQ
         [SerializeField] private float normal_Attake = 0.0f;
         [SerializeField] private float normal_SearchRange = 0.0f;
         [SerializeField] private float normal_AttackRange = 0.0f;
+        [SerializeField] private float normal_bodySize = 0.0f;
+        public float out_bodySize{
+            get
+            {
+                return normal_bodySize;
+            }
+        }
 
         void Awake()
         {
