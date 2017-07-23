@@ -43,4 +43,12 @@ public class ActionController
 			currentlyAction = actionList[type];
 		}
 	}
+	public ACTIONTYPE GetCurrentActionType()
+	{
+		if(currentlyAction != null)
+		{
+			return currentlyAction.actionType;
+		}
+		return ACTIONTYPE.dead;
+	}
 }
