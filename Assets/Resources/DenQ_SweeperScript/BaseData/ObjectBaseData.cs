@@ -47,9 +47,16 @@ namespace DenQ
             }
         }
 
+        public ActionController actionCtrl = null;
         void Awake()
         {
             _objectId = GameObjectsManager.GetInstance().RigistObjectId();
+        }
+        public void InitActionCtrl()
+        {
+            actionCtrl = new ActionController();
+            actionCtrl.moveCtrl = gameObject.GetComponent<MoveController>();
+            actionCtrl.targetCtrl = gameObject.GetComponent<TargetController>();
         }
     }
 }
