@@ -23,7 +23,7 @@ namespace DenQ.BaseStruct
         BOMB_DELAY,
         NONE,
     }
-    //Down========================- DIELD POS LCASS ===============================Down//
+    //Down======================== FIELD POS LCASS ===============================Down//
     public class FieldPos : IComparable<FieldPos>
     {
         public int unitCode = 0;

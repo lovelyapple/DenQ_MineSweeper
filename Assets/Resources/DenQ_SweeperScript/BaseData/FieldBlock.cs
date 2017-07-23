@@ -6,18 +6,16 @@ using DenQ;
 using DenQ.BaseStruct;
 public class FieldBlock : ObjectBaseData
 {
-
-    public int fieldUnitCode = 0;
     public float lengthToCamera = 0.0f;
     public FIELD_BLOCK blockType = FIELD_BLOCK.NORMAL;
     public FIELD_ITEM itemType = FIELD_ITEM.NONE;
 
     public GameObject blockObj = null;
     public FieldPlateController plateCtrl = null;
-    public void InitializeFieldBlock(int x, int z, FIELD_BLOCK blockType, FIELD_ITEM itemType,int fieldCode)
+    public void InitializeFieldBlock(int x, int z, FIELD_BLOCK blockType, FIELD_ITEM itemType, int fieldCode)
     {
-        this.fieldUnitCode = fieldCode;
         fieldPos = new FieldPos(x, z);
+        this.fieldPos.unitCode = fieldCode;
         this.blockType = blockType;
         this.itemType = itemType;
         switch (this.itemType)
@@ -66,7 +64,7 @@ public class FieldBlock : ObjectBaseData
         GameObject plateObj = ResourcesManager.GetInstance().CreateInstance(PREFAB_NAME.FIELD_PLATE, this.gameObject, false);
         plateObj.transform.position = this.gameObject.transform.position;
         plateCtrl = plateObj.GetComponent<FieldPlateController>();
-        plateCtrl.InitializePlate(fieldUnitCode);
+        plateCtrl.InitializePlate(this.fieldPos.unitCode);
     }
     public bool IsBroken()
     {

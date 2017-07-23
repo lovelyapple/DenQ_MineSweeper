@@ -18,7 +18,6 @@ namespace DenQ.BombDelegate
 }
 public class FieldBomb : ObjectBaseData
 {
-    public int fieldUnitCode = 0;
     public float LengthToCamera = 0.0f;
     public float life = 0;
     private BOMB_TYPE BombType = BOMB_TYPE.BOMB_NORMAL;
@@ -26,12 +25,12 @@ public class FieldBomb : ObjectBaseData
     void Awake()
     {
     }
-    public void InitializeFieldBomb(int x, int z, FIELD_ITEM type,int fieldCode)
+    public void InitializeFieldBomb(int x, int z, FIELD_ITEM type, int fieldCode)
     {
-        this.fieldUnitCode = fieldCode;
-        fieldPos = new FieldPos();
+        fieldPos = new FieldPos(x,z);
+        fieldPos.unitCode = fieldCode;
         fieldPos.posX = x; fieldPos.posZ = z; BombType = ConvItemTypeToBombType(type);
-        this.gameObject.transform.position = DenQHelper.ConvertFieldPosToWorld(fieldPos,fieldUnitCode);
+        this.gameObject.transform.position = DenQHelper.ConvertFieldPosToWorld(fieldPos, fieldPos.unitCode);
         switch (BombType)
         {
             case BOMB_TYPE.BOMB_DELAY:
@@ -51,10 +50,10 @@ public class FieldBomb : ObjectBaseData
         else
         {
             //TODO フィールド大規模ユニット分割できたら、FieldManager で実行
-            Collider[] cols = DenQHelper.GetSroundedObejcts(this.fieldPos,fieldUnitCode);
-            foreach(Collider col in cols)
+            Collider[] cols = DenQHelper.GetSroundedObejcts(this.fieldPos, fieldPos.unitCode);
+            foreach (Collider col in cols)
             {
-                if(col.gameObject.tag == "FieldBlade")
+                if (col.gameObject.tag == "FieldBlade")
                 {
                     FieldPlateController pladeCtrl = col.gameObject.GetComponent<FieldPlateController>();
                     pladeCtrl.RequestUpdate();
@@ -65,7 +64,7 @@ public class FieldBomb : ObjectBaseData
     }
     public void Destroy()
     {
-        GameObject fxObj = ResourcesManager.GetInstance().CreateInstance(PREFAB_NAME.EFFECT_EXPLO_01,PREFAB_NAME.EFFECT_ROOT,false);
+        GameObject fxObj = ResourcesManager.GetInstance().CreateInstance(PREFAB_NAME.EFFECT_EXPLO_01, PREFAB_NAME.EFFECT_ROOT, false);
         fxObj.transform.position = this.gameObject.transform.position;
         GameObject.Destroy(this.gameObject);
     }
@@ -75,28 +74,28 @@ public class FieldBomb : ObjectBaseData
     }
     BOMB_TYPE ConvItemTypeToBombType(FIELD_ITEM itemTYpe)
     {
-        switch(itemTYpe)
+        switch (itemTYpe)
         {
             case FIELD_ITEM.BOMB_DELAY:
-            return BOMB_TYPE.BOMB_DELAY;
+                return BOMB_TYPE.BOMB_DELAY;
             //break;
             case FIELD_ITEM.BOMB_NORMAL:
-            return BOMB_TYPE.BOMB_NORMAL;
+                return BOMB_TYPE.BOMB_NORMAL;
             //break;
-            default:return BOMB_TYPE.BOMB_NORMAL;
+            default: return BOMB_TYPE.BOMB_NORMAL;
         }
-    } 
+    }
     FIELD_ITEM ConvBombTypeToItemType(BOMB_TYPE bombType)
     {
-         switch(bombType)
+        switch (bombType)
         {
             case BOMB_TYPE.BOMB_DELAY:
-            return FIELD_ITEM.BOMB_DELAY;
+                return FIELD_ITEM.BOMB_DELAY;
             //break;
             case BOMB_TYPE.BOMB_NORMAL:
-            return FIELD_ITEM.BOMB_NORMAL;
+                return FIELD_ITEM.BOMB_NORMAL;
             //break;
-            default:return FIELD_ITEM.BOMB_NORMAL;
-        }       
+            default: return FIELD_ITEM.BOMB_NORMAL;
+        }
     }
 }
