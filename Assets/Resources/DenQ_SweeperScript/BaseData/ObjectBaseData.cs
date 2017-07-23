@@ -55,8 +55,13 @@ namespace DenQ
         public void InitActionCtrl()
         {
             actionCtrl = new ActionController();
+            actionCtrl.selfData = this;
             actionCtrl.moveCtrl = gameObject.GetComponent<MoveController>();
             actionCtrl.targetCtrl = gameObject.GetComponent<TargetController>();
+        }
+        public void DestroyThis()
+        {
+            GameObject.Destroy(this.gameObject);
         }
     }
 }

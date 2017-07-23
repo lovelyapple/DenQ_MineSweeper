@@ -36,4 +36,11 @@ public class ActionController
 			actionList[type].selfData = selfData;
 		}
 	}
+	public void PlayAction(ACTIONTYPE type)
+	{
+		if(actionList.ContainsKey(type))
+		{
+			currentlyAction = actionList[type];
+		}
+	}
 }

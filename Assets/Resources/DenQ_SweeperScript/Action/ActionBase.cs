@@ -7,6 +7,7 @@ using DenQ;
 public enum ACTIONTYPE
 {
 	none		= 0,
+	//defalut type
 	standby		= 1,
 	moving		= 2,
 	dying		= 99,
