@@ -48,17 +48,15 @@ namespace DenQ
 
         [SerializeField] private float normal_MoveSpeed = 0.0f;
         [SerializeField] private float moveSpeedRate = 1.0f;
-        public float out_moveSpeed
-        {
-            get
-            {
-                return normal_MoveSpeed * out_moveSpeed;
-            }
-        }
-        [SerializeField] private float normal_Attake = 0.0f;
-        [SerializeField] private float normal_SearchRange = 0.0f;
-        [SerializeField] private float normal_AttackRange = 0.0f;
-        [SerializeField] private float normal_bodySize = 0.0f;
+        [SerializeField] public float out_moveSpeed { get { return normal_MoveSpeed * out_moveSpeed; } }
+        [SerializeField] private float normal_Attake = 10.0f;
+        [SerializeField] private float normal_AttackSpeed = 10.0f;
+        [SerializeField] private float normal_SearchRange = 10.0f;
+        [SerializeField] private float normal_AttackRange = 10.0f;
+        [SerializeField] public float out_AttackRange { get { return normal_AttackRange; } }
+        [SerializeField] public float out_AttackSpeed { get { return normal_AttackSpeed; } }
+        [SerializeField] public float time_Attack = 0.0f;
+        [SerializeField] private float normal_bodySize = 1.0f;
         public float out_bodySize
         {
             get
@@ -91,6 +89,10 @@ namespace DenQ
                 return type == ACTIONTYPE.dying || type == ACTIONTYPE.dead;
             }
             return rec_Hp <= 0;
+        }
+        public void ResetAttackTime()
+        {
+            time_Attack = normal_AttackSpeed;
         }
     }
 }

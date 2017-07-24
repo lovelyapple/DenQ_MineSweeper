@@ -30,6 +30,17 @@ public class TargetController : MonoBehaviour
             distanceBody = 0.0f;
         }
     }
+    public bool IsTargetInFireRange()
+    {
+        if (ExistTarget() == false) { return false; }
+        var range = GetTargetRange().Value;
+        return selfData.out_AttackRange <= range;
+    }
+    public bool ExistTarget()
+    {
+        if (targetData == null) { return false; }
+        return targetData.IsDead();
+    }
     public ObjectBaseData GetTarget()
     {
         return targetData;

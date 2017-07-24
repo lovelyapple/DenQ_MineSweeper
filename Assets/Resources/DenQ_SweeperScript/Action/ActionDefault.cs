@@ -63,4 +63,30 @@ namespace DenQ.Action
             }
         }
     }
+
+
+    public class Action_Default_Attack : ActionBase
+    {
+        public override ACTIONTYPE actionType() { return ACTIONTYPE.attacking; }
+		public override void UpdateAction()
+		{
+			if(!selfData.actionCtrl.targetCtrl.ExistTarget())
+			{
+				selfData.actionCtrl.PlayAction(ACTIONTYPE.standby);
+				return;
+			}
+			if(selfData.time_Attack <= 0)
+			{
+				selfData.time_Attack = 0;
+				if(selfData.actionCtrl.targetCtrl.IsTargetInFireRange())
+				{
+					//TODO attackManager
+					selfData.ResetAttackTime();
+				}
+			}else
+			{
+				selfData.time_Attack -= Time.deltaTime;
+			}
+		}
+    }
 }

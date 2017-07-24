@@ -15,6 +15,7 @@ public enum AIState
 }
 public class AIBase : MonoBehaviour {
 	public ObjectBaseData selfData = null;
+	[SerializeField] protected bool isStopedForce = false;
 	void OnEnable()
 	{
 		if(selfData == null)
@@ -23,6 +24,7 @@ public class AIBase : MonoBehaviour {
 			if(selfData == null)
 			{
 				DenQLogger.GError("could not find objectData");
+				isStopedForce = true;
 				return;
 			}
 			if(selfData.actionCtrl == null)

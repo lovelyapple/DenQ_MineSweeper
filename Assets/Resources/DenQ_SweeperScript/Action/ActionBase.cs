@@ -10,6 +10,7 @@ public enum ACTIONTYPE
 	//defalut type
 	standby		= 1,
 	moving		= 2,
+	attacking	= 3,
 	dying		= 99,
 	dead		= 100,
 }
