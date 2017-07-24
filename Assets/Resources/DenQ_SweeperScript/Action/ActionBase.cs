@@ -16,7 +16,7 @@ public enum ACTIONTYPE
 
 public class ActionBase
 {
-	public ACTIONTYPE actionType = ACTIONTYPE.none;
+	public virtual ACTIONTYPE actionType() {return ACTIONTYPE.none;}
 	public ObjectBaseData selfData = null;
 	public float actionTime = -1.0f;	//再生時間指定
 	public float actingTime = 0.0f;		//実際の再生経過時間

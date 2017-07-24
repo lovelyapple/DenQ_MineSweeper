@@ -47,7 +47,7 @@ public class ActionController
 	{
 		if(currentlyAction != null)
 		{
-			return currentlyAction.actionType;
+			return currentlyAction.actionType();
 		}
 		return ACTIONTYPE.dead;
 	}

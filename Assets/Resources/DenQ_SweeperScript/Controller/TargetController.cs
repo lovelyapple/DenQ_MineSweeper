@@ -8,6 +8,13 @@ public class TargetController : MonoBehaviour
     public ObjectBaseData selfData = null;
     public ObjectBaseData targetData = null;
     [SerializeField] private float distanceBody = 0.0f;
+    public void OnEnable()
+    {
+        if (selfData == null)
+        {
+            selfData = GetComponent<ObjectBaseData>();
+        }
+    }
     public void SetTarget(ObjectBaseData _targetData)
     {
         targetData = _targetData;
@@ -16,15 +23,12 @@ public class TargetController : MonoBehaviour
     void Update()
     {
         if (targetData == null) { return; }
-        //TODO
-        /*
-		if(selfData.IsDead() {return;})
-		if(targetData.IsDead())
-		{
-			targetData = null;
-			distanceBody = 0.0f;
-		} 
-		*/
+        if (selfData.IsDead()) { return; }
+        if (targetData.IsDead())
+        {
+            targetData = null;
+            distanceBody = 0.0f;
+        }
     }
     public ObjectBaseData GetTarget()
     {
