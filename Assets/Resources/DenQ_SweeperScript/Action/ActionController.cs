@@ -6,7 +6,7 @@ using DenQ;
 public class ActionController
 {
     public ObjectBaseData selfData = null;
-
+	
     private Dictionary<ACTIONTYPE, ActionBase> actionList = new Dictionary<ACTIONTYPE, ActionBase>();
 	public ActionBase currentlyAction = null;
 	public ACTIONTYPE backBuffState = ACTIONTYPE.none;
