@@ -55,5 +55,13 @@ public class TargetController : MonoBehaviour
     {
         return GetTargetRange() == null ? false : GetTargetRange().Value <= distanceBody;
     }
-
+    public void DamageObject(SkillBaseData skill)
+    {
+        if (selfData.IsDead()) { return; }
+        var baseDamage = skill.skillDamage;
+        //TODO  ここでいろんなダメージ方式を描く
+        //      とりあえず、普通の攻撃だけ書いとく
+        selfData.rec_Hp -= (int)baseDamage;
+        
+    }
 }

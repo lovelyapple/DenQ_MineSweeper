@@ -62,9 +62,7 @@ public class SkillBaseData
         switch (skillType)
         {
             case SKILL_TYPE.fastOnce:
-
-                //TODO targetController に Damageメソッドを追加
-                //targetData.actionCtrl.targetCtrl
+                targetData.actionCtrl.targetCtrl.DamageObject(this);
                 break;
         }
     }

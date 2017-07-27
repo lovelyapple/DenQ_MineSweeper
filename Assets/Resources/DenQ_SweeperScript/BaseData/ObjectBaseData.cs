@@ -43,6 +43,7 @@ namespace DenQ
         private int _rec_Hp = 0;
         public int rec_Hp
         {
+            set { _rec_Hp = value; if (_rec_Hp <= 0) _rec_Hp = 0; }
             get { return _rec_Hp; }
         }
 
@@ -83,12 +84,13 @@ namespace DenQ
         }
         public bool IsDead()
         {
+            if (_rec_Hp <= 0) { return true; }
             if (actionCtrl != null)
             {
                 var type = actionCtrl.GetCurrentActionType();
                 return type == ACTIONTYPE.dying || type == ACTIONTYPE.dead;
             }
-            return rec_Hp <= 0;
+            return false;
         }
         public void ResetAttackTime()
         {
