@@ -22,6 +22,10 @@ namespace DenQ
             searchRange = _searchRange;
         }
     }
+    /* フィールド上背景以外のオブジェクト基本データ
+     *
+     *
+     */
     public class ObjectBaseData : MonoBehaviour
     {
         [SerializeField] private long _objectId = 0;

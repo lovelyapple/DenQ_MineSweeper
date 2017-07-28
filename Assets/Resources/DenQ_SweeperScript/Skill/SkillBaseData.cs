@@ -6,14 +6,18 @@ using DenQ;
  * 
  *
  */
-public enum SKILL_TYPE
+public enum SKILL_TYPE      //具体的な動作
 {
-    fastOnce,               //具体的な動作
+    fastOnce,               //すぐかつ一回のみ         
 }
-public enum SKILL_KIND
+public enum SKILL_KIND      //分類
 {
-    normalAttack01,         //分類
+    normalAttack01,         //MOBの01番目攻撃
 }
+/*
+ *　属性追加？？
+ *
+ */
 public class SkillBaseData
 {
     public SkillBaseData() { }
@@ -26,16 +30,18 @@ public class SkillBaseData
         skillCoolTime = coolTime;
     }
     public uint skillId;
-    public SKILL_KIND skillKind = SKILL_KIND.normalAttack01;
-    public SKILL_TYPE skillType = SKILL_TYPE.fastOnce;
-    public float skillDamage = 0.0f;
-    public float skillCoolTime = 60.0f;
-    public float activeTime = 10.0f;
-    private float _coolTime = 60.0f;
+    public SKILL_KIND   skillKind = SKILL_KIND.normalAttack01;
+    public SKILL_TYPE   skillType = SKILL_TYPE.fastOnce;
+    public List<SkillBaseData>      multiSkills = null;     //複数のスキルの連動かどうか    
+    public float        skillDamage = 0.0f;                 //一回付きダメージ
+    public float        skillCoolTime = 60.0f;              //CT
+    //public float        skillOverHeadTime = 0.0f;         //スキルの前処理時間（チャージなど）別になくても、チャージスキルをつくればいい
+    public float        activeTime = 10.0f;                 //スキルの動作時間
+    private float       _coolTime = 60.0f;                  //CTカウント
 
     public void UpdateSkill()
     {
-        if (activeTime > 0)
+        if (_coolTime > 0)
         {
             _coolTime -= Time.deltaTime;
         }
