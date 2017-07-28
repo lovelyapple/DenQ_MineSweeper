@@ -75,20 +75,26 @@ namespace DenQ
         {
             _objectId = GameObjectsManager.GetInstance().RigistObjectId();
         }
+        //必要なものだけ、ActionCtrlをつけとく（動けるもの,AI必須）
         public void InitActionCtrl()
         {
-            actionCtrl = new ActionController();
-            actionCtrl.selfData = this;
-            actionCtrl.moveCtrl = gameObject.GetComponent<MoveController>();
-            actionCtrl.targetCtrl = gameObject.GetComponent<TargetController>();
+            actionCtrl = gameObject.GetComponent<ActionController>();
+            if(actionCtrl == null)
+            {
+                DenQLogger.SWarnId(objectId,"Could not find ActionController,Create New One!");
+                actionCtrl = gameObject.AddComponent<ActionController>();
+            }
+            actionCtrl.InitActionCtrl(this);
         }
         public void DestroyThis()
         {
             GameObject.Destroy(this.gameObject);
         }
+
+        //Actionのヘルパーメソッド
         public bool IsDead()
         {
-            if (_rec_Hp <= 0) { return true; }
+            if (_rec_Hp <= 0) { return true; }//TODO:これで本当にいいかな？
             if (actionCtrl != null)
             {
                 var type = actionCtrl.GetCurrentActionType();

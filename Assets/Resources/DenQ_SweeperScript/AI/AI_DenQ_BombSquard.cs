@@ -12,13 +12,21 @@ namespace DenQ.AI
         public void InitializeAI()
         {
             if (isStopedForce) { return; }
-			selfData.actionCtrl.RisiterAction(ACTIONTYPE.standby,new Action_Default_Standby());
-			selfData.actionCtrl.RisiterAction(ACTIONTYPE.moving,new Action_Default_Move());
-			selfData.actionCtrl.RisiterAction(ACTIONTYPE.moving,new Action_Default_Move());
-			selfData.actionCtrl.RisiterAction(ACTIONTYPE.dying,new Action_Default_Dying());
-			selfData.actionCtrl.RisiterAction(ACTIONTYPE.dead,new Action_Default_Dead());
+            selfData.InitActionCtrl();
+            if(selfData.actionCtrl == null)
+            {
+                DenQLogger.SErrorId(selfData.objectId,"AI 初期化失敗,ActionCtrlがない");
+                return;
+            }
+			selfData.actionCtrl.RigisterAction(ACTIONTYPE.standby,new Action_Default_Standby());
+			selfData.actionCtrl.RigisterAction(ACTIONTYPE.moving,new Action_Default_Move());
+			selfData.actionCtrl.RigisterAction(ACTIONTYPE.moving,new Action_Default_Move());
+			selfData.actionCtrl.RigisterAction(ACTIONTYPE.dying,new Action_Default_Dying());
+			selfData.actionCtrl.RigisterAction(ACTIONTYPE.dead,new Action_Default_Dead());
 			selfData.actionCtrl.InitAllActions();
+            
         }
+        
 
     }
 }

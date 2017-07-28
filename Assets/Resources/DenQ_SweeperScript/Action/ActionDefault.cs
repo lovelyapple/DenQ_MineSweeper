@@ -10,12 +10,12 @@ namespace DenQ.Action
 {
     public class Action_Default_Standby : ActionBase
     {
-        public override ACTIONTYPE actionType() { return ACTIONTYPE.standby; }
+        protected override ACTIONTYPE GetActionType() { return ACTIONTYPE.standby; }
     }
 
     public class Action_Default_Move : ActionBase
     {
-        public override ACTIONTYPE actionType() { return ACTIONTYPE.moving; }
+        protected override ACTIONTYPE GetActionType() { return ACTIONTYPE.moving; }
         public override void UpdateAction()
         {
             selfData.actionCtrl.moveCtrl.UpdateMoveController();
@@ -31,7 +31,7 @@ namespace DenQ.Action
         {
             actionTime = 10.0f;
         }
-        public override ACTIONTYPE actionType() { return ACTIONTYPE.dying; }
+        protected override ACTIONTYPE GetActionType() { return ACTIONTYPE.dying; }
         public override void UpdateAction()
         {
             if (actingTime < actionTime)
@@ -50,7 +50,7 @@ namespace DenQ.Action
         {
             actionTime = 2.0f;
         }
-        public override ACTIONTYPE actionType() { return ACTIONTYPE.dead; }
+        protected override ACTIONTYPE GetActionType() { return ACTIONTYPE.dead; }
         public override void UpdateAction()
         {
             if (actingTime < actionTime)
@@ -67,7 +67,7 @@ namespace DenQ.Action
 
     public class Action_Default_Attack : ActionBase
     {
-        public override ACTIONTYPE actionType() { return ACTIONTYPE.attacking; }
+        protected override ACTIONTYPE GetActionType() { return ACTIONTYPE.attacking; }
 		public override void UpdateAction()
 		{
 			if(!selfData.actionCtrl.targetCtrl.ExistTarget())
