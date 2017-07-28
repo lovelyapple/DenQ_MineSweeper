@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DenQLogger:MonoBehaviour
+public class DenQLogger : MonoBehaviour
 {
     private static List<DebugInformation> infoList = new List<DebugInformation>();
-	private static int MsgTypeController = (int)DUMP_TYPE.SHOW_ALL;
+    private static int MsgTypeController = (int)DUMP_TYPE.SHOW_ALL;
     public static void SDebug(string msg)
     {
         DebugInformation info = new DebugInformation(DUMP_TYPE.SYS_DEBUG, msg);
@@ -36,20 +36,24 @@ public class DenQLogger:MonoBehaviour
         DebugInformation info = new DebugInformation(DUMP_TYPE.GAM_ERROR, msg);
         infoList.Add(info);
     }
-    public static void SErrorId(long objId,string msg)
+    public static void SErrorId(long objId, string msg)
     {
-        SError(string.Format("The ObjId with :{0},has a problem {1}",objId,msg));
+        SError(string.Format("The ObjId with :{0},has a problem {1}", objId, msg));
     }
-	public static void UpdateType(int type)
-	{
-		MsgTypeController = type;
-	}
-	public static void ClearList()
-	{
-		infoList.Clear();
-	}
-	public static void Runing()
-	{
+    public static void SWarnId(long objId, string msg)
+    {
+        SWarn(string.Format("The ObjId with :{0},has a problem {1}", objId, msg));
+    }
+    public static void UpdateType(int type)
+    {
+        MsgTypeController = type;
+    }
+    public static void ClearList()
+    {
+        infoList.Clear();
+    }
+    public static void Runing()
+    {
         /*
 		SDebug("System debug");
 		SWarn("System warning");
@@ -59,17 +63,17 @@ public class DenQLogger:MonoBehaviour
 		GWarn("Game warning");
 		GError("Game error");
 		 */
-        if(infoList.Count <= 0)
-		{
-			return;
-		}
-		foreach(DebugInformation info in infoList)
-		{
-			if(((int)info.dumpType & MsgTypeController) != 0)
-			{
-				info.ShowMsg();
-			}
-		}
-		ClearList();
-	}
+        if (infoList.Count <= 0)
+        {
+            return;
+        }
+        foreach (DebugInformation info in infoList)
+        {
+            if (((int)info.dumpType & MsgTypeController) != 0)
+            {
+                info.ShowMsg();
+            }
+        }
+        ClearList();
+    }
 }
