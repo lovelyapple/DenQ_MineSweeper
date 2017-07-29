@@ -47,7 +47,7 @@ namespace DenQ
         private int _rec_Hp = 0;
         public int rec_Hp
         {
-            set { _rec_Hp = value; if (_rec_Hp <= 0) _rec_Hp = 0; }
+            set { _rec_Hp = value; _rec_Hp = (int)Mathf.Clamp(_rec_Hp,0.0f,max_Hp); }
             get { return _rec_Hp; }
         }
 
@@ -55,12 +55,9 @@ namespace DenQ
         [SerializeField] private float moveSpeedRate = 1.0f;
         [SerializeField] public float out_moveSpeed { get { return normal_MoveSpeed * out_moveSpeed; } }
         [SerializeField] private float normal_Attake = 10.0f;
-        [SerializeField] private float normal_AttackSpeed = 10.0f;
         [SerializeField] private float normal_SearchRange = 10.0f;
         [SerializeField] private float normal_AttackRange = 10.0f;
         [SerializeField] public float out_AttackRange { get { return normal_AttackRange; } }
-        [SerializeField] public float out_AttackSpeed { get { return normal_AttackSpeed; } }
-        [SerializeField] public float time_Attack = 0.0f;
         [SerializeField] private float normal_bodySize = 1.0f;
         public float out_bodySize
         {
@@ -84,7 +81,7 @@ namespace DenQ
                 DenQLogger.SWarnId(objectId,"Could not find ActionController,Create New One!");
                 actionCtrl = gameObject.AddComponent<ActionController>();
             }
-            actionCtrl.InitActionCtrl(this);
+            actionCtrl.InitializeCtrl(this);
         }
         public void DestroyThis()
         {
@@ -101,10 +98,6 @@ namespace DenQ
                 return type == ACTIONTYPE.dying || type == ACTIONTYPE.dead;
             }
             return false;
-        }
-        public void ResetAttackTime()
-        {
-            time_Attack = normal_AttackSpeed;
         }
     }
 }

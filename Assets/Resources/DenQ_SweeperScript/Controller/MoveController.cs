@@ -6,13 +6,10 @@ using DenQ;
 public class MoveController : MonoBehaviour
 {
     private CharacterController _characterCtrl = null;
-    private ObjectBaseData _selfData = null;
-    public MoveController(ObjectBaseData selfData)
-    {
-        _selfData = selfData;
-    }
+    private ObjectBaseData selfData = null;
     void OnEnable()
     {
+        /*chara Contrrollいらないかも
         if (_characterCtrl == null)
         {
             _characterCtrl = GetComponent<CharacterController>();
@@ -21,13 +18,18 @@ public class MoveController : MonoBehaviour
                 DenQLogger.SErrorId(_selfData.objectId, "can not find characterController");
             }
         }
+        */
+    }
+    public void InitializeCtrl(ObjectBaseData objData)
+    {
+        selfData = objData;
     }
     public bool lookAtTarget = true;
     [SerializeField] private Vector3? _moveLocalDirection = null;
     [SerializeField] private Vector3 _moveGlobalDirection = Vector3.zero;
     public void UpdateMoveController()
     {
-        if (_selfData == null) { return; }
+        if (selfData == null) { return; }
         if (!_moveLocalDirection.HasValue) { return; }
         if (lookAtTarget)//TODO: && _selfData.HasTarget())
         {
@@ -39,7 +41,7 @@ public class MoveController : MonoBehaviour
             _moveGlobalDirection = _moveLocalDirection.Value;
 
         _moveGlobalDirection.y = 0.0f;
-        transform.position = transform.position + _moveGlobalDirection * Time.deltaTime * _selfData.out_moveSpeed;
+        transform.position = transform.position + _moveGlobalDirection * Time.deltaTime * selfData.out_moveSpeed;
 		//TODO :characterController 使わなくても行けそう
 	}
 

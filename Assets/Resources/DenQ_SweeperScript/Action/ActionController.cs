@@ -29,36 +29,56 @@ public class ActionController : MonoBehaviour
             currentlyAction.UpdateAction();
         }
     }
-    public void InitActionCtrl(ObjectBaseData selfObjData)
+    public void InitializeCtrl(ObjectBaseData selfObjData)
     {
         selfData = selfObjData;
+        /*  コントローラーの取得と初期化
+         *  まとめでここで管理すると、objData軽くなる
+         *  各Ctrlがたくさん共通点があれば、汎化しても良いが、現時点まあいいか
+         */
         moveCtrl = gameObject.GetComponent<MoveController>();
+        if (moveCtrl == null)
+        {
+            moveCtrl = gameObject.AddComponent<MoveController>();
+        }
+        moveCtrl.InitializeCtrl(selfData);
         targetCtrl = gameObject.GetComponent<TargetController>();
+        if (targetCtrl == null)
+        {
+            targetCtrl = gameObject.AddComponent<TargetController>();
+        }
+        targetCtrl.InitializeCtrl(selfData);
+        skillCtrl = gameObject.GetComponent<SkillController>();
+        if (skillCtrl == null)
+        {
+            skillCtrl = gameObject.AddComponent<SkillController>();
+        }
+        skillCtrl.InitializeCtrl(selfData);
     }
-	//多分使わないですが、一応書いとく
-	public void RigisterActions(List<ActionBase> actions,Action<List<ActionBase>> onError)
-	{
-		var outList = new List<ActionBase>();
-		foreach(var act in actions)
-		{
-			if(!RigisterAction(act.actionType,act))
-			{
-				outList.Add(act);
-			}
-		}
-		if(onError!= null)
-		{
-			onError(outList);
-		}
-	}
+    //多分使わないですが、一応書いとく
+    public void RigisterActions(List<ActionBase> actions, Action<List<ActionBase>> onError)
+    {
+        var outList = new List<ActionBase>();
+        foreach (var act in actions)
+        {
+            if (!RigisterAction(act.actionType, act))
+            {
+                outList.Add(act);
+            }
+        }
+        if (onError != null)
+        {
+            onError(outList);
+        }
+    }
     public bool RigisterAction(ACTIONTYPE type, ActionBase actionBase)
     {
-        if (actionList.ContainsKey(type)) 
-		{
-			DenQLogger.SErrorId(selfData.objectId,string.Format("{0}アクションデータロード失敗" + type.ToString())); 
-			return false;
-		}
-        actionList.Add(type, actionBase);return true;
+        if (actionList.ContainsKey(type))
+        {
+            DenQLogger.SErrorId(selfData.objectId, string.Format("{0}アクションデータロード失敗" + type.ToString()));
+            return false;
+        }
+        actionList.Add(type, actionBase); return true;
     }
     public void InitAllActions()
     {
@@ -67,7 +87,7 @@ public class ActionController : MonoBehaviour
             actionList[type].selfData = selfData;
         }
     }
-	//TODOこれから、複雑になるかな？
+    //TODOこれから、複雑になるかな？
     public void PlayAction(ACTIONTYPE type)
     {
         if (actionList.ContainsKey(type))
@@ -81,6 +101,6 @@ public class ActionController : MonoBehaviour
         {
             return currentlyAction.actionType;
         }
-        return ACTIONTYPE.dead;
+        return ACTIONTYPE.none;
     }
 }

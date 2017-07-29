@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DenQ;
-public class SkillController
+public class SkillController :MonoBehaviour
 {
     public Dictionary<SKILL_KIND, SkillBaseData> skillDatas = new Dictionary<SKILL_KIND, SkillBaseData>();
     public float activeTime = 0.0f;
     public ObjectBaseData selfData = null;
-    public void InitialIzeCtrl(ObjectBaseData objData)
+    public void InitializeCtrl(ObjectBaseData objData)
     {
         selfData = objData;
         skillDatas.Clear();
@@ -36,13 +36,18 @@ public class SkillController
     }
     public void FireSkill(SKILL_KIND kind)
     {
-        if (selfData == null) { return; }
-        if (!skillDatas.ContainsKey(kind)) { return; }
-        if (activeTime > 0) { return; }
+        if (!CanFireSkill(kind)) { return; }
         var data = skillDatas[kind];
         activeTime = data.activeTime;
         data.ResetSkillTime();
-		data.Fire(selfData,selfData.actionCtrl.targetCtrl.GetTarget());
+        data.Fire(selfData, selfData.actionCtrl.targetCtrl.GetTarget());
+    }
+    public bool CanFireSkill(SKILL_KIND kind)
+    {
+        if (selfData == null ||
+            !skillDatas.ContainsKey(kind) ||
+            activeTime > 0) { return false; }
+        return skillDatas[kind].IsSkillReady();
     }
 }
 public class NormalAttack_Debug : SkillBaseData

@@ -68,25 +68,16 @@ namespace DenQ.Action
     public class Action_Default_Attack : ActionBase
     {
         protected override ACTIONTYPE GetActionType() { return ACTIONTYPE.attacking; }
-		public override void UpdateAction()
-		{
-			if(!selfData.actionCtrl.targetCtrl.ExistTarget())
-			{
-				selfData.actionCtrl.PlayAction(ACTIONTYPE.standby);
-				return;
-			}
-			if(selfData.time_Attack <= 0)
-			{
-				selfData.time_Attack = 0;
-				if(selfData.actionCtrl.targetCtrl.IsTargetInFireRange())
-				{
-					//TODO attackManager
-					selfData.ResetAttackTime();
-				}
-			}else
-			{
-				selfData.time_Attack -= Time.deltaTime;
-			}
-		}
+        public SKILL_KIND fireRequestSkill = SKILL_KIND.normalAttack01;
+        public override void UpdateAction()
+        {
+            if (!selfData.actionCtrl.targetCtrl.ExistTarget())
+            {
+                selfData.actionCtrl.PlayAction(ACTIONTYPE.standby);
+                return;
+            }
+            if (!selfData.actionCtrl.targetCtrl.IsTargetInFireRange()) { return;}
+            selfData.actionCtrl.skillCtrl.FireSkill(fireRequestSkill);
+        }
     }
 }

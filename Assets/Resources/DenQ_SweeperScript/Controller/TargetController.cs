@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,11 +9,21 @@ public class TargetController : MonoBehaviour
     public ObjectBaseData selfData = null;
     public ObjectBaseData targetData = null;
     [SerializeField] private float distanceBody = 0.0f;
+    public Action OnCompleteFire = null;
     public void OnEnable()
     {
+        /*Initメソッドを統一しよう
         if (selfData == null)
         {
             selfData = GetComponent<ObjectBaseData>();
+        }
+        */
+    }
+    public void InitializeCtrl(ObjectBaseData objData)
+    {
+        if (selfData == null)
+        {
+            selfData = objData;
         }
     }
     public void SetTarget(ObjectBaseData _targetData)
@@ -62,6 +73,17 @@ public class TargetController : MonoBehaviour
         //TODO  ここでいろんなダメージ方式を描く
         //      とりあえず、普通の攻撃だけ書いとく
         selfData.rec_Hp -= (int)baseDamage;
-        
+        OnCompleteFireDefault();
     }
+    private void OnCompleteFireDefault()
+    {
+        if(selfData.rec_Hp <= 0)
+        {
+            selfData.actionCtrl.PlayAction(ACTIONTYPE.dying);
+        }
+        if(OnCompleteFire != null)
+        {
+            OnCompleteFire();
+        }
+    }  
 }

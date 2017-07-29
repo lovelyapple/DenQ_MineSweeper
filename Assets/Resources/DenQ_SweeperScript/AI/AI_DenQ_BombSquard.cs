@@ -9,24 +9,27 @@ namespace DenQ.AI
 {
     public class AI_DenQ_BombSquard : AIBase
     {
-        public void InitializeAI()
+        public void InitializeAIDefault()
         {
             if (isStopedForce) { return; }
             selfData.InitActionCtrl();
-            if(selfData.actionCtrl == null)
+            if (selfData.actionCtrl == null)
             {
-                DenQLogger.SErrorId(selfData.objectId,"AI 初期化失敗,ActionCtrlがない");
+                DenQLogger.SErrorId(selfData.objectId, "AI 初期化失敗,ActionCtrlがない");
                 return;
             }
-			selfData.actionCtrl.RigisterAction(ACTIONTYPE.standby,new Action_Default_Standby());
-			selfData.actionCtrl.RigisterAction(ACTIONTYPE.moving,new Action_Default_Move());
-			selfData.actionCtrl.RigisterAction(ACTIONTYPE.moving,new Action_Default_Move());
-			selfData.actionCtrl.RigisterAction(ACTIONTYPE.dying,new Action_Default_Dying());
-			selfData.actionCtrl.RigisterAction(ACTIONTYPE.dead,new Action_Default_Dead());
-			selfData.actionCtrl.InitAllActions();
-            
-        }
-        
+            selfData.actionCtrl.RigisterAction(ACTIONTYPE.standby, new Action_Default_Standby());
+            selfData.actionCtrl.RigisterAction(ACTIONTYPE.moving, new Action_Default_Move());
+            selfData.actionCtrl.RigisterAction(ACTIONTYPE.dying, new Action_Default_Dying());
+            selfData.actionCtrl.RigisterAction(ACTIONTYPE.dead, new Action_Default_Dead());
+            selfData.actionCtrl.InitAllActions();
 
+        }
+        public virtual void PlayAction(ACTIONTYPE type)
+        {
+            if (selfData == null) { return; }
+            selfData.actionCtrl.PlayAction(type);
+        }
+        //TODO ここはもう少し、考えるべきだな
     }
 }
