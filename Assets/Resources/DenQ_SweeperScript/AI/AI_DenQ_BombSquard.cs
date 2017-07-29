@@ -21,6 +21,7 @@ namespace DenQ.AI
             selfData.actionCtrl.RigisterAction(ACTIONTYPE.standby, new Action_Default_Standby());
             selfData.actionCtrl.RigisterAction(ACTIONTYPE.moving, new Action_Default_Move());
             selfData.actionCtrl.RigisterAction(ACTIONTYPE.dying, new Action_Default_Dying());
+            selfData.actionCtrl.RigisterAction(ACTIONTYPE.attacking, new Action_Default_Attack());
             selfData.actionCtrl.RigisterAction(ACTIONTYPE.dead, new Action_Default_Dead());
             selfData.actionCtrl.InitAllActions();
 
@@ -30,6 +31,6 @@ namespace DenQ.AI
             if (selfData == null) { return; }
             selfData.actionCtrl.PlayAction(type);
         }
-        //TODO ここはもう少し、考えるべきだな
+        //TODO そろそろアップデータ書こうか
     }
 }

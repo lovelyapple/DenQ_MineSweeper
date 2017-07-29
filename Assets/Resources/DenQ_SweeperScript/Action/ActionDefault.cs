@@ -71,6 +71,7 @@ namespace DenQ.Action
         public SKILL_KIND fireRequestSkill = SKILL_KIND.normalAttack01;
         public override void UpdateAction()
         {
+            //実際にモーションがある場合、actionTimeも設定しないといけないけど、今ないので、いいっか
             if (!selfData.actionCtrl.targetCtrl.ExistTarget())
             {
                 selfData.actionCtrl.PlayAction(ACTIONTYPE.standby);
