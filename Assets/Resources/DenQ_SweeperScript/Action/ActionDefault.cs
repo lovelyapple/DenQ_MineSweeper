@@ -59,6 +59,7 @@ namespace DenQ.Action
             }
             else
             {
+                GameObjectsManager.GetInstance().RemoveObjectById(selfData.objectId);
                 selfData.DestroyThis();
             }
         }
