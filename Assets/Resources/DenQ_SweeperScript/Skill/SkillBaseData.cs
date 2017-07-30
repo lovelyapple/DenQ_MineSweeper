@@ -21,13 +21,14 @@ public enum SKILL_KIND      //分類
 public class SkillBaseData
 {
     public SkillBaseData() { }
-    public SkillBaseData(SKILL_KIND kind, SKILL_TYPE type, int damage, float coolTime, uint id = 0)
+    public SkillBaseData(SKILL_KIND _kind, SKILL_TYPE _type, int _damage, float _coolTime, float _attackRange, uint id = 0)
     {
         skillId = id;
-        skillDamage = damage;
-        skillType = type;
-        skillKind = kind;
-        skillCoolTime = coolTime;
+        skillDamage = _damage;
+        skillType = _type;
+        skillKind = _kind;
+        skillCoolTime = _coolTime;
+        this.attackRange = _attackRange;
     }
     public uint skillId;
     public SKILL_KIND   skillKind = SKILL_KIND.normalAttack01;
@@ -35,6 +36,7 @@ public class SkillBaseData
     public List<SkillBaseData>      multiSkills = null;     //複数のスキルの連動かどうか    
     public float        skillDamage = 0.0f;                 //一回付きダメージ
     public float        skillCoolTime = 60.0f;              //CT
+    public float        attackRange = 10.0f;                //スキルの攻撃範囲
     //public float        skillOverHeadTime = 0.0f;         //スキルの前処理時間（チャージなど）別になくても、チャージスキルをつくればいい
     public float        activeTime = 10.0f;                 //スキルの動作時間
     private float       _coolTime = 60.0f;                  //CTカウント

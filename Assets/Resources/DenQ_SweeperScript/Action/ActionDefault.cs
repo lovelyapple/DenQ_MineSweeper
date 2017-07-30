@@ -77,8 +77,22 @@ namespace DenQ.Action
                 selfData.actionCtrl.PlayAction(ACTIONTYPE.standby);
                 return;
             }
-            if (!selfData.actionCtrl.targetCtrl.IsTargetInFireRange()) { return;}
+            if (!selfData.actionCtrl.targetCtrl.IsTargetInFireRange()) { return; }
             selfData.actionCtrl.skillCtrl.FireSkill(fireRequestSkill);
         }
     }
+    public class Action_Default_AttackMove : ActionBase
+    {
+        protected override ACTIONTYPE GetActionType() { return ACTIONTYPE.attackMoving; }
+
+        public override void UpdateAction()
+        {
+            selfData.actionCtrl.moveCtrl.UpdateMoveController();
+            if (selfData.actionCtrl.targetCtrl.IsTargetInFireRange())
+            {
+                selfData.actionCtrl.PlayAction(ACTIONTYPE.standby);
+            }
+        }
+    }
+
 }

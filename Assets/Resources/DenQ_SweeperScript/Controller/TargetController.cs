@@ -43,9 +43,15 @@ public class TargetController : MonoBehaviour
     }
     public bool IsTargetInFireRange()
     {
+        return IsTargetInFireRange(SKILL_KIND.normalAttack01); 
+    }
+    public bool IsTargetInFireRange(SKILL_KIND kind)
+    {
         if (ExistTarget() == false) { return false; }
+        var skillData = selfData.actionCtrl.skillCtrl.GetSkillData(kind);
+        if (skillData == null) return false;
         var range = GetTargetRange().Value;
-        return selfData.out_AttackRange <= range;
+        return skillData.attackRange <= range;
     }
     public bool ExistTarget()
     {
@@ -77,13 +83,13 @@ public class TargetController : MonoBehaviour
     }
     private void OnCompleteFireDefault()
     {
-        if(selfData.rec_Hp <= 0)
+        if (selfData.rec_Hp <= 0)
         {
             selfData.actionCtrl.PlayAction(ACTIONTYPE.dying);
         }
-        if(OnCompleteFire != null)
+        if (OnCompleteFire != null)
         {
             OnCompleteFire();
         }
-    }  
+    }
 }

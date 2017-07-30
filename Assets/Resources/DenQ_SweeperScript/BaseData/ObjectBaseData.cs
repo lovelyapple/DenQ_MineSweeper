@@ -9,14 +9,12 @@ namespace DenQ
         int hp;
         float moveSpeed;
         float attack;
-        float attackRange;
         float searchRange;
         float bodySize;
-        public BaseDataInput(int _hp, float _moveSpeed, float _attack, float _attackRange, float _bodySize, float _searchRange)
+        public BaseDataInput(int _hp, float _moveSpeed, float _attack, float _bodySize, float _searchRange)
         {
             hp = _hp;
             moveSpeed = _moveSpeed;
-            attackRange = _attackRange;
             bodySize = _bodySize;
             attack = _attack;
             searchRange = _searchRange;
@@ -56,8 +54,6 @@ namespace DenQ
         [SerializeField] public float out_moveSpeed { get { return normal_MoveSpeed * out_moveSpeed; } }
         [SerializeField] private float normal_Attake = 10.0f;
         [SerializeField] private float normal_SearchRange = 10.0f;
-        [SerializeField] private float normal_AttackRange = 10.0f;
-        [SerializeField] public float out_AttackRange { get { return normal_AttackRange; } }
         [SerializeField] private float normal_bodySize = 1.0f;
         public float out_bodySize
         {

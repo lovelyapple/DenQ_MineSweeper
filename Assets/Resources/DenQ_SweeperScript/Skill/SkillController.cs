@@ -49,6 +49,18 @@ public class SkillController :MonoBehaviour
             activeTime > 0) { return false; }
         return skillDatas[kind].IsSkillReady();
     }
+    public SkillBaseData GetNormalAttackData()
+    {
+        return GetSkillData(SKILL_KIND.normalAttack01);
+    }
+    public SkillBaseData GetSkillData(SKILL_KIND _kind)
+    {
+        if(skillDatas.ContainsKey(_kind))
+        {
+            return skillDatas[_kind];
+        }
+        return null;
+    }
 }
 public class NormalAttack_Debug : SkillBaseData
 {

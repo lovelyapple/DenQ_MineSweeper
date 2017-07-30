@@ -11,7 +11,7 @@ public class ActionController : MonoBehaviour
     //Actions
     private Dictionary<ACTIONTYPE, ActionBase> actionList = new Dictionary<ACTIONTYPE, ActionBase>();
     public ActionBase currentlyAction = null;
-    public ACTIONTYPE backBuffState = ACTIONTYPE.none;
+    public ACTIONTYPE backBuffType = ACTIONTYPE.none;
 
     //Controllers
     public MoveController moveCtrl = null;
@@ -90,7 +90,7 @@ public class ActionController : MonoBehaviour
     //TODOこれから、複雑になるかな？
     public void PlayAction(ACTIONTYPE type)
     {
-        if (actionList.ContainsKey(type))
+        if (actionList.ContainsKey(type) && currentlyAction.actionType != type)
         {
             currentlyAction = actionList[type];
         }
