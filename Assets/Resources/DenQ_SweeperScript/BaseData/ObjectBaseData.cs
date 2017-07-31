@@ -24,9 +24,24 @@ namespace DenQ
      *
      *
      */
+    
+     public enum ObjectType
+     {
+         /* 100,200はオブジェクト種別で使用
+          * それ以外はオブジェクトの細かいタイプで使用
+          */
+         //TODO タイプを追加して、OnGuiで何か出せそう！
+         DenQ       = 0,            //-------->DenQ系統
+         DenQ_BombSquard = 1,       //        
+         EnemyMob   = 100,          //-------->敵系統
+         FieldItem = 200,           //-------->フィールド上のアイテム
+         Field_Block = 201,         //BLock
+         Field_Bomb = 202,          //Bomb     
+     }
     public class ObjectBaseData : MonoBehaviour
     {
         [SerializeField] private long _objectId = 0;
+         public ObjectType objType = ObjectType.FieldItem;//デフォルト値（変更不可）現段階もの少ないので、Prefab指定で
         public long objectId
         {
             get
@@ -83,7 +98,6 @@ namespace DenQ
         {
             GameObject.Destroy(this.gameObject);
         }
-
         //Actionのヘルパーメソッド
         public bool IsDead()
         {
