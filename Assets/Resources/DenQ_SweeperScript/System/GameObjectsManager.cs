@@ -10,7 +10,7 @@ public class GameObjectsManager : MangerBase<GameObjectsManager>
 
     //0スタート
     private static long objectIndex = -1;
-    private static Dictionary<long, ObjectBaseData> objDic = new Dictionary<long, ObjectBaseData>();
+    private static Dictionary<long,ObjectBaseData> objDic = new Dictionary<long, ObjectBaseData>();
     void Awake()
     {
         SetInstance(this);
@@ -20,25 +20,25 @@ public class GameObjectsManager : MangerBase<GameObjectsManager>
     public long RigistObjectId(ObjectBaseData objData)
     {
         objectIndex++;
-        objDic.Add(objectIndex, objData);
+        objDic.Add(objectIndex,objData);
         return objectIndex;
     }
     public void RemoveObjectById(long id)
     {
-        if (objDic.ContainsKey(id)) objDic[id] = null;//Idは保留しとく
+        if(objDic.ContainsKey(id)) objDic[id] = null;//Idは保留しとく
     }
     public ObjectBaseData GetObjectBaseDataByID(long id)
     {
-        if (objDic.ContainsKey(id))
+        if(objDic.ContainsKey(id))
         {
             return objDic[id];
         }
-        DenQLogger.GError(string.Format("could not find object ID {0}", id));
+        DenQLogger.GError(string.Format("could not find object ID {0}",id));
         return null;
     }
     public List<ObjectBaseData> GetObjectBaseDataByType(ObjectType type)
     {
-        return objDic.Where(o => o.Value.objType == type).Select(t => t.Value).ToList();
+        return objDic.Where(o => o.Value.objType == type).Select(t=>t.Value).ToList();
     }
     public void ResetIdx()
     {

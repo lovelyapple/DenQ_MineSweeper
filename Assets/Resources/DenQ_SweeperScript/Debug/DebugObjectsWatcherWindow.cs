@@ -27,41 +27,69 @@ public class DebugObjectsWatcherWindow : EditorWindow
     List<ObjectBaseData> objList = new List<ObjectBaseData>();
     Vector2 scrollPosition = Vector2.zero;
     public ObjectType op;
-	public long id;
+    public long id;
     //bool isSearchFinished = true;
     void OnGUI()
     {
         GUILayout.BeginVertical("box");
         {
-            op = (ObjectType)EditorGUILayout.EnumPopup("Select a Type:", op);
-            if (GUILayout.Button("Search!"))// && isSearchFinished)
+            GUILayout.BeginHorizontal();
             {
-                Search();
+                op = (ObjectType)EditorGUILayout.EnumPopup("Select by Type:", op);
+                if (GUILayout.Button("Search!", GUILayout.Width(50)))// && isSearchFinished)
+                {
+                    SearchByType();
+                }
             }
-			UpdateShow();
+            GUILayout.EndHorizontal();
+            GUILayout.BeginHorizontal();
+            {
+                GUILayout.Label("Search by ID:");
+                id = int.Parse(EditorGUILayout.TextArea(id.ToString(),GUILayout.Width(50.0f)));
+                if (GUILayout.Button("Search!", GUILayout.Width(50)))// && isSearchFinished)
+                {
+                    SearchById();
+                }
+            }
+            GUILayout.EndHorizontal();
+            GUILayout.Label("==============================");
+            UpdateShow();
+            if(objList.Count<=0)
+            {
+                GUILayout.Label("not found");
+            }
         }
         GUILayout.EndVertical();
     }
-    void Search()
+    void SearchByType()
     {
         objList.Clear();
         //isSearchFinished = false;
         objList = GameObjectsManager.GetInstance().GetObjectBaseDataByType(op);
     }
-	void UpdateShow()
-	{
-        if (objList == null ||objList.Count <= 0) { return; }
-		scrollPosition = GUILayout.BeginScrollView(scrollPosition);
-		foreach(var obj in objList)
-		{
-			//GUILayout.BeginHorizontal();
-			{
-				if(obj == null)continue;
-				GUILayout.Label(obj.objectId.ToString(),GUILayout.Width(100.0f));
-				EditorGUILayout.ObjectField (obj,typeof(ObjectBaseData),true);
-			}
-			//GUILayout.EndHorizontal();
-		}
-		GUILayout.EndScrollView();
-	}
+    void SearchById()
+    {
+        objList.Clear();
+        var obj = GameObjectsManager.GetInstance().GetObjectBaseDataByID(id);
+        if (obj != null)
+        {
+            objList.Add(obj);
+        }
+    }
+    void UpdateShow()
+    {
+        if (objList == null || objList.Count <= 0) { return; }
+        scrollPosition = GUILayout.BeginScrollView(scrollPosition);
+        foreach (var obj in objList)
+        {
+            GUILayout.BeginHorizontal();
+            {
+                if (obj == null) continue;
+                GUILayout.Label(obj.objectId.ToString(), GUILayout.Width(40.0f));
+                EditorGUILayout.ObjectField(obj, typeof(ObjectBaseData), true);
+            }
+            GUILayout.EndHorizontal();
+        }
+        GUILayout.EndScrollView();
+    }
 }
