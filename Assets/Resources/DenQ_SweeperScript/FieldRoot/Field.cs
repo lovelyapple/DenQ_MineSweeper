@@ -119,7 +119,7 @@ public class Field : MonoBehaviour
                 GameObject bombObj = ResourcesManager.GetInstance().CreateInstance(PREFAB_NAME.FIELD_BOMB, PREFAB_NAME.ITEM_ROOT, false);
                 if (bombObj != null)
                 {
-                    FieldBomb bombData = bombObj.GetComponent<FieldBomb>();
+                    AI_FieldBomb_Base bombData = bombObj.GetComponent<AI_FieldBomb_Base>();
                     bombData.InitializeFieldBomb(pos.posX, pos.posZ, itemType, unitCode);
                 }
                 break;

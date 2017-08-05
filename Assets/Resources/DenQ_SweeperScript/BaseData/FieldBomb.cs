@@ -16,7 +16,7 @@ namespace DenQ.BombDelegate
         BOMB_NORMAL = FIELD_ITEM.BOMB_NORMAL,
     }
 }
-public class FieldBomb : ObjectBaseData
+public class AI_FieldBomb_Base : AIBase
 {
     public float LengthToCamera = 0.0f;
     public float life = 0;
@@ -27,14 +27,14 @@ public class FieldBomb : ObjectBaseData
     }
     public void InitializeFieldBomb(int x, int z, FIELD_ITEM type, int fieldCode)
     {
-        fieldPos = new FieldPos(x,z);
-        fieldPos.unitCode = fieldCode;
-        fieldPos.posX = x; fieldPos.posZ = z; BombType = ConvItemTypeToBombType(type);
-        this.gameObject.transform.position = DenQHelper.ConvertFieldPosToWorld(fieldPos, fieldPos.unitCode);
+        selfData.fieldPos = new FieldPos(x,z);
+        selfData.fieldPos.unitCode = fieldCode;
+        selfData.fieldPos.posX = x; selfData.fieldPos.posZ = z; BombType = ConvItemTypeToBombType(type);
+        this.gameObject.transform.position = DenQHelper.ConvertFieldPosToWorld(selfData.fieldPos, selfData.fieldPos.unitCode);
         switch (BombType)
         {
             case BOMB_TYPE.BOMB_DELAY:
-                life = 120.0f;//TODO 暫定デバッグ生存時間
+                life = 2.0f;//TODO 暫定デバッグ生存時間
                 break;
             case BOMB_TYPE.BOMB_NORMAL:
                 break;
@@ -45,12 +45,12 @@ public class FieldBomb : ObjectBaseData
     {
         if (life > 0)
         {
-            life -= Time.deltaTime * 60.0f;
+            life = -Time.deltaTime;
         }
         else
         {
             //TODO フィールド大規模ユニット分割できたら、FieldManager で実行
-            Collider[] cols = DenQHelper.GetSroundedObejcts(this.fieldPos, fieldPos.unitCode);
+            Collider[] cols = DenQHelper.GetSroundedObejcts(this.selfData.fieldPos, selfData.fieldPos.unitCode);
             foreach (Collider col in cols)
             {
                 if (col.gameObject.tag == "FieldBlade")
