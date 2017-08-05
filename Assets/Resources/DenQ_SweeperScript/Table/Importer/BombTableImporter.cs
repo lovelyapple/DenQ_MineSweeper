@@ -11,12 +11,41 @@ public class BombTableImporter : TableImporterBase
     public override void PreImportData()
     {
         bombDatas.Clear();
-        //filePath = "BombTable";
+        filePath = "BombTable";
         isFinished = false;
+    }
+    /// <summary>
+    /// Awake is called when the script instance is being loaded.
+    /// </summary>
+    void Awake()
+    {
+        PreImportData();
     }
     public override void ImportData()
     {
+        isFinished = false;
+        var sr = new StreamReader(filePath, Encoding.GetEncoding("SHIFT_JIS"));
+        while (sr.Peek() >= 0)
+        {
+            string[] cols = sr.ReadLine().Split(',');
+            var top = cols[0];
+            if (top != "#")
+            {
+                var data = new BombData();
+                var e = cols[1];
+                data.itemCode = long.Parse(cols[1]);
+                data.name = cols[2];
+                data.level = int.Parse(cols[3]);
+                data.hp = int.Parse(cols[4]);
+                data.time = float.Parse(cols[5]);
+                data.damage = float.Parse(cols[6]);
+                data.damageRange = float.Parse(cols[7]);
 
+                if (bombDatas.ContainsKey(data.itemCode)) continue;
+                bombDatas.Add(data.itemCode, data);
+            }
+        }
+        isFinished = true;
     }
     public static void DebugWriteData()
     {
@@ -30,7 +59,7 @@ public class BombTableImporter : TableImporterBase
         data.damageRange = 10.5f;
         var appPath = Application.dataPath;
         var filepath = string.Format("{0}{1}", appPath, "/Resources/DenQ_SweeperScript/Table/Data/BombTable.csv");
-        StreamWriter sw = new StreamWriter(filepath, false,Encoding.GetEncoding("UTF-8"));
+        StreamWriter sw = new StreamWriter(filepath, false, Encoding.GetEncoding("SHIFT_JIS"));
 
 
         sw.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7}", "",
@@ -58,15 +87,15 @@ public class BombTableImporter : TableImporterBase
         bombDatas.Clear();
         var appPath = Application.dataPath;
         var filepath = string.Format("{0}{1}", appPath, "/Resources/DenQ_SweeperScript/Table/Data/BombTable.csv");
-        var sr = new StreamReader(filepath, Encoding.GetEncoding("UTF-8"));
+        var sr = new StreamReader(filepath, Encoding.GetEncoding("SHIFT_JIS"));
         while (sr.Peek() >= 0)
         {
             string[] cols = sr.ReadLine().Split(',');
-			var top = cols[0];
+            var top = cols[0];
             if (top != "#")
             {
                 var data = new BombData();
-				var e = cols[1];
+                var e = cols[1];
                 data.itemCode = long.Parse(cols[1]);
                 data.name = cols[2];
                 data.level = int.Parse(cols[3]);

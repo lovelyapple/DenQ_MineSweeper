@@ -45,7 +45,7 @@ public class AI_FieldBomb_Base : AIBase
     {
         if (life > 0)
         {
-            life = -Time.deltaTime;
+            life -= Time.deltaTime;
         }
         else
         {
