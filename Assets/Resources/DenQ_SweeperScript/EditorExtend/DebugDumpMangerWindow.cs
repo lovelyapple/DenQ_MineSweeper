@@ -31,7 +31,11 @@ public class DebugInformation
     public void ShowMsg()
     {
         if (dumpMsg != null)
-            Debug.Log(dumpMsg);
+        {
+#if UNITY_EDITOR
+            Debug.Log("Debug " + dumpType.ToString() + ":" + dumpMsg);
+#endif
+        }
     }
 }
 public class DebugDumpMangerWindow : EditorWindow

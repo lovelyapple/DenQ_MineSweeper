@@ -75,7 +75,7 @@ public class ResourcesManager : MangerBase<ResourcesManager>
             //フィールドナンバー
             {PREFAB_NAME.FIELD_NUMBERS,
             new ResourceInfo(PREFAB_NAME.FIELD_NUMBERS,"DenQ_SweeperPrefab/FieldObejctRootPrefab/FieldNumbers")},
-            
+
             {PREFAB_NAME.FIELD_NUMBER1,
             new ResourceInfo(PREFAB_NAME.FIELD_NUMBER1,"DenQ_SweeperPrefab/Others/FieldNumber1")},
             {PREFAB_NAME.FIELD_NUMBER2,
@@ -98,6 +98,10 @@ public class ResourcesManager : MangerBase<ResourcesManager>
     void Awake()
     {
         SetInstance(this);
+
+    }
+    public void InitResourceManager()
+    {
         StartCoroutine(MakeResourcesPrefab());
     }
     public IEnumerator MakeResourcesPrefab()
@@ -131,7 +135,7 @@ public class ResourcesManager : MangerBase<ResourcesManager>
         {
             LoadCompleted = true;
         }
-        yield return null;
+        DenQLogger.SDebug("resources loading finished!");
     }
     public bool IsLoadFinished()
     {

@@ -46,10 +46,6 @@ public class DistributionMap
                     break;
             }
         }
-        foreach(var value in distributionResult)
-        {
-            DenQLogger.SDebug(value.ToString());
-        }
     }
     public FIELD_ITEM GetItemTypeRandam()
     {

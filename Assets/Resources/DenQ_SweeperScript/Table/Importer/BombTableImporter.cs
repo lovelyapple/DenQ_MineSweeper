@@ -5,6 +5,8 @@ using UnityEngine;
 using System;
 using System.IO;
 using System.Text;
+
+using DenQ;
 public class BombTableImporter : TableImporterBase
 {
     private static Dictionary<long, BombData> bombDatas = new Dictionary<long, BombData>();
@@ -44,8 +46,13 @@ public class BombTableImporter : TableImporterBase
                 if (bombDatas.ContainsKey(data.itemCode)) continue;
                 bombDatas.Add(data.itemCode, data);
             }
+            DenQLogger.SDebug("BombTableImporter loaded!");
         }
         isFinished = true;
+    }
+    public static Dictionary<long, BombData> GetBombData()
+    {
+        return bombDatas;
     }
     public static void DebugWriteData()
     {

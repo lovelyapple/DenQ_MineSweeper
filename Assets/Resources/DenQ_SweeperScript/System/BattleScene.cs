@@ -53,7 +53,7 @@ public class BattleScene : MonoBehaviour
         switch (BattleState)
         {
             case BATTLE_STATE.OVERHEAD:
-                if (ResourcesManager.GetInstance().IsLoadFinished())
+                if (GameManager.GetInstance().IsGameReady())
                 {
                     BattleState = BATTLE_STATE.INIT;
                 }
