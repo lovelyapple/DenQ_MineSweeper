@@ -23,7 +23,6 @@ public class ParticleController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		Debug.Log(particle.isPlaying);
 		switch(type)
 		{
 			case PARTICLE_TYPE.ONCE_ONLY:

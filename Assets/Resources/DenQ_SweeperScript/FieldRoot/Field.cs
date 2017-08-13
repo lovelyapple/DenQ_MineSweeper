@@ -5,8 +5,9 @@ using DenQ.BaseStruct;
 using System.Linq;
 public class Field : MonoBehaviour
 {
+    private FieldData fieldData = null;
     //private Dictionary<FieldPos, FieldBlock> FieldData = new Dictionary<FieldPos, FieldBlock>();
-    private Dictionary<long, FieldBlock> fieldData = new Dictionary<long, FieldBlock>();
+    private Dictionary<long, FieldBlock> fieldBlockDic = new Dictionary<long, FieldBlock>();
     public int unitCode = 0;
     public Vector2 startPosition = new Vector2();
     public int distributionMapId = 0;
@@ -15,7 +16,7 @@ public class Field : MonoBehaviour
 
     void Awake()
     {
-        fieldData = DenQHelper.GetIinitiatedField();
+        fieldBlockDic = DenQHelper.GetIinitiatedField();
     }
     // Use this for initialization
     void Start()
@@ -87,7 +88,7 @@ public class Field : MonoBehaviour
     {
         var fieldCode = DenQHelper.ConvertFieldPosToCode(fieldPos);
         fieldCode = (long)Mathf.Clamp(fieldCode, 0, DenQHelper.maxFieldCode);
-        if (fieldData[fieldCode] != null)
+        if (fieldBlockDic[fieldCode] != null)
         {
             DenQLogger.GError("error:can not plate a block where exist already");
         }
@@ -101,13 +102,13 @@ public class Field : MonoBehaviour
         newBlockObj.transform.position = Vecpos;
         FieldBlock blockData = newBlockObj.GetComponent<FieldBlock>();
         blockData.InitializeFieldBlock(fieldPos.posX, fieldPos.posZ, type, item, unitCode);
-        fieldData[fieldCode] = blockData;
+        fieldBlockDic[fieldCode] = blockData;
     }
     //TODO クソーーーここでダラダラ書きたくないよ！
     public void BreakOneBLock(FieldPos pos)
     {
         var code = DenQHelper.ConvertFieldPosToCode(pos);
-        var data = fieldData[code];
+        var data = fieldBlockDic[code];
         if (data.IsBroken()) { return; }
         var itemType = data.GetBlockItemType();
         data.BreakBlock();
@@ -120,7 +121,7 @@ public class Field : MonoBehaviour
                 if (bombObj != null)
                 {
                     AI_FieldBomb_Base bombData = bombObj.GetComponent<AI_FieldBomb_Base>();
-                    bombData.InitializeFieldBomb(pos.posX, pos.posZ, itemType, unitCode);
+                    bombData.DebugInitializeFieldBomb(pos.posX, pos.posZ, itemType, unitCode);
                 }
                 break;
             case FIELD_ITEM.BOMB_NORMAL:
@@ -135,11 +136,11 @@ public class Field : MonoBehaviour
     }
     public void ClearField()
     {
-        foreach (var code in fieldData.Keys)
+        foreach (var code in fieldBlockDic.Keys)
         {
-            if(fieldData[code] != null)
-            fieldData[code].Destroy();
+            if(fieldBlockDic[code] != null)
+            fieldBlockDic[code].Destroy();
         }
-        fieldData = DenQHelper.GetIinitiatedField();
+        fieldBlockDic = DenQHelper.GetIinitiatedField();
     }
 }

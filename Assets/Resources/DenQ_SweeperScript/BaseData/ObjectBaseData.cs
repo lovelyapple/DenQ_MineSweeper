@@ -2,6 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DenQ.BaseStruct;
+public enum ObjectType
+{
+    /* 100,200はオブジェクト種別で使用
+     * それ以外はオブジェクトの細かいタイプで使用
+     */
+    //TODO タイプを追加して、OnGuiで何か出せそう！
+    DenQ = 0,            //-------->DenQ系統
+    DenQ_BombSquard = 1,       //        
+    EnemyMob = 100,            //-------->敵系統
+    FieldItem = 200,           //-------->フィールド上のアイテム
+    Field_Block = 201,         //BLock
+    Field_Bomb = 202,          //Bomb     
+}
 namespace DenQ
 {
     public class BaseDataInput
@@ -25,19 +38,6 @@ namespace DenQ
      *
      */
     
-     public enum ObjectType
-     {
-         /* 100,200はオブジェクト種別で使用
-          * それ以外はオブジェクトの細かいタイプで使用
-          */
-         //TODO タイプを追加して、OnGuiで何か出せそう！
-         DenQ       = 0,            //-------->DenQ系統
-         DenQ_BombSquard = 1,       //        
-         EnemyMob   = 100,          //-------->敵系統
-         FieldItem = 200,           //-------->フィールド上のアイテム
-         Field_Block = 201,         //BLock
-         Field_Bomb = 202,          //Bomb     
-     }
     public class ObjectBaseData : MonoBehaviour
     {
         [SerializeField] private long _objectId = 0;

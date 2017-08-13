@@ -20,7 +20,7 @@ public class TableManager
             var importer = e.Current;
             importer.PreImportData();
             importer.ImportData();
-            yield return null;
+            while(!importer.isFinished) yield return null;//表を一個ずつ読む、順番じゃないと壊れる可能性が
         }
 		DenQLogger.SDebug("Table Load Finished");				
         isFinished = true;

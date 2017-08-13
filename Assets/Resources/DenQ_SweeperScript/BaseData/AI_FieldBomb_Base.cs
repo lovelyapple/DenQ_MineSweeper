@@ -8,12 +8,13 @@ using DenQ.BombDelegate;
 
 //ここしか使わせないようにする(暫定)
 //他のところに公開したら、名前征討戦が始まる
+//BombTableに設定するようにした。
 namespace DenQ.BombDelegate
 {
     public enum BOMB_TYPE
     {
-        BOMB_DELAY = FIELD_ITEM.BOMB_DELAY,
-        BOMB_NORMAL = FIELD_ITEM.BOMB_NORMAL,
+        BOMB_DELAY = 0,//FIELD_ITEM.BOMB_DELAY,
+        BOMB_NORMAL = 1,//FIELD_ITEM.BOMB_NORMAL,
     }
 }
 public class AI_FieldBomb_Base : AIBase
@@ -21,11 +22,12 @@ public class AI_FieldBomb_Base : AIBase
     public float LengthToCamera = 0.0f;
     public float life = 0;
     private BOMB_TYPE BombType = BOMB_TYPE.BOMB_NORMAL;
+    private BombData bombData= null;
 
     void Awake()
     {
     }
-    public void InitializeFieldBomb(int x, int z, FIELD_ITEM type, int fieldCode)
+    public void DebugInitializeFieldBomb(int x, int z, FIELD_ITEM type, int fieldCode)
     {
         selfData.fieldPos = new FieldPos(x,z);
         selfData.fieldPos.unitCode = fieldCode;

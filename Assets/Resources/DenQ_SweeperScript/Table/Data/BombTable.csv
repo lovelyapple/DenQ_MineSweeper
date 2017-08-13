@@ -1,2 +1,2 @@
-"#","item_code","name","level","hp","time","damage","damage_range"
-"","0","影分","99","100","10","10","10.5"
+#,item_code,name,bomb_type,level,hp,time,damage,damage_range
+,0,普通の爆弾,0,1,100,0.5,5,3

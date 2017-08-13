@@ -17,6 +17,6 @@ public class BombManger : MangerBase<BombManger>
         GameObject bombTemp = ResourcesManager.GetInstance().CreateInstance(PREFAB_NAME.FIELD_BOMB,PREFAB_NAME.ITEM_ROOT,false);
 
         AI_FieldBomb_Base bombData = bombTemp.GetComponent<AI_FieldBomb_Base>();
-        bombData.InitializeFieldBomb(blockData.fieldPos.posX, blockData.fieldPos.posZ, FIELD_ITEM.BOMB_DELAY,fieldCode);
+        bombData.DebugInitializeFieldBomb(blockData.fieldPos.posX, blockData.fieldPos.posZ, FIELD_ITEM.BOMB_DELAY,fieldCode);
     }
 }

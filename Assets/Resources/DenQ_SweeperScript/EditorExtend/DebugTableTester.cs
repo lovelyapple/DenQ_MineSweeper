@@ -17,12 +17,12 @@ public class DebugTableTester : EditorWindow
             GUILayout.Label("DebugTalbeHelper");
             //if (EditorApplication.isPlaying)
             {
-                if (GUILayout.Button("Debug Write"))
-                    BombTableImporter.DebugWriteData();
+                //if (GUILayout.Button("Debug Write"))
+                    //BombTableImporter.DebugWriteData();
             }
             {
-                if (GUILayout.Button("Debug Reader"))
-                    BombTableImporter.DebugReader();
+                //if (GUILayout.Button("Debug Reader"))
+                    //BombTableImporter.DebugReader();
             }
             //else
             {

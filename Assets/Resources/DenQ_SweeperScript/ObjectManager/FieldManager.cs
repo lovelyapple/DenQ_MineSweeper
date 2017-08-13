@@ -77,8 +77,8 @@ public class FieldManager : MangerBase<FieldManager>
             for (int x = 0; x < fieldSizeX; x++)
             {
                 //FIELD_ITEM itemType = k % 3 == 0 ? FIELD_ITEM.BOMB_DELAY : FIELD_ITEM.NONE;
-                FIELD_ITEM itemType = DebugDitributionMap.GetItemTypeRandam();
-                fieldData.InsertOneBlock(new FieldPos(x, z), FIELD_BLOCK.NORMAL, itemType);
+                //FIELD_ITEM itemType = (int)DebugDitributionMap.GetItemTypeRandam();
+                //fieldData.InsertOneBlock(new FieldPos(x, z), FIELD_BLOCK.NORMAL, itemType);
             }
         }
         isCreatingMap = false;

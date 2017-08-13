@@ -9,7 +9,7 @@ using System.Text;
 using DenQ;
 public class BombTableImporter : TableImporterBase
 {
-    private static Dictionary<long, BombData> bombDatas = new Dictionary<long, BombData>();
+    private static Dictionary<ulong, BombData> bombDatas = new Dictionary<ulong, BombData>();
     public override void PreImportData()
     {
         bombDatas.Clear();
@@ -34,9 +34,10 @@ public class BombTableImporter : TableImporterBase
             if (top != "#")
             {
                 var data = new BombData();
-                var e = cols[1];
-                data.itemCode = long.Parse(cols[1]);
+                //var e = cols[1];
+                data.itemCode = ulong.Parse(cols[1]);
                 data.name = cols[2];
+                data.bombType = uint.Parse(cols[3]);
                 data.level = int.Parse(cols[3]);
                 data.hp = int.Parse(cols[4]);
                 data.time = float.Parse(cols[5]);
@@ -50,10 +51,11 @@ public class BombTableImporter : TableImporterBase
         }
         isFinished = true;
     }
-    public static Dictionary<long, BombData> GetBombData()
+    public static Dictionary<ulong, BombData> GetBombData()
     {
         return bombDatas;
     }
+    /* 
     public static void DebugWriteData()
     {
         var data = new BombData();
@@ -103,7 +105,8 @@ public class BombTableImporter : TableImporterBase
             {
                 var data = new BombData();
                 var e = cols[1];
-                data.itemCode = long.Parse(cols[1]);
+                data.itemCode = ulong.Parse(cols[1]);
+                data.itemBaseCode = data.itemCode + (uint)ObjectType.Field_Bomb * 10000;
                 data.name = cols[2];
                 data.level = int.Parse(cols[3]);
                 data.hp = int.Parse(cols[4]);
@@ -119,5 +122,6 @@ public class BombTableImporter : TableImporterBase
         {
             Debug.Log("data " + bombDatas[idx].itemCode);
         }
-    }
+        
+    }*/
 }

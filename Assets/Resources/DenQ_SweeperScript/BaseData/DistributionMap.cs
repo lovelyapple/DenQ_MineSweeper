@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DenQ.BaseStruct;
+
+public static class DistributionMapHelper
+{
+
+}
+
+/*
 public class DistributionMap
 {
     //爆弾になる確率
@@ -62,3 +69,4 @@ public class DistributionMap
         return item;
     }
 }
+*/
