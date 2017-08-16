@@ -22,43 +22,31 @@ public class DistributionMap
 	}
 }
 ///ファイルの構成を考え、独自のインポーターを作成
+/// やっぱ、統一しようか
 public class DistributionTableImporter : TableImporterBase
 {
 	public static Dictionary<ulong,DistributionMap> distributionTable;
 	private static string _filePath = "";
 	private static string _genericFileName = "FieldData/DistributionData/DistributionMap_";
-	public static string filePath
-	{
-		set
-		{
-			_filePath = string.Format("{0}/Resources/DenQ_SweeperScript/Table/Data/FieldData/DistributionData/DistributionMap_{1}.csv", GetApplicationPath(), value);
-		}
-		get
-		{
-			return _filePath;
-		}
-	}
-
 	//public static string GetApplicationPath() { return Application.dataPath; }
 	public static bool isFinished = false;
 	public static List<string>  fileList = new List<string>
 	{
 		"0000"
 	};
-	public override void PreImportData ()
-	{
-		distributionTable = new Dictionary<ulong, DistributionMap> ();
-	}
+	///特殊なファイルパス設定
 	public string SetFileName(string id)
 	{
-		return string.Format ("{0}{1}",_genericFileName,id);
+		return string.Format ("{0}{1}.csv",_genericFileName,id);
 	}
-	public void LoadDistributionTable()
+	public void PreImportData()
 	{
+		filePathSpecial = 
+		distributionTable = new Dictionary<ulong, DistributionMap> ();
 		isFinished = false;
 		foreach (var fileId in fileList) 
 		{
-			filePathSpecial = SetFileName(Field);
+			filePathSpecial = SetFileName(fileId);
 			var _distributionData = new DistributionMap ();
 			var sr = new StreamReader(filePath, Encoding.GetEncoding ("SHIFT_JIS"));
 			while (sr.Peek () >= 0) 
@@ -75,5 +63,21 @@ public class DistributionTableImporter : TableImporterBase
 				}
 			}
 		}
+	}
+	public override void ImportData ()
+	{
+		//do noth
+	}
+	public override void AfterImportData ()
+	{
+		//do noth
+	}
+}
+public class DistributionTableHelper
+{
+	public static DistributionMap GetDistributionMap(ulong id)
+	{
+		return DistributionTableImporter.distributionTable.ContainsKey(id)?
+			DistributionTableImporter.distributionTable[id] : null;
 	}
 }

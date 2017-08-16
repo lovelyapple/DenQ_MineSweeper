@@ -59,4 +59,18 @@ public class FieldTableImporter : TableImporterBase
         }
         isFinished = true;
     }
+	public override void AfterImportData ()
+	{
+		isFinished = false;
+		foreach (var data in fieldDatas.Keys) 
+		{
+			var dMap = new DistributionMap ();
+			dMap = DistributionTableHelper.GetDistributionMap (data);
+			if (dMap != null && dMap.fieldItemList.Count > 0) 
+			{
+				fieldDatas [data].distributionMap = dMap;
+			}
+		}
+		isFinished = true;
+	}
 }

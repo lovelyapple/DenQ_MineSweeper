@@ -3,11 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using DenQ.BaseStruct;
 
-public static class DistributionMapHelper
-{
-
-}
-
 /*
 public class DistributionMap
 {
