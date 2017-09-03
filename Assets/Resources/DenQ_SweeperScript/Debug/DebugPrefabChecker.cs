@@ -6,31 +6,22 @@ using System;
 using DenQ.BaseStruct;
 public class DebugPrefabChecker : EditorWindow
 {
-    class PrefabScope
-    {
-        public string PrefabName;
-        public bool Existing = false;
-
-    }
-    static List<PrefabScope> ScopeList = new  List<PrefabScope>();
+    static Dictionary<PREFAB_NAME ,bool> ExistList = new Dictionary<PREFAB_NAME ,bool>();
 
     [MenuItem("Debug/PrefabChecker", true)]
     static bool OpenChecker()
     {
-        return ResourcesHolder.ExistList();
+        if(!Application.isPlaying)
+        {
+            return false;
+        }
+        ExistList = ResourcesManager.GetInstance().GetExistList();
+        return ExistList.Count > 0;
     }
     [MenuItem("Debug/PrefabChecker")]
     static void ExecutePrefabChecker(MenuCommand command)
     {
         EditorWindow.GetWindow<DebugPrefabChecker>("PrefabChecker");
-        ScopeList.Clear();
-        foreach(PREFABU_NAME  name in Enum.GetValues(typeof(PREFABU_NAME)))
-        {
-            PrefabScope scopTemp = new PrefabScope();
-            scopTemp.PrefabName = name.ToString();
-            scopTemp.Existing = ResourcesHolder.GetPrefabByName(name) == null? false : true;
-            ScopeList.Add(scopTemp);
-        }
     }
 
     void OnGUI()
@@ -41,12 +32,12 @@ public class DebugPrefabChecker : EditorWindow
             GUILayout.BeginVertical();
             {
                 
-                foreach(PrefabScope  element in ScopeList)
+                foreach(PREFAB_NAME  element in ExistList.Keys)
                 {
                         GUILayout.BeginHorizontal("box");
                         {
-                            GUILayout.Label(string.Format("{0:s}",element.Existing.ToString()));
-                            GUILayout.Button(string.Format("{0}",element.PrefabName),GUILayout.Width(200));  
+                            GUILayout.Label(string.Format("{0:s}",element.ToString()));
+                            GUILayout.Button(string.Format("{0:s}",ExistList[element].ToString()),GUILayout.Width(200));  
                         } 
                          GUILayout.EndHorizontal();
                 }

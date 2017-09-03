@@ -1,0 +1,2 @@
+#,item_code,name,bomb_type,level,hp,time,damage,damage_range
+,0,normal_bomb,0,1,100,0.5,5,3

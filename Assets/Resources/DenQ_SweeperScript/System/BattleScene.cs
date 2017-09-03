@@ -9,24 +9,36 @@ public class BattleScene : MonoBehaviour
     public GameObject FieldRootObj = null;
     public GameObject BombRootObj = null;
     public GameObject ItemRootObj = null;
+    public GameObject EffectRootOgj = null;
 
     public GameObject FieldManagerObj = null;
-    public FieldMgr FieldManger = null;
-    public GameObject ResourcesHolderObj = null;
-    
+    public FieldManager FieldManger = null;
     private static BattleScene _instance = null;
     public enum BATTLE_STATE
     {
+        OVERHEAD,
         INIT,
         UPDATE,
+        WATING_CREATE,
         ERRORED,
     }
-    private BATTLE_STATE BattleState = BATTLE_STATE.INIT;
+    /// <summary>
+    /// Awake is called when the script instance is being loaded.
+    /// </summary>
+    void Awake()
+    {
+        _instance = this;
+    }
+    public static BattleScene Get()
+    {
+        return _instance;
+    }
+    private BATTLE_STATE BattleState = BATTLE_STATE.OVERHEAD;
     // Use this for initialization
     public static BattleScene GetInstance()
     {
-        if(_instance == null)
-        _instance = BattleSceneObj.GetComponent<BattleScene>();
+        if (_instance == null)
+            _instance = BattleSceneObj.GetComponent<BattleScene>();
         return _instance;
     }
 
@@ -40,16 +52,17 @@ public class BattleScene : MonoBehaviour
     {
         switch (BattleState)
         {
+            case BATTLE_STATE.OVERHEAD:
+                if (GameManager.GetInstance().IsGameReady())
+                {
+                    BattleState = BATTLE_STATE.INIT;
+                }
+                break;
             case BATTLE_STATE.INIT:
-            BattleSceneObjGet();
-                if (InitilizeBattleScene())
-                {
-                    BattleState = BATTLE_STATE.UPDATE;
-                }
-                else
-                {
-                    BattleState = BATTLE_STATE.ERRORED;
-                }
+                InitilizeBattleScene();
+                BattleState = BATTLE_STATE.WATING_CREATE;
+                break;
+            case BATTLE_STATE.WATING_CREATE:
                 break;
             case BATTLE_STATE.UPDATE:
                 break;
@@ -61,49 +74,73 @@ public class BattleScene : MonoBehaviour
     public static bool BattleSceneObjGet()
     {
         BattleSceneObj = GameObject.FindWithTag("BattleScene");
-        if(BattleSceneObj == null)
+        if (BattleSceneObj == null)
         {
             Debug.Log("could not load Battle scene Gameobject");
             return false;
         }
         return true;
     }
-    private bool InitilizeBattleScene()
+    void InitilizeBattleScene()
     {
 
-        //プレハブを読み取る為に最初に実行
-        ResourcesHolderObj = ResourcesHelper.CreateResourcesInstance(
-            FilePath.GetGodPrefabPath(GOD_PREFAB_NAME.RESOURCES_HOLDER),
-            BattleSceneObj);
-        if(ResourcesHolderObj == null){return false;}
-        ResourcesHolderObj.transform.position = new Vector3(0,0,0);
-
-        //各オブジェクトルートの作成
-        FieldRootObj = ResourcesHelper.CreateResourcesInstance(
-            FilePath.GetGodPrefabPath(GOD_PREFAB_NAME.FIELD_ROOT),
-            BattleSceneObj);
-        if (FieldRootObj == null) {return false;}
+        FieldRootObj = ResourcesManager.GetInstance().CreateInstance(PREFAB_NAME.FIELD_ROOT, this.gameObject, false);
+        if (FieldRootObj == null)
+        {
+            BattleState = BATTLE_STATE.ERRORED;
+            return;
+        }
         FieldRootObj.transform.position = new Vector3(0,0,0);
 
-        BombRootObj = ResourcesHelper.CreateResourcesInstance(
-            FilePath.GetGodPrefabPath(GOD_PREFAB_NAME.BOMB_ROOT),
-         BattleSceneObj);
-        if (BombRootObj == null) {return false;}
-        BombRootObj.transform.position = new Vector3(0,0,0); 
+        ItemRootObj = ResourcesManager.GetInstance().CreateInstance(PREFAB_NAME.ITEM_ROOT, FieldRootObj, false);
+        if (ItemRootObj == null)
+        {
+            BattleState = BATTLE_STATE.ERRORED;
+            return;
+        }
+        ItemRootObj.transform.position = new Vector3(0,0,0);
 
-        ItemRootObj = ResourcesHelper.CreateResourcesInstance(
-            FilePath.GetGodPrefabPath(GOD_PREFAB_NAME.ITEM_ROOT),
-            BattleSceneObj);
-        if (ItemRootObj == null) {return false;}
-        ItemRootObj.transform.position = new Vector3(0,0,0);            
+        EffectRootOgj = ResourcesManager.GetInstance().CreateInstance(PREFAB_NAME.EFFECT_ROOT, FieldRootObj, false);
+        if (EffectRootOgj == null)
+        {
+            BattleState = BATTLE_STATE.ERRORED;
+            return;
+        }
+        EffectRootOgj.transform.position = new Vector3(0,0,0);
 
-        //各オブジェクトのマネージャー作成
-        FieldManagerObj = ResourcesHelper.CreateResourcesInstance(
-            FilePath.GetGodPrefabPath(GOD_PREFAB_NAME.FIELD_MGR),
-            FieldRootObj);
-        if (FieldManagerObj == null) { return false; }
+        FieldManagerObj = ResourcesManager.GetInstance().CreateInstance(PREFAB_NAME.FIELD_MGR, FieldRootObj, false);
+        if (FieldManagerObj == null)
+        {
+            BattleState = BATTLE_STATE.ERRORED;
+            return;
+        }
         FieldManagerObj.transform.position = new Vector3(0,0,0);
-        FieldManger = FieldManagerObj.GetComponent<FieldMgr>();
-        return true;
+        FieldManger = FieldManagerObj.GetComponent<FieldManager>();
+        if (FieldManger == null)
+        {
+            BattleState = BATTLE_STATE.ERRORED;
+            return;
+        }
+        if(!FieldManager.GetInstance().DebugInitializeField())
+        {
+            BattleState = BATTLE_STATE.ERRORED;
+        }
+
+
+
     }
+    public GameObject GetWorldParent(PREFAB_NAME name)
+    {
+        switch (name)
+        {
+            case PREFAB_NAME.FIELD_ROOT:
+                return FieldRootObj;
+            case PREFAB_NAME.ITEM_ROOT:
+                return ItemRootObj;
+            case PREFAB_NAME.EFFECT_ROOT:
+                return EffectRootOgj;
+            default: return null;
+        }
+    }
+
 }

@@ -2,77 +2,31 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 namespace DenQ.BaseStruct
 {
-    public enum BLOCK_TYPE
+    public enum PARTICLE_TYPE
     {
-        ITEM,
-        NONE,
+        ONCE_ONLY,
+        RECYCLE,
+        TIMES,
     }
-    public enum FIELD_BOMB
+    public enum FIELD_BLOCK
     {
-        BOMB_NORMAL,
-        BOMB_DELAY,
-
+        NORMAL,
     }
     public enum FIELD_ITEM
     {
-        BOMB = 0,
-        HEALTH,
+        BOMB_NORMAL,
+        BOMB_DELAY,
         NONE,
     }
-    public enum BOMB_TYPE
-    {
-        NORMAL = (int)FIELD_BOMB.BOMB_NORMAL,
-        DELAY = (int)FIELD_BOMB.BOMB_DELAY,
-    }
-    public enum PREFABU_NAME
-    {
-        FieldBlock,
-        FiedlBomb,
-        FieldItem,
-        max,
-    }
-    public enum GOD_PREFAB_NAME
-    {
-        RESOURCES_HOLDER,
-        FIELD_ROOT,
-        ITEM_ROOT,
-        BOMB_ROOT,
-        FIELD_MGR,
-    }
-    //Down=========================- FIEL PATH LCASS ================================Down//
-    public class FilePath
-    {
-        public static string[] NormalPrefabPath = new string[]
-       {
-            "DenQ_SweeperPrefab/FieldObejctRootPrefab/FieldBlock",
-            "DenQ_SweeperPrefab/FieldObejctRootPrefab/FieldBomb",
-            "DenQ_SweeperPrefab/FieldObejctRootPrefab/FieldItem",
-       };
-        public static string[] GodPrefabPath = new string[]
-        {
-            "DenQ_SweeperPrefab/ManagerPrefab/ResourceHolder",
-            "DenQ_SweeperPrefab/RootPrefab/FieldRoot",
-            "DenQ_SweeperPrefab/RootPrefab/ItemRoot",
-            "DenQ_SweeperPrefab/RootPrefab/BombRoot",
-            "DenQ_SweeperPrefab/ManagerPrefab/FieldManager",
-        };
-        public static string GetPrefabPath(PREFABU_NAME name)
-        {
-            return NormalPrefabPath[(uint)name];
-        }
-        public static string GetGodPrefabPath(GOD_PREFAB_NAME name)
-        {
-            return GodPrefabPath[(uint)name];
-        }
-    }
-    //Up==========================- FIEL PATH LCASS =================================Up//
-
-    //Down========================- DIELD POS LCASS ===============================Down//
+    //Down======================== FIELD POS LCASS ===============================Down//
     public class FieldPos : IComparable<FieldPos>
     {
+        public int unitCode = 0;
         public int posX;
         //{set { posX = 0; } get { return posX; }  }
         public int posZ;
@@ -97,140 +51,103 @@ namespace DenQ.BaseStruct
         }
 
     }
-    //UP==========================- DIELD POS LCASS =================================Up//
-    //Prefabを読み込む、ほぼゲーム初期化する時のみに実行
-    //軽いオブジェクトのPrefabはListでRescourcesHolderに保存している。
-    public class ResourcesHelper : MonoBehaviour
-    {
-        public static GameObject LoadResourcesPrefab(string path)
-        {
-            GameObject _prefab = (GameObject)Resources.Load(path);
-            if (_prefab == null)
-            {
-                Debug.Log("can not read" + path);
-                return null;
-            }
-            return _prefab;
-        }
-        public static GameObject LoadResourcesPrefab(PREFABU_NAME name)
-        {
-            string path = FilePath.GetPrefabPath(name);
-            GameObject _prefab = (GameObject)Resources.Load(path);
-            if (_prefab == null)
-            {
-                Debug.Log("can not read" + path);
-                return null;
-            }
-            return _prefab;
-        }
-        //Prefabからゲームオブジェクトのインスタンスを作る
-        public static GameObject CreateResourcesInstance(string path, GameObject parent)
-        {
-            if (parent == null)
-            {
-                return null;
-            }
-            GameObject _prefabTemp = LoadResourcesPrefab(path);
-            if (_prefabTemp == null)
-            {
-                return null;
-            }
-            GameObject instance = Instantiate(_prefabTemp);
-            if (parent != null)
-            {
-                instance.transform.parent = parent.transform;
-            }
-            return instance;
-        }
-        public static GameObject CreateResourcesInstance(GameObject prefabObj, GameObject parent, Vector3 pos)
-        {
-            if (prefabObj == null)
-            {
-                return null;
-            }
-
-            GameObject instance = Instantiate(prefabObj);
-            if (parent == null)
-            {
-                Debug.LogWarning("there is no parent when create new instance of " + prefabObj.name);
-            }
-            else
-            {
-                instance.transform.parent = parent.transform;
-            }
-            instance.transform.position = pos;
-            return instance;
-        }
-        public static GameObject CreateResourcesInstance(GameObject prefabObj, GameObject parent)
-        {
-            if (prefabObj == null)
-            {
-                return null;
-            }
-
-            GameObject instance = Instantiate(prefabObj);
-            if (parent == null)
-            {
-                Debug.LogWarning("there is no parent when create new instance of " + prefabObj.name);
-            }
-            else
-            {
-                instance.transform.parent = parent.transform;
-            }
-            return instance;
-        }
-        public static GameObject CreatePrefabinstance(uint prefabID, bool isGod, GameObject parent, Vector3 pos)
-        {
-            if (!ResourcesHolder.ExistList())
-            {
-                Debug.LogError("There is noth in holder");
-                return null;
-            }
-            if (isGod)
-            {
-                Debug.LogError("Build GodObejct is not avaliable recently");
-                return null;
-            }
-            else
-            {
-                if (prefabID >= (uint)PREFABU_NAME.max)
-                {
-                    Debug.LogError("wrong id while creating ID");
-                    return null;
-                }
-                return CreateResourcesInstance(ResourcesHolder.GetPrefabByName((PREFABU_NAME)prefabID), parent, pos);
-            }
-        }
-        public static GameObject CreatePrefabinstance(uint prefabID, bool isGod, GameObject parent)
-        {
-            if (!ResourcesHolder.ExistList())
-            {
-                Debug.LogError("There is noth in holder");
-                return null;
-            }
-            if (isGod)
-            {
-                Debug.LogError("Build GodObejct is not avaliable recently");
-                return null;
-            }
-            else
-            {
-                if (prefabID >= (uint)PREFABU_NAME.max)
-                {
-                    Debug.LogError("wrong id while creating ID");
-                    return null;
-                }
-
-            }
-            return CreateResourcesInstance(ResourcesHolder.GetPrefabByName((PREFABU_NAME)prefabID), parent);
-        }
-    }
+    //UP==========================- DIELD POS LCASS =================================Up//S
     public class DenQHelper : MonoBehaviour
     {
-        public static Vector3 ConvertFieldPosToWorld(FieldPos pos)
+        public static int maxFieldBlockCount { get { return 5; } }
+        public static float fieldBlcokSize { get { return 2.0f; } }
+        public static float maxFieldSize { get { return (float)((float)maxFieldBlockCount * fieldBlcokSize); } }
+        public static long maxFieldCode{
+            get{
+                return (maxFieldBlockCount * 100 + maxFieldBlockCount);
+            }
+        }
+        public static Dictionary<long, FieldBlock> GetIinitiatedField()
         {
-            return new Vector3(pos.posX * 1.0f, 0.0f, pos.posZ * 1.0f);
+            var dic = new Dictionary<long, FieldBlock>();
+            for (int x = 0; x < maxFieldBlockCount; x++)
+                for (int z = 0; z < maxFieldBlockCount; z++)
+                {
+                    dic.Add(CreateCodeByPos(x,z),null);
+                }
+            return dic;
+        }
+        public static long ConvertFieldPosToCode(FieldPos fieldPos)
+        {
+            return (long)(fieldPos.posX * 100 + fieldPos.posZ);
+        }
+        public static long CreateCodeByPos(int x,int z)
+        {
+            return x * 100 + z;
+        }
+        //フィールドの番後から、開始位置を検索
+        public static Vector3 ConvertFieldPosToWorld(FieldPos pos, int fieldUnitCode)
+        {
+            return ConvertFieldPosToWorld(pos, GetUnitStartPosition(fieldUnitCode));
+        }
+        public static Vector3 ConvertFieldPosToWorld(FieldPos pos, Vector3 startPos)
+        {
+            return new Vector3(pos.posX * fieldBlcokSize, 0.0f, pos.posZ * fieldBlcokSize);
+        }
+
+        public static FieldPos ConverWoroldPosToFieldPos(Vector3 pos, int fieldUnitCode)
+        {
+            var fieldPos = new FieldPos(((int)pos.x / (int)fieldBlcokSize), ((int)pos.z / (int)fieldBlcokSize));
+            int fieldCodeX = fieldUnitCode % 100;
+            int fieldCodeZ = fieldUnitCode / 100;
+            fieldPos.posX -= fieldCodeX * maxFieldBlockCount;
+            fieldPos.posZ -= fieldCodeZ * maxFieldBlockCount;
+            return fieldPos;
+        }
+        public static GameObject InstialHelper(GameObject prefab, GameObject parent)
+        {
+            return (GameObject)Instantiate(prefab, parent.transform);
+        }
+        public static GameObject InstialHelper(GameObject prefab)
+        {
+            return (GameObject)Instantiate(prefab);
+        }
+
+        public static Collider[] GetSroundedObejcts(FieldPos pos, int fieldUnitCode)
+        {
+            Vector3 center = ConvertFieldPosToWorld(pos, fieldUnitCode);
+            return Physics.OverlapBox(center, new Vector3(fieldBlcokSize, fieldBlcokSize, fieldBlcokSize));
+        }
+        public static Collider[] GetSroundedObejcts(Vector3 pos)
+        {
+            Vector3 center = pos;
+            return Physics.OverlapBox(center, new Vector3(fieldBlcokSize, fieldBlcokSize, fieldBlcokSize));
+        }
+        public static Vector2 GetUnitStartPosition(int unitCode)
+        {
+            int fieldCodeX = unitCode % 100;
+            int fieldCodeZ = unitCode / 100;
+            Vector2 startPos = new Vector2();
+            startPos.x = (float)fieldCodeX * maxFieldSize;
+            startPos.y = (float)fieldCodeZ * maxFieldSize;
+            return startPos;
         }
     }
+    public class DenQUIhelper
+    {
+        //TODO null? にしたほうがいいかな
+        public static Vector2 GetPanelPosition(RectTransform canvasRect, RectTransform panelRect, Vector3 screenPos)
+        {
+            Vector2 panelPos = new Vector2();
+            Vector2 aspectCanvas = new Vector2(canvasRect.rect.width / Camera.main.pixelWidth,
+                                                canvasRect.rect.height / Camera.main.pixelHeight);
+            panelPos.x = aspectCanvas.x * screenPos.x;
+            panelPos.y = aspectCanvas.y * screenPos.y;
+            panelPos.x = panelPos.x - canvasRect.rect.width / DenQHelper.fieldBlcokSize;
+            panelPos.y = panelPos.y - canvasRect.rect.height / DenQHelper.fieldBlcokSize;
+            panelPos -= panelRect.anchoredPosition;
+            return panelPos;
+        }
+        public static Vector2 GetPanelPosition(RectTransform canvasRect, RectTransform panelRect)
+        {
+            return GetPanelPosition(canvasRect, panelRect, DenQ_Input.GetTouchPosition());
+        }
+    }
+
 }
 
