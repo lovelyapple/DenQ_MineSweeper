@@ -5,27 +5,43 @@ using UnityEngine;
 using System;
 using System.IO;
 using System.Text;
+///>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>DataStruct
+public class FieldRewardItem
+{
+    public ulong itemBaseCode;
+    public uint itemAmonut;
+}
+public class FieldData
+{
+    public ulong fieldCode;
+    public uint size;
+    public ulong fieldDistributionMapCode;
+    public DistributionMap distributionMap;
 
+    //報酬関連
+    public ulong gold;
+    public ulong exp;
+    public List<FieldRewardItem> fieldRewardItems;
+}
+///>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Importer
 public class FieldTableImporter : TableImporterBase
 {
     private static Dictionary<ulong, FieldData> fieldDatas = new Dictionary<ulong, FieldData>();
+    void Awake()
+    {
+        PreImportData();
+    }
     public override void PreImportData()
     {
         fieldDatas.Clear();
         filePath = "FieldTable";
-        isFinished = false;
-    }
-    /// <summary>
-    /// Awake is called when the script instance is being loaded.
-    /// </summary>
-    void Awake()
-    {
-        PreImportData();
+        isFinished = true;
     }
     public override void ImportData()
     {
         isFinished = false;
         var sr = new StreamReader(filePath, Encoding.GetEncoding("SHIFT_JIS"));
+        Debug.Log("begin to read Field " + sr);
         while (sr.Peek() >= 0)
         {
             string[] cols = sr.ReadLine().Split(',');
@@ -52,25 +68,28 @@ public class FieldTableImporter : TableImporterBase
                 reward.itemBaseCode = ulong.Parse(cols[10]);
                 reward.itemAmonut = uint.Parse(cols[11]);
                 data.fieldRewardItems.Add(reward);
-				
-				if(!fieldDatas.ContainsKey(data.fieldCode))
-                fieldDatas.Add(data.fieldCode,data);
+
+                if (!fieldDatas.ContainsKey(data.fieldCode))
+                    fieldDatas.Add(data.fieldCode, data);
+
+                Debug.Log("fieldDatas code" + data.fieldCode + " size " + data.size);
             }
         }
         isFinished = true;
     }
-	public override void AfterImportData ()
-	{
-		isFinished = false;
-		foreach (var data in fieldDatas.Keys) 
-		{
-			var dMap = new DistributionMap ();
-			dMap = DistributionTableHelper.GetDistributionMap (data);
-			if (dMap != null && dMap.fieldItemList.Count > 0) 
-			{
-				fieldDatas [data].distributionMap = dMap;
-			}
-		}
-		isFinished = true;
-	}
+    public override void AfterImportData()
+    {
+        isFinished = false;
+        foreach (var data in fieldDatas.Keys)
+        {
+            var dMap = new DistributionMap();
+            dMap = DistributionTableHelper.GetDistributionMap(data);
+            if (dMap != null && dMap.fieldItemList.Count > 0)
+            {
+                fieldDatas[data].distributionMap = dMap;
+                Debug.Log("fieldDatasdistributionMap code" + dMap.fieldItemList[0].itemBaseCode);
+            }
+        }
+        isFinished = true;
+    }
 }

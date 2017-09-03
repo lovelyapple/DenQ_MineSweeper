@@ -8,7 +8,7 @@ using System.Text;
 
 public struct FieldItem 
 {
-    public long itemBaseCode;
+    public ulong itemBaseCode;
     public float rate;
     public uint amountLeft;
 }
@@ -28,8 +28,6 @@ public class DistributionTableImporter : TableImporterBase
 	public static Dictionary<ulong,DistributionMap> distributionTable;
 	private static string _filePath = "";
 	private static string _genericFileName = "FieldData/DistributionData/DistributionMap_";
-	//public static string GetApplicationPath() { return Application.dataPath; }
-	public static bool isFinished = false;
 	public static List<string>  fileList = new List<string>
 	{
 		"0000"
@@ -37,12 +35,15 @@ public class DistributionTableImporter : TableImporterBase
 	///特殊なファイルパス設定
 	public string SetFileName(string id)
 	{
-		return string.Format ("{0}{1}.csv",_genericFileName,id);
+		return string.Format ("{0}{1}",_genericFileName,id);
 	}
-	public void PreImportData()
+	public override　void PreImportData()
 	{
-		filePathSpecial = 
 		distributionTable = new Dictionary<ulong, DistributionMap> ();
+		isFinished = true;
+	}
+	public override void ImportData ()
+	{
 		isFinished = false;
 		foreach (var fileId in fileList) 
 		{
@@ -60,17 +61,16 @@ public class DistributionTableImporter : TableImporterBase
 					data.amountLeft = uint.Parse (cols [3]);
 					_distributionData.fieldItemList.Add (data);
 					distributionTable.Add (ulong.Parse (fileId), _distributionData);
+					data.itemBaseCode = ulong.Parse (cols[1]);
+					Debug.Log("distributionTable code" + data.itemBaseCode + " count " + data.amountLeft);
 				}
 			}
 		}
-	}
-	public override void ImportData ()
-	{
-		//do noth
+		isFinished = true;
 	}
 	public override void AfterImportData ()
 	{
-		//do noth
+		isFinished = true;
 	}
 }
 public class DistributionTableHelper

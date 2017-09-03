@@ -8,5 +8,10 @@ public static class BombTableHelper {
 		var list = BombTableImporter.GetBombData();
 		return list.ContainsKey(id)? list[id] : null;
 	}
+	public static List<BombData> GetBombAllDatas()
+	{
+		var dict = BombTableImporter.GetBombData();
+		return dict.Select(t => t.Value).ToList();
+	}
 }
 
