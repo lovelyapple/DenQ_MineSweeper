@@ -26,8 +26,9 @@ public class FieldManager : MangerBase<FieldManager>
     {
 
     }
-    public void CreateField()
+    public void CreateField(ulong fieldCode)
     {
+        
     }
     public void ClearField()
     {

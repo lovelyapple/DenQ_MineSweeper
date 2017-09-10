@@ -4,10 +4,10 @@ using UnityEngine;
 public class BombData : ItemBase{
 	public string	name;
 	public uint 	bombType;
-	public int		level;
-	public int		hp;
+	public uint		level;
+	public uint		hp;
 	public float	time;
-	public float	damage;
+	public uint		damage;
 	public float	damageRange;
 
 }
