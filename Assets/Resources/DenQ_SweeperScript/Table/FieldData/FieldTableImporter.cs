@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using System;
+using System.Linq;
 using System.IO;
 using System.Text;
+
+using DenQData;
 ///>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>DataStruct
 public class FieldRewardItem
 {
@@ -26,14 +29,14 @@ public class FieldData
 ///>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Importer
 public class FieldTableImporter : TableImporterBase
 {
-    private static Dictionary<ulong, FieldData> fieldDatas = new Dictionary<ulong, FieldData>();
+    //private static Dictionary<ulong, FieldData> fieldDatas = new Dictionary<ulong, FieldData>();
     void Awake()
     {
         PreImportData();
     }
     public override void PreImportData()
     {
-        fieldDatas.Clear();
+        DenQOffLineDataBase.fieldTable.Clear();
         filePath = "FieldTable";
         isFinished = true;
     }
@@ -69,8 +72,8 @@ public class FieldTableImporter : TableImporterBase
                 reward.itemAmonut = uint.Parse(cols[11]);
                 data.fieldRewardItems.Add(reward);
 
-                if (!fieldDatas.ContainsKey(data.fieldCode))
-                    fieldDatas.Add(data.fieldCode, data);
+                if (!DenQOffLineDataBase.fieldTable.ContainsKey(data.fieldCode))
+                    DenQOffLineDataBase.fieldTable.Add(data.fieldCode, data);
 
                 Debug.Log("fieldDatas code" + data.fieldCode + " size " + data.size);
             }
@@ -80,16 +83,29 @@ public class FieldTableImporter : TableImporterBase
     public override void AfterImportData()
     {
         isFinished = false;
-        foreach (var data in fieldDatas.Keys)
+        foreach (var data in DenQOffLineDataBase.fieldTable.Keys)
         {
             var dMap = new DistributionMap();
             dMap = DistributionTableHelper.GetDistributionMap(data);
             if (dMap != null && dMap.fieldItemList.Count > 0)
             {
-                fieldDatas[data].distributionMap = dMap;
+                DenQOffLineDataBase.fieldTable[data].distributionMap = dMap;
                 Debug.Log("fieldDatasdistributionMap code" + dMap.fieldItemList[0].itemBaseCode);
             }
         }
         isFinished = true;
+    }
+}
+public static class FieldTableHelper
+{
+    public static FieldData GetFieldData(ulong code)
+    {
+        var outValue = new FieldData();
+        if(DenQOffLineDataBase.fieldTable.TryGetValue(code,out outValue))
+        {
+            return outValue;
+        }
+        DenQLogger.SError(" could not find field by id " + code);
+        return null;
     }
 }

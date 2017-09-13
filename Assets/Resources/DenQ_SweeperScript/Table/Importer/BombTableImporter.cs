@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using System;
+using System.Linq;
 using System.IO;
 using System.Text;
 
 using DenQ;
+using DenQData;
 public class BombTableImporter : TableImporterBase
 {
-    private static Dictionary<ulong, BombData> bombDatas = new Dictionary<ulong, BombData>();
+
 
     /// <summary>
     /// Awake is called when the script instance is being loaded.
@@ -19,37 +21,25 @@ public class BombTableImporter : TableImporterBase
     }
     public override void PreImportData()
     {
-        bombDatas.Clear();
+        DenQOffLineDataBase.bombTable.Clear();
         filePath = "BombTable";
         isFinished = true;
     }
     public override void ImportData()
     {
-        isFinished = false;
-        var sr = new StreamReader(filePath, Encoding.GetEncoding("SHIFT_JIS"));
-        while (sr.Peek() >= 0)
-        {
-            string[] cols = sr.ReadLine().Split(',');
-            var top = cols[0];
-            if (top != "#")
-            {
-                var data = new BombData();
-                data.itemCode = ulong.Parse(cols[1]);
-                data.name = cols[2];
-                data.bombType = uint.Parse(cols[3]);
-                data.level = int.Parse(cols[3]);
-                data.hp = int.Parse(cols[4]);
-                data.time = float.Parse(cols[5]);
-                data.damage = float.Parse(cols[6]);
-                data.damageRange = float.Parse(cols[7]);
+        var data = new BombData();
+        data.itemCode = Read_ulong("master_code");
+        data.name = Read_string("name");
+        data.bombType = Read_uint("bomb_type");
+        data.level = Read_uint("level");
+        data.hp = Read_uint("hp");
+        data.time = Read_float("time");
+        data.damage = Read_uint("damage");
+        data.damageRange = Read_float("damage_range");
 
-                if (bombDatas.ContainsKey(data.itemCode)) continue;
-                bombDatas.Add(data.itemCode, data);
-                Debug.Log("bomb code" + data.itemCode + " name " + data.name);
-            }
-            DenQLogger.SDebug("BombTableImporter loaded!");
-        }
-        isFinished = true;
+        if (DenQOffLineDataBase.bombTable.ContainsKey(data.itemCode)) return;
+        DenQOffLineDataBase.bombTable.Add(data.itemCode, data);
+        Debug.Log("bomb code" + data.itemCode + " name " + data.name);
     }
     public override void AfterImportData()
     {
@@ -57,6 +47,6 @@ public class BombTableImporter : TableImporterBase
     }
     public static Dictionary<ulong, BombData> GetBombData()
     {
-        return bombDatas;
+        return DenQOffLineDataBase.bombTable;
     }
 }

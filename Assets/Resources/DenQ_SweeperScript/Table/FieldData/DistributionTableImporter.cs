@@ -6,6 +6,8 @@ using System;
 using System.IO;
 using System.Text;
 
+using DenQData;
+
 public struct FieldItem 
 {
     public ulong itemBaseCode;
@@ -25,7 +27,7 @@ public class DistributionMap
 /// やっぱ、統一しようか
 public class DistributionTableImporter : TableImporterBase
 {
-	public static Dictionary<ulong,DistributionMap> distributionTable;
+	
 	private static string _filePath = "";
 	private static string _genericFileName = "FieldData/DistributionData/DistributionMap_";
 	public static List<string>  fileList = new List<string>
@@ -39,7 +41,7 @@ public class DistributionTableImporter : TableImporterBase
 	}
 	public override　void PreImportData()
 	{
-		distributionTable = new Dictionary<ulong, DistributionMap> ();
+		DenQOffLineDataBase.distributionTable = new Dictionary<ulong, DistributionMap> ();
 		isFinished = true;
 	}
 	public override void ImportData ()
@@ -60,7 +62,7 @@ public class DistributionTableImporter : TableImporterBase
 					data.rate = float.Parse (cols [2]);
 					data.amountLeft = uint.Parse (cols [3]);
 					_distributionData.fieldItemList.Add (data);
-					distributionTable.Add (ulong.Parse (fileId), _distributionData);
+					DenQOffLineDataBase.distributionTable.Add (ulong.Parse (fileId), _distributionData);
 					data.itemBaseCode = ulong.Parse (cols[1]);
 					Debug.Log("distributionTable code" + data.itemBaseCode + " count " + data.amountLeft);
 				}
@@ -73,11 +75,11 @@ public class DistributionTableImporter : TableImporterBase
 		isFinished = true;
 	}
 }
-public class DistributionTableHelper
+public static class DistributionTableHelper
 {
 	public static DistributionMap GetDistributionMap(ulong id)
 	{
-		return DistributionTableImporter.distributionTable.ContainsKey(id)?
-			DistributionTableImporter.distributionTable[id] : null;
+		return DenQOffLineDataBase.distributionTable.ContainsKey(id)?
+			DenQOffLineDataBase.distributionTable[id] : null;
 	}
 }

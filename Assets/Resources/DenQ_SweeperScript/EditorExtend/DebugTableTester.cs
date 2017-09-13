@@ -28,9 +28,9 @@ public class DebugTableTester : EditorWindow
             foreach (var info in memberInfoLabels)
             {
                 GUILayout.BeginHorizontal();
-                GUILayout.Label("name:" + info.memberName);
-                GUILayout.Label("type:" + info.memberType);
-                GUILayout.Label("value:" + info.memberValue);
+                GUILayout.Label("name:" + info.memberName,GUILayout.Width(150));
+                GUILayout.Label("type:" + info.memberType,GUILayout.Width(100));
+                GUILayout.Label("value:" + info.memberValue,GUILayout.Width(150));
                 GUILayout.EndHorizontal();
             }
         }
