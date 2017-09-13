@@ -50,7 +50,7 @@ public class TableImporterBase
 
     List<string> colums = new List<string>();
 
-    void ReadeCSVTableCore()
+    public void ReadeCSVTableCore()
     {
         isFinished = false;
         ReadIndex();
@@ -74,6 +74,7 @@ public class TableImporterBase
         {
             var str = e.Current as string;
             cellIndx.Add(str, idx);
+            idx++;
         }
     }
     protected string Read_string(string input)

@@ -15,8 +15,9 @@ public class TableManager
         tableList.Clear();
         importState = 3;
         tableList.Add(new BombTableImporter());
-        tableList.Add(new DistributionTableImporter());
-        tableList.Add(new FieldTableImporter());
+        tableList.Add(new MultiRewardTableImporter());
+        //tableList.Add(new DistributionTableImporter());
+        //tableList.Add(new FieldTableImporter());
     }
     public static IEnumerator PreImportAll()
     {
@@ -39,7 +40,7 @@ public class TableManager
         while (e.MoveNext())
         {
             var importer = e.Current;
-            importer.ImportData();
+            importer.ReadeCSVTableCore();
             while (!importer.isFinished) yield return null;//表を一個ずつ読む、順番じゃないと壊れる可能性が
         }
         DenQLogger.SDebug("Table MianImport all finished");

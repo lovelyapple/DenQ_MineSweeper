@@ -1,0 +1,4 @@
+#,master_code,type,name
+#,ulong,uint,string
+,10000000,1,diamond
+,10000001,1,coin
