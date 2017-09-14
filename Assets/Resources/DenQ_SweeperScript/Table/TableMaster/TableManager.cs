@@ -16,8 +16,9 @@ public class TableManager
         importState = 3;
         tableList.Add(new BombTableImporter());
         tableList.Add(new MultiRewardTableImporter());
-        //tableList.Add(new DistributionTableImporter());
-        //tableList.Add(new FieldTableImporter());
+        tableList.Add(new StackItemTableImporter());
+        tableList.Add(new MapDistributionTableImporter());
+        tableList.Add(new MapDefinedItemTableImporter());
     }
     public static IEnumerator PreImportAll()
     {
