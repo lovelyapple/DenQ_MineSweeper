@@ -23,6 +23,12 @@ namespace DenQ.BaseStruct
         BOMB_DELAY,
         NONE,
     }
+    public enum FIELD_ITEM_TOKEN
+    {
+        FIELD_ITEM_BLOCK = 1000,
+        FIELD_ITEM_BOMB = 2000,
+        NONE,
+    }
     //Down======================== FIELD POS LCASS ===============================Down//
     public class FieldPos : IComparable<FieldPos>
     {
@@ -51,7 +57,7 @@ namespace DenQ.BaseStruct
         }
 
     }
-    //UP==========================- DIELD POS LCASS =================================Up//S
+    //UP==========================- IFELD POS CLASS =================================Up//S
     public class DenQHelper : MonoBehaviour
     {
         public static int maxFieldBlockCount { get { return 5; } }

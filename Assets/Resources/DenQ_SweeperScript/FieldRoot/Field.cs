@@ -5,24 +5,20 @@ using DenQ.BaseStruct;
 using System.Linq;
 public class Field : MonoBehaviour
 {
+    private ulong  fieldCode;
     private FieldData fieldData = null;
-    //private Dictionary<FieldPos, FieldBlock> FieldData = new Dictionary<FieldPos, FieldBlock>();
     private Dictionary<long, FieldBlock> fieldBlockDic = new Dictionary<long, FieldBlock>();
     public int unitCode = 0;
     public Vector2 startPosition = new Vector2();
-    public int distributionMapId = 0;
     public bool CanPlay = true;
     private TOUCH_INFO TouchInfo;
 
-    void Awake()
+    public void InitializeField(ulong fieldCode)
     {
-        fieldBlockDic = DenQHelper.GetIinitiatedField();
+        this.fieldCode = fieldCode;
+        fieldData = FieldTableHelpfer.GetFieldData(fieldCode);
+        fieldData.CreateDistributionMap();
     }
-    // Use this for initialization
-    void Start()
-    {
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -50,26 +46,7 @@ public class Field : MonoBehaviour
     public void ChosseOneFieldBLock()
     {
         var ray = DenQ_Input.GetScreenRay(Camera.main);
-        /* TODO スクリーンレイの前後順序を実験しなければならない
-        このソースだと確実に一番近いものに当たる
-		RaycastHit[] hits = Physics.RaycastAll(ray,100);
-		
-        if(hits.Length <= 0)
-		return;
-		RaycastHit hitTemp = hits[0];
-        Vector3 dic = hitTemp.point - Camera.main.transform.position;
-        float rangeBack = dic.magnitude;
-		foreach(RaycastHit hited in hits)
-		{
-            Vector3 dictTemp = hited.point - Camera.main.transform.position;
-            float rangeNow = dictTemp.magnitude;
-            if(rangeNow < rangeBack)
-            {
-                rangeBack = rangeNow;
-                hitTemp = hited;
-            }
-		}
-        */
+
         RaycastHit hited;
         if (!Physics.Raycast(ray, out hited, 100))
             return;
@@ -138,9 +115,29 @@ public class Field : MonoBehaviour
     {
         foreach (var code in fieldBlockDic.Keys)
         {
-            if(fieldBlockDic[code] != null)
-            fieldBlockDic[code].Destroy();
+            if (fieldBlockDic[code] != null)
+                fieldBlockDic[code].Destroy();
         }
         fieldBlockDic = DenQHelper.GetIinitiatedField();
     }
 }
+/* TODO スクリーンレイの前後順序を実験しなければならない
+このソースだと確実に一番近いものに当たる
+RaycastHit[] hits = Physics.RaycastAll(ray,100);
+
+if(hits.Length <= 0)
+return;
+RaycastHit hitTemp = hits[0];
+Vector3 dic = hitTemp.point - Camera.main.transform.position;
+float rangeBack = dic.magnitude;
+foreach(RaycastHit hited in hits)
+{
+    Vector3 dictTemp = hited.point - Camera.main.transform.position;
+    float rangeNow = dictTemp.magnitude;
+    if(rangeNow < rangeBack)
+    {
+        rangeBack = rangeNow;
+        hitTemp = hited;
+    }
+}
+*/
