@@ -10,7 +10,6 @@ public class FieldManager : MangerBase<FieldManager>
     public Field fieldData = null;//Debug用に作られている
     public uint fieldSizeX = 1;//Debug用に作られている
     public uint fieldSizeZ = 1;//Debug用に作られている
-    public DistributionMap DebugDitributionMap = new DistributionMap();
     
     private static bool isCreatingMap = false;
     // Use this for initialization

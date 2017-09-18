@@ -17,16 +17,13 @@ public class GameManager : MangerBase<GameManager>
         SetInstance(this);
     }
     // Use this for initialization
-    void Start()
+    public void LoadResources()
     {
-        StartCoroutine(LoadResources());
+        StartCoroutine(IELoadResources());
     }
-    IEnumerator LoadResources()
+    IEnumerator IELoadResources()
     {
-        DenQLogger.SDebug("Begin Load Table");
-        StartCoroutine(TableManager.ImportTableAll());
-        while (!TableManager.IsFinished()) yield return null;
-
+        isGameReady = false;
         DenQLogger.SDebug("Begin Load Resources");
         ResourcesManager.GetInstance().InitResourceManager();
         while (!ResourcesManager.GetInstance().IsLoadFinished()) yield return null;

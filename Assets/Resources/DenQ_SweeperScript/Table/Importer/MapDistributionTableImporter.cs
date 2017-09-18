@@ -47,3 +47,16 @@ public class MapDistributionTableImporter : TableImporterBase
         return DenQOffLineDataBase.mapDistributionTable;
     }
 }
+public static class MapDistributionTableHelper
+{
+    public static MapDistributionData GetDistributionData(ulong code)
+    {
+        var dbs = DenQOffLineDataBase.mapDistributionTable;
+        var outData = new MapDistributionData();
+        if(!dbs.TryGetValue(code,out outData))
+        {
+            DenQLogger.SError("coudl not find fieldData Code :" + code);
+        }
+        return outData;
+    }
+}

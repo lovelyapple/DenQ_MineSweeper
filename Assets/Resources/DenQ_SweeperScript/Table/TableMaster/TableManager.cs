@@ -57,7 +57,7 @@ public class TableManager
             importer.AfterImportData();
             while (!importer.isFinished) yield return null;//表を一個ずつ読む、順番じゃないと壊れる可能性が
         }
-        DenQLogger.SDebug("Table MianImport all finished");
+        DenQLogger.SDebug("Table AfterImport all finished");
         importState = 0;
     }
     public static bool IsFinished()

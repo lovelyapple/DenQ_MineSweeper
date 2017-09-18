@@ -52,3 +52,16 @@ public class FieldTableImporter : TableImporterBase
         return DenQOffLineDataBase.fieldTable;
     }
 }
+public static class FieldTableHelpfer
+{
+    public static FieldData GetFieldData(ulong fieldCode)
+    {
+        var dbs = DenQOffLineDataBase.fieldTable;
+        var outData = new FieldData();
+        if(!dbs.TryGetValue(fieldCode,out outData))
+        {
+            DenQLogger.SError("coudl not find fieldData Code :" + fieldCode);
+        }
+        return outData;
+    }
+}

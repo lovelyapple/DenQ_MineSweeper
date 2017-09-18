@@ -207,6 +207,7 @@ public class ResourceInfo : Transform
     //実装するのは大変な作業だし、割愛。
     public IEnumerator LoadPrefab(Action onComplete, Action onError)
     {
+        Debug.Log("begin load prefab " + name);
         if (_prefabPath == null)
         {
             Debug.Log("There is no path in" + _name.ToString());
