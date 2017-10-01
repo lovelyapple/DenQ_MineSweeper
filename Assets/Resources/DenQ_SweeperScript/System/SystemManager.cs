@@ -15,7 +15,6 @@ public class SystemManager : MangerBase<SystemManager>
 
     }
     SYSTEM_STATE sysState = SYSTEM_STATE.OVERHEAD;
-    public TableReader tableReader = null;
     void Awake()
     {
         SetInstance(this);
@@ -33,20 +32,16 @@ public class SystemManager : MangerBase<SystemManager>
     void Update()
     {
         DenQLogger.Runing();
+        return;
         switch (sysState)
         {
             case SYSTEM_STATE.OVERHEAD:
-                if (tableReader == null)
-                {
-                    tableReader = GetComponent<TableReader>();
-                    tableReader.ReadTable();
-                    sysState = SYSTEM_STATE.TABLE_DATA_INIT;
-                }
+                TableManager.GetInstance().ReadTable();
+                sysState = SYSTEM_STATE.TABLE_DATA_INIT;
                 break;
             case SYSTEM_STATE.TABLE_DATA_INIT:
-                if (TableManager.IsFinished())
+                if (TableManager.GetInstance().IsFinished())
                 {
-					GameManager.GetInstance().LoadResources();
                     sysState = SYSTEM_STATE.RESOURCE_DATA_INIT;
                 }
                 break;
@@ -57,11 +52,12 @@ public class SystemManager : MangerBase<SystemManager>
             case SYSTEM_STATE.PLAY:
                 break;
         }
-
+    }
+    public IEnumerable SystemInitialize()
+    {
+        yield break;
     }
     public void ReadTable()
     {
-        if (tableReader != null)
-            tableReader.ReadTable();
     }
 }

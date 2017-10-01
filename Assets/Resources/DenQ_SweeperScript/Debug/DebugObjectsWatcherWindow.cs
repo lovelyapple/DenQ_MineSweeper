@@ -65,12 +65,12 @@ public class DebugObjectsWatcherWindow : EditorWindow
     {
         objList.Clear();
         //isSearchFinished = false;
-        objList = GameObjectsManager.GetInstance().GetObjectBaseDataByType(op);
+        objList = GameMainManager.GetInstance().GetObjectBaseDataByType(op);
     }
     void SearchById()
     {
         objList.Clear();
-        var obj = GameObjectsManager.GetInstance().GetObjectBaseDataByID(id);
+        var obj = GameMainManager.GetInstance().GetObjectBaseDataByID(id);
         if (obj != null)
         {
             objList.Add(obj);

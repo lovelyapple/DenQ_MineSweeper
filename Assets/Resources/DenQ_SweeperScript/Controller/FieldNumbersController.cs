@@ -19,7 +19,7 @@ public class FieldNumbersController : MonoBehaviour
     }
     public void UpdateNumber(int number)
     {
-        GameObject.Destroy(numberObj);
+/*         GameObject.Destroy(numberObj);
         numberObj = null;
         if (number <= 0 || number >= 10)
         {
@@ -44,7 +44,7 @@ public class FieldNumbersController : MonoBehaviour
             posTemp.y -= 0.3f;
             numberObj.transform.position = posTemp;
         }
-        posObj.SetActive(false);
+        posObj.SetActive(false); */
 
     }
 }

@@ -63,49 +63,49 @@ public class Field : MonoBehaviour
     }
     public void InsertOneBlock(FieldPos fieldPos, FIELD_BLOCK type, FIELD_ITEM item)
     {
-        var fieldCode = DenQHelper.ConvertFieldPosToCode(fieldPos);
-        fieldCode = (long)Mathf.Clamp(fieldCode, 0, DenQHelper.maxFieldCode);
-        if (fieldBlockDic[fieldCode] != null)
-        {
-            DenQLogger.GError("error:can not plate a block where exist already");
-        }
-        GameObject newBlockObj = ResourcesManager.GetInstance().CreateInstance(PREFAB_NAME.FIELD_BLOCK, this.gameObject, false);
-        if (newBlockObj == null)
-        {
-            DenQLogger.GError("error:can not plate a block,could not read from ResourceManagr!");
-            return;
-        }
-        Vector3 Vecpos = DenQHelper.ConvertFieldPosToWorld(fieldPos, unitCode);
-        newBlockObj.transform.position = Vecpos;
-        FieldBlock blockData = newBlockObj.GetComponent<FieldBlock>();
-        blockData.InitializeFieldBlock(fieldPos.posX, fieldPos.posZ, type, item, unitCode);
-        fieldBlockDic[fieldCode] = blockData;
+        // var fieldCode = DenQHelper.ConvertFieldPosToCode(fieldPos);
+        // fieldCode = (long)Mathf.Clamp(fieldCode, 0, DenQHelper.maxFieldCode);
+        // if (fieldBlockDic[fieldCode] != null)
+        // {
+        //     DenQLogger.GError("error:can not plate a block where exist already");
+        // }
+        // GameObject newBlockObj = ResourcesManager.GetInstance().CreateInstance(PREFAB_NAME.FIELD_BLOCK, this.gameObject, false);
+        // if (newBlockObj == null)
+        // {
+        //     DenQLogger.GError("error:can not plate a block,could not read from ResourceManagr!");
+        //     return;
+        // }
+        // Vector3 Vecpos = DenQHelper.ConvertFieldPosToWorld(fieldPos, unitCode);
+        // newBlockObj.transform.position = Vecpos;
+        // FieldBlock blockData = newBlockObj.GetComponent<FieldBlock>();
+        // blockData.InitializeFieldBlock(fieldPos.posX, fieldPos.posZ, type, item, unitCode);
+        // fieldBlockDic[fieldCode] = blockData;
     }
     //TODO クソーーーここでダラダラ書きたくないよ！
     public void BreakOneBLock(FieldPos pos)
     {
-        var code = DenQHelper.ConvertFieldPosToCode(pos);
-        var data = fieldBlockDic[code];
-        if (data.IsBroken()) { return; }
-        var itemType = data.GetBlockItemType();
-        data.BreakBlock();
-        switch (itemType)
-        {
-            case FIELD_ITEM.NONE:
-                break;
-            case FIELD_ITEM.BOMB_DELAY:
-                GameObject bombObj = ResourcesManager.GetInstance().CreateInstance(PREFAB_NAME.FIELD_BOMB, PREFAB_NAME.ITEM_ROOT, false);
-                if (bombObj != null)
-                {
-                    AI_FieldBomb_Base bombData = bombObj.GetComponent<AI_FieldBomb_Base>();
-                    bombData.DebugInitializeFieldBomb(pos.posX, pos.posZ, itemType, unitCode);
-                }
-                break;
-            case FIELD_ITEM.BOMB_NORMAL:
-                break;
-        }
-        //ここでNONEを指定しないと、コライダーが爆弾を生成指定しまう
-        itemType = FIELD_ITEM.NONE;
+        // var code = DenQHelper.ConvertFieldPosToCode(pos);
+        // var data = fieldBlockDic[code];
+        // if (data.IsBroken()) { return; }
+        // var itemType = data.GetBlockItemType();
+        // data.BreakBlock();
+        // switch (itemType)
+        // {
+        //     case FIELD_ITEM.NONE:
+        //         break;
+        //     case FIELD_ITEM.BOMB_DELAY:
+        //         GameObject bombObj = ResourcesManager.GetInstance().CreateInstance(PREFAB_NAME.FIELD_BOMB, PREFAB_NAME.ITEM_ROOT, false);
+        //         if (bombObj != null)
+        //         {
+        //             AI_FieldBomb_Base bombData = bombObj.GetComponent<AI_FieldBomb_Base>();
+        //             bombData.DebugInitializeFieldBomb(pos.posX, pos.posZ, itemType, unitCode);
+        //         }
+        //         break;
+        //     case FIELD_ITEM.BOMB_NORMAL:
+        //         break;
+        // }
+        // //ここでNONEを指定しないと、コライダーが爆弾を生成指定しまう
+        // itemType = FIELD_ITEM.NONE;
     }
     public void RemoveField()
     {

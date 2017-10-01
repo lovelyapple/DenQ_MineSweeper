@@ -66,8 +66,8 @@ public class AI_FieldBomb_Base : AIBase
     }
     public void Destroy()
     {
-        GameObject fxObj = ResourcesManager.GetInstance().CreateInstance(PREFAB_NAME.EFFECT_EXPLO_01, PREFAB_NAME.EFFECT_ROOT, false);
-        fxObj.transform.position = this.gameObject.transform.position;
+        //GameObject fxObj = ResourcesManager.GetInstance().CreateInstance(PREFAB_NAME.EFFECT_EXPLO_01, PREFAB_NAME.EFFECT_ROOT, false);
+       // fxObj.transform.position = this.gameObject.transform.position;
         GameObject.Destroy(this.gameObject);
     }
     public FIELD_ITEM GetTypeConverted()

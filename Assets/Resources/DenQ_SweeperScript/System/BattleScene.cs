@@ -50,25 +50,25 @@ public class BattleScene : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        switch (BattleState)
-        {
-            case BATTLE_STATE.OVERHEAD:
-                if (GameManager.GetInstance().IsGameReady())
-                {
-                    BattleState = BATTLE_STATE.INIT;
-                }
-                break;
-            case BATTLE_STATE.INIT:
-                InitilizeBattleScene();
-                BattleState = BATTLE_STATE.WATING_CREATE;
-                break;
-            case BATTLE_STATE.WATING_CREATE:
-                break;
-            case BATTLE_STATE.UPDATE:
-                break;
-            case BATTLE_STATE.ERRORED:
-                break;
-        }
+        // switch (BattleState)
+        // {
+        //     case BATTLE_STATE.OVERHEAD:
+        //         if (GameManager.GetInstance().IsGameReady())
+        //         {
+        //             BattleState = BATTLE_STATE.INIT;
+        //         }
+        //         break;
+        //     case BATTLE_STATE.INIT:
+        //         InitilizeBattleScene();
+        //         BattleState = BATTLE_STATE.WATING_CREATE;
+        //         break;
+        //     case BATTLE_STATE.WATING_CREATE:
+        //         break;
+        //     case BATTLE_STATE.UPDATE:
+        //         break;
+        //     case BATTLE_STATE.ERRORED:
+        //         break;
+        // }
     }
     //必要のデータをロードする、基本の初期化
     public static bool BattleSceneObjGet()
@@ -84,63 +84,64 @@ public class BattleScene : MonoBehaviour
     void InitilizeBattleScene()
     {
 
-        FieldRootObj = ResourcesManager.GetInstance().CreateInstance(PREFAB_NAME.FIELD_ROOT, this.gameObject, false);
-        if (FieldRootObj == null)
-        {
-            BattleState = BATTLE_STATE.ERRORED;
-            return;
-        }
-        FieldRootObj.transform.position = new Vector3(0,0,0);
+        // FieldRootObj = ResourcesManager.GetInstance().CreateInstance(PREFAB_NAME.FIELD_ROOT, this.gameObject, false);
+        // if (FieldRootObj == null)
+        // {
+        //     BattleState = BATTLE_STATE.ERRORED;
+        //     return;
+        // }
+        // FieldRootObj.transform.position = new Vector3(0,0,0);
 
-        ItemRootObj = ResourcesManager.GetInstance().CreateInstance(PREFAB_NAME.ITEM_ROOT, FieldRootObj, false);
-        if (ItemRootObj == null)
-        {
-            BattleState = BATTLE_STATE.ERRORED;
-            return;
-        }
-        ItemRootObj.transform.position = new Vector3(0,0,0);
+        // ItemRootObj = ResourcesManager.GetInstance().CreateInstance(PREFAB_NAME.ITEM_ROOT, FieldRootObj, false);
+        // if (ItemRootObj == null)
+        // {
+        //     BattleState = BATTLE_STATE.ERRORED;
+        //     return;
+        // }
+        // ItemRootObj.transform.position = new Vector3(0,0,0);
 
-        EffectRootOgj = ResourcesManager.GetInstance().CreateInstance(PREFAB_NAME.EFFECT_ROOT, FieldRootObj, false);
-        if (EffectRootOgj == null)
-        {
-            BattleState = BATTLE_STATE.ERRORED;
-            return;
-        }
-        EffectRootOgj.transform.position = new Vector3(0,0,0);
+        // EffectRootOgj = ResourcesManager.GetInstance().CreateInstance(PREFAB_NAME.EFFECT_ROOT, FieldRootObj, false);
+        // if (EffectRootOgj == null)
+        // {
+        //     BattleState = BATTLE_STATE.ERRORED;
+        //     return;
+        // }
+        // EffectRootOgj.transform.position = new Vector3(0,0,0);
 
-        FieldManagerObj = ResourcesManager.GetInstance().CreateInstance(PREFAB_NAME.FIELD_MGR, FieldRootObj, false);
-        if (FieldManagerObj == null)
-        {
-            BattleState = BATTLE_STATE.ERRORED;
-            return;
-        }
-        FieldManagerObj.transform.position = new Vector3(0,0,0);
-        FieldManger = FieldManagerObj.GetComponent<FieldManager>();
-        if (FieldManger == null)
-        {
-            BattleState = BATTLE_STATE.ERRORED;
-            return;
-        }
-        if(!FieldManager.GetInstance().DebugInitializeField())
-        {
-            BattleState = BATTLE_STATE.ERRORED;
-        }
+        // FieldManagerObj = ResourcesManager.GetInstance().CreateInstance(PREFAB_NAME.FIELD_MGR, FieldRootObj, false);
+        // if (FieldManagerObj == null)
+        // {
+        //     BattleState = BATTLE_STATE.ERRORED;
+        //     return;
+        // }
+        // FieldManagerObj.transform.position = new Vector3(0,0,0);
+        // FieldManger = FieldManagerObj.GetComponent<FieldManager>();
+        // if (FieldManger == null)
+        // {
+        //     BattleState = BATTLE_STATE.ERRORED;
+        //     return;
+        // }
+        // if(!FieldManager.GetInstance().DebugInitializeField())
+        // {
+        //     BattleState = BATTLE_STATE.ERRORED;
+        // }
 
 
 
     }
     public GameObject GetWorldParent(PREFAB_NAME name)
     {
-        switch (name)
-        {
-            case PREFAB_NAME.FIELD_ROOT:
-                return FieldRootObj;
-            case PREFAB_NAME.ITEM_ROOT:
-                return ItemRootObj;
-            case PREFAB_NAME.EFFECT_ROOT:
-                return EffectRootOgj;
-            default: return null;
-        }
+        // switch (name)
+        // {
+        //     case PREFAB_NAME.FIELD_ROOT:
+        //         return FieldRootObj;
+        //     case PREFAB_NAME.ITEM_ROOT:
+        //         return ItemRootObj;
+        //     case PREFAB_NAME.EFFECT_ROOT:
+        //         return EffectRootOgj;
+        //     default: return null;
+        // }
+        return null;
     }
 
 }

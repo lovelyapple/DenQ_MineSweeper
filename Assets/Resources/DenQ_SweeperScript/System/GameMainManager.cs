@@ -5,7 +5,7 @@ using UnityEngine;
 using DenQ;
 using DenQ.Mgr;
 
-public class GameObjectsManager : MangerBase<GameObjectsManager>
+public class GameMainManager : MangerBase<GameMainManager>
 {
 
     //0スタート

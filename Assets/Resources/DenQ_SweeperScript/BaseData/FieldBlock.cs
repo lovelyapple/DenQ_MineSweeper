@@ -61,10 +61,10 @@ public class FieldBlock : ObjectBaseData
     {
         GameObject.Destroy(blockObj);
         blockObj = null;
-        GameObject plateObj = ResourcesManager.GetInstance().CreateInstance(PREFAB_NAME.FIELD_PLATE, this.gameObject, false);
-        plateObj.transform.position = this.gameObject.transform.position;
-        plateCtrl = plateObj.GetComponent<FieldPlateController>();
-        plateCtrl.InitializePlate(this.fieldPos.unitCode);
+        //GameObject plateObj = ResourcesManager.GetInstance().CreateInstance(PREFAB_NAME.FIELD_PLATE, this.gameObject, false);
+        //plateObj.transform.position = this.gameObject.transform.position;
+        //plateCtrl = plateObj.GetComponent<FieldPlateController>();
+        //plateCtrl.InitializePlate(this.fieldPos.unitCode);
     }
     public bool IsBroken()
     {

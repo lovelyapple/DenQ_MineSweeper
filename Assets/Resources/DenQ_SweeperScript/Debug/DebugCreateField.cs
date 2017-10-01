@@ -45,7 +45,7 @@ public class DebugCreateField : EditorWindow
 
                     if (GUILayout.Button("CreateAll"))
                     {
-                       FieldManager.GetInstance().DebugCreateFeildAll((uint)SizeX,(uint)SizeZ);
+                       //FieldManager.GetInstance().DebugCreateFeildAll((uint)SizeX,(uint)SizeZ);
                     }
                     if (GUILayout.Button("Clear"))
                     {

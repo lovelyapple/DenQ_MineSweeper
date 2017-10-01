@@ -15,7 +15,7 @@ public class DebugPrefabChecker : EditorWindow
         {
             return false;
         }
-        ExistList = ResourcesManager.GetInstance().GetExistList();
+        //ExistList = ResourcesManager.GetInstance().GetExistList();
         return ExistList.Count > 0;
     }
     [MenuItem("Debug/PrefabChecker")]

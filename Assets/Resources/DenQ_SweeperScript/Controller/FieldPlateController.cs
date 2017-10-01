@@ -42,10 +42,10 @@ public class FieldPlateController : MonoBehaviour
         }
         if (numberCtrl == null)
         {
-            GameObject numbersObj = ResourcesManager.GetInstance().CreateInstance(PREFAB_NAME.FIELD_NUMBERS, this.gameObject, false);
-            numbersObj.transform.position = this.gameObject.transform.position;
-            numberCtrl = numbersObj.GetComponent<FieldNumbersController>();
-            numberCtrl.UpdateNumber(bombCnt);
+            // GameObject numbersObj = ResourcesManager.GetInstance().CreateInstance(PREFAB_NAME.FIELD_NUMBERS, this.gameObject, false);
+            // numbersObj.transform.position = this.gameObject.transform.position;
+            // numberCtrl = numbersObj.GetComponent<FieldNumbersController>();
+            // numberCtrl.UpdateNumber(bombCnt);
         }else
         {
             numberCtrl.UpdateNumber(bombCnt);

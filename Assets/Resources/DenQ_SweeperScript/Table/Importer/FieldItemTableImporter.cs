@@ -34,8 +34,22 @@ public class FieldItemTableImporter : TableImporterBase
     {
         isFinished = true;
     }
-    public static Dictionary<ulong, FieldItemData> GetBombData()
+    public static Dictionary<ulong, FieldItemData> GetFieldItemDatas()
     {
         return DenQOffLineDataBase.fieldItemTable;
     }
+}
+public static class FieldItemTableHelper
+{
+    public static FieldItemData GetFieldItemData(ulong code)
+    {
+        var db = DenQOffLineDataBase.fieldItemTable;
+        var outData = new FieldItemData();
+        if(!db.TryGetValue(code,out outData))
+        {
+            DenQLogger.SWarn("could not find fielditem Id : " + code);
+        }
+        return outData;
+    }
+
 }

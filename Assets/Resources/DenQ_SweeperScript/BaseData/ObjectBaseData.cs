@@ -81,7 +81,7 @@ namespace DenQ
         public ActionController actionCtrl = null;
         void Awake()
         {
-            _objectId = GameObjectsManager.GetInstance().RigistObjectId(this);
+            _objectId = GameMainManager.GetInstance().RigistObjectId(this);
         }
         //必要なものだけ、ActionCtrlをつけとく（動けるもの,AI必須）
         public void InitActionCtrl()
