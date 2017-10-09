@@ -6,10 +6,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using DenQ.BaseStruct;
 using DenQ.Mgr;
-public enum PREFAB_NAME
-{
-    a, ab, c,
-}
 ///ここでリソースのロードを行う媒体
 public class ResourcesManager : MangerBase<ResourcesManager>
 {
@@ -36,23 +32,19 @@ public class ResourcesManager : MangerBase<ResourcesManager>
             prefabPathList = infos.ToDictionary(info => info.Name, info => new PrefabContainer(info,(int)resourcePathCharaCnt,prefabIdxCnt));
         }
     }
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            PreLoadPrefab();
-            //CreateGameObject(null, 1000, "FieldBlock");
-        }
-    }
     ///FieldItemTableからNameを取り出し、インスタンスを作る
-    public GameObject CreateFieldObjectInstance(ulong itemCode, Transform parent, bool saveCache = true)
+    public GameObject CreateFieldObjectInstance(ulong itemCode, Transform parent, Vector3 pos,bool saveCache = true)
     {
         var fieldItemData = FieldItemTableHelper.GetFieldItemData(itemCode);
-        if (fieldItemData == null) return null;
-        return CreateFieldObjectInstance(fieldItemData.name, parent, saveCache);
+        if (fieldItemData == null)
+        {
+            DenQLogger.GWarn("could not find itemCode + " + itemCode);
+            return null;
+        }
+        return CreateFieldObjectInstance(fieldItemData.name, parent, pos,saveCache);
     }
     ///PrefabPathDictionから名前のcontainerを探し、Prefabがなければ作り、なければLoad
-    public GameObject CreateFieldObjectInstance(string name, Transform parent, bool saveCache = true)
+    public GameObject CreateFieldObjectInstance(string name, Transform parent, Vector3 pos,bool saveCache = true)
     {
         var container = new PrefabContainer();
         if (!prefabPathList.TryGetValue(name, out container))
@@ -73,11 +65,11 @@ public class ResourcesManager : MangerBase<ResourcesManager>
         if (saveCache)
         {
             container.prefab = go;
-            return (GameObject)Instantiate(container.prefab, parent);
+            return (GameObject)Instantiate(container.prefab,pos,Quaternion.identity, parent);
         }
         else
         {
-            return (GameObject)Instantiate(go, parent);
+            return (GameObject)Instantiate(go, pos,Quaternion.identity,parent);
         }
     }
     ///実験的に中身のチェック、基本実行しない

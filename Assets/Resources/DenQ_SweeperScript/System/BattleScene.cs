@@ -129,19 +129,5 @@ public class BattleScene : MonoBehaviour
 
 
     }
-    public GameObject GetWorldParent(PREFAB_NAME name)
-    {
-        // switch (name)
-        // {
-        //     case PREFAB_NAME.FIELD_ROOT:
-        //         return FieldRootObj;
-        //     case PREFAB_NAME.ITEM_ROOT:
-        //         return ItemRootObj;
-        //     case PREFAB_NAME.EFFECT_ROOT:
-        //         return EffectRootOgj;
-        //     default: return null;
-        // }
-        return null;
-    }
 
 }

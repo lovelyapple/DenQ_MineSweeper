@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+///主にシスオブジェクトインスタンスのインターフェースを保持する
 public static class ResourcesHelper
 {
     [SerializeField]
@@ -20,6 +20,10 @@ public static class ResourcesHelper
             if (_systemRootObj == null)
             {
                 _systemRootObj = GameObject.Find("SystemRoot");
+                if (_systemRootObj == null)
+                {
+                    DenQLogger.SError("could not fine SystemRoot!");
+                }
             }
             return _systemRootObj;
         }
@@ -32,6 +36,10 @@ public static class ResourcesHelper
             if (_fieldObjectRootObj == null)
             {
                 _fieldObjectRootObj = GameObject.Find("FieldObjectRoot");
+                if (_fieldObjectRootObj == null)
+                {
+                    DenQLogger.SError("could not fine _fieldObjectRootObj!");
+                }
             }
             return _fieldObjectRootObj;
         }
@@ -44,6 +52,10 @@ public static class ResourcesHelper
             if (_effectRootObj == null)
             {
                 _effectRootObj = GameObject.Find("EffectRoot");
+                if (_effectRootObj == null)
+                {
+                    DenQLogger.SError("could not fine _effectRootObj!");
+                }
             }
             return _effectRootObj;
         }
@@ -56,9 +68,13 @@ public static class ResourcesHelper
             if (_UIRootObj == null)
             {
                 _UIRootObj = GameObject.Find("UIRoot");
+                if (_UIRootObj == null)
+                {
+                    DenQLogger.SError("could not fine _UIRootObj!");
+                }
             }
             return _UIRootObj;
         }
     }
-    
+
 }

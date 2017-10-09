@@ -22,20 +22,12 @@ public class TableImporterBase
     {
         set
         {
-            _filePath = string.Format("{0}/Resources/DenQ_SweeperScript/Table/Data/{1}.csv", GetApplicationPath(), value);
+            _filePath = string.Format("{0}/Resources/ExterminalResource/TableCSV/{1}.csv", GetApplicationPath(), value);
         }
         get
         {
             return _filePath;
         }
-    }
-    /// 特集のファイルパスを使うときに使用
-    /// App/../Table/xxxxxx.csv
-    /// <value>The file path special.</value>
-    public string filePathSpecial
-    {
-        set { _filePath = string.Format("{0}/Resources/DenQ_SweeperScript/Table/{1}.csv", GetApplicationPath(), value); }
-        get { return _filePath; }
     }
     Dictionary<string, uint> cellIndx = new Dictionary<string, uint>();
     ///ファイルのPath取得

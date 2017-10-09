@@ -7,28 +7,8 @@ using UnityEngine.UI;
 
 namespace DenQ.BaseStruct
 {
-    public enum PARTICLE_TYPE
-    {
-        ONCE_ONLY,
-        RECYCLE,
-        TIMES,
-    }
-    public enum FIELD_BLOCK
-    {
-        NORMAL,
-    }
-    public enum FIELD_ITEM
-    {
-        BOMB_NORMAL,
-        BOMB_DELAY,
-        NONE,
-    }
-    public enum FIELD_ITEM_TOKEN
-    {
-        FIELD_ITEM_BLOCK = 1000,
-        FIELD_ITEM_BOMB = 2000,
-        NONE,
-    }
+
+
     //Down======================== FIELD POS LCASS ===============================Down//
     public class FieldPos : IComparable<FieldPos>
     {
@@ -105,15 +85,6 @@ namespace DenQ.BaseStruct
             fieldPos.posZ -= fieldCodeZ * maxFieldBlockCount;
             return fieldPos;
         }
-        public static GameObject InstialHelper(GameObject prefab, GameObject parent)
-        {
-            return (GameObject)Instantiate(prefab, parent.transform);
-        }
-        public static GameObject InstialHelper(GameObject prefab)
-        {
-            return (GameObject)Instantiate(prefab);
-        }
-
         public static Collider[] GetSroundedObejcts(FieldPos pos, int fieldUnitCode)
         {
             Vector3 center = ConvertFieldPosToWorld(pos, fieldUnitCode);

@@ -2,37 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DenQ.BaseStruct;
-public enum ObjectType
+namespace DenQData
 {
-    /* 100,200はオブジェクト種別で使用
-     * それ以外はオブジェクトの細かいタイプで使用
-     */
-    //TODO タイプを追加して、OnGuiで何か出せそう！
-    DenQ = 0,            //-------->DenQ系統
-    DenQ_BombSquard = 1,       //        
-    EnemyMob = 100,            //-------->敵系統
-    FieldItem = 200,           //-------->フィールド上のアイテム
-    Field_Block = 201,         //BLock
-    Field_Bomb = 202,          //Bomb     
-}
-namespace DenQ
-{
-    public class BaseDataInput
-    {
-        int hp;
-        float moveSpeed;
-        float attack;
-        float searchRange;
-        float bodySize;
-        public BaseDataInput(int _hp, float _moveSpeed, float _attack, float _bodySize, float _searchRange)
-        {
-            hp = _hp;
-            moveSpeed = _moveSpeed;
-            bodySize = _bodySize;
-            attack = _attack;
-            searchRange = _searchRange;
-        }
-    }
     /* フィールド上背景以外のオブジェクト基本データ
      *
      *

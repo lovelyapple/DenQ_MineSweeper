@@ -24,7 +24,6 @@ public class FieldItemTableImporter : TableImporterBase
     {
         var data = new FieldItemData();
         data.masterCode = Read_ulong("master_code");
-        data.type = Read_uint("type");
         data.name = Read_string("name");
 
         if (DenQOffLineDataBase.fieldItemTable.ContainsKey(data.masterCode)) return;

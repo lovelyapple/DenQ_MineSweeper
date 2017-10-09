@@ -7,26 +7,12 @@ using DenQ.BaseStruct;
 public class FieldBlock : ObjectBaseData
 {
     public float lengthToCamera = 0.0f;
-    public FIELD_BLOCK blockType = FIELD_BLOCK.NORMAL;
-    public FIELD_ITEM itemType = FIELD_ITEM.NONE;
-
     public GameObject blockObj = null;
     public FieldPlateController plateCtrl = null;
-    public void InitializeFieldBlock(int x, int z, FIELD_BLOCK blockType, FIELD_ITEM itemType, int fieldCode)
+    public void InitializeFieldBlock(int x, int z,int fieldCode)
     {
         fieldPos = new FieldPos(x, z);
         this.fieldPos.unitCode = fieldCode;
-        this.blockType = blockType;
-        this.itemType = itemType;
-        switch (this.itemType)
-        {
-            case FIELD_ITEM.NONE:
-                break;
-            case FIELD_ITEM.BOMB_DELAY:
-                break;
-            case FIELD_ITEM.BOMB_NORMAL:
-                break;
-        }
     }
     // Use this for initialization
     void Start()
@@ -38,14 +24,6 @@ public class FieldBlock : ObjectBaseData
     void Update()
     {
 
-    }
-    public FIELD_BLOCK GetBLockType()
-    {
-        return blockType;
-    }
-    public FIELD_ITEM GetBlockItemType()
-    {
-        return itemType;
     }
     public void Destroy()
     {
@@ -69,15 +47,5 @@ public class FieldBlock : ObjectBaseData
     public bool IsBroken()
     {
         return blockObj == null;
-    }
-    public bool ExistBomb()
-    {
-        if (itemType == FIELD_ITEM.BOMB_DELAY ||
-            itemType == FIELD_ITEM.BOMB_NORMAL)
-        {
-            return true;
-        }
-        return false;
-
     }
 }
