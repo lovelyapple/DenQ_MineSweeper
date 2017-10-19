@@ -13,5 +13,6 @@ namespace DenQData
         public static Dictionary<ulong, MultiRewardData> multiRewardTable = new Dictionary<ulong, MultiRewardData>();
         public static Dictionary<ulong, StackItemData>  stackItemTable = new Dictionary<ulong, StackItemData>();
         public static Dictionary<ulong, FieldItemData>  fieldItemTable = new Dictionary<ulong, FieldItemData>();
+        public static Dictionary<ulong, FieldBlockData> FieldBlockTable = new Dictionary<ulong, FieldBlockData>();
     }
 }

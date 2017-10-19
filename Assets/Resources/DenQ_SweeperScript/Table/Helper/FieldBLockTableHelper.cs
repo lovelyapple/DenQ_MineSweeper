@@ -1,0 +1,18 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using System.Linq;
+using DenQData;
+public static class FieldBlockTableHelper {
+	public static FieldBlockData GetFieldBLockDataByID(ulong id)
+	{
+		var list = DenQOffLineDataBase.FieldBlockTable;
+		return list.ContainsKey(id)? list[id] : null;
+	}
+	public static List<FieldBlockData> GetBombAllDatas()
+	{
+		var dict = DenQOffLineDataBase.FieldBlockTable;
+		return dict.Select(t => t.Value).ToList();
+	}
+}
+

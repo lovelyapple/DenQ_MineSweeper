@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System;
-using DenQ.BaseStruct;
+using DenQ;
 public class DebugPrefabChecker : EditorWindow
 {
 //とりあえず、何もしない

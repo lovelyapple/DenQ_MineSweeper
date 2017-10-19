@@ -22,6 +22,7 @@ public class TableImporterBase
     {
         set
         {
+            tableName = value;
             _filePath = string.Format("{0}/Resources/ExterminalResource/TableCSV/{1}.csv", GetApplicationPath(), value);
         }
         get
@@ -29,6 +30,7 @@ public class TableImporterBase
             return _filePath;
         }
     }
+    string tableName = "";
     Dictionary<string, uint> cellIndx = new Dictionary<string, uint>();
     ///ファイルのPath取得
     public virtual string GetFilePath() { return ""; }
@@ -66,6 +68,7 @@ public class TableImporterBase
         {
             var str = e.Current as string;
             cellIndx.Add(str, idx);
+            //Logger.SDebug(tableName + "  "+ str + "   idx " + idx);
             idx++;
         }
     }
@@ -74,7 +77,7 @@ public class TableImporterBase
         var val = new uint();
         if (!cellIndx.TryGetValue(input, out val))
         {
-            DenQLogger.SError(" could not find the name in csv source " + input);
+            Logger.SError(" could not find the name in csv source " + input);
             return null;
         }
         return colums[(int)val];
@@ -85,7 +88,7 @@ public class TableImporterBase
         var val = new uint();
         if (!cellIndx.TryGetValue(input, out val))
         {
-            DenQLogger.SError(" could not find the name in csv source " + input);
+            Logger.SError(" could not find the name in csv source " + input);
             return 0;
         }
         return int.Parse(colums[(int)val]);
@@ -95,7 +98,7 @@ public class TableImporterBase
         var val = new uint();
         if (!cellIndx.TryGetValue(input, out val))
         {
-            DenQLogger.SError(" could not find the name in csv source " + input);
+            Logger.SError(" could not find the name in csv source " + input);
             return 0;
         }
         return long.Parse(colums[(int)val]);
@@ -105,7 +108,7 @@ public class TableImporterBase
         var val = new uint();
         if (!cellIndx.TryGetValue(input, out val))
         {
-            DenQLogger.SError(" could not find the name in csv source " + input);
+            Logger.SError(" could not find the name in csv source " + input);
             return 0;
         }
         return uint.Parse(colums[(int)val]);
@@ -115,7 +118,7 @@ public class TableImporterBase
         var val = new uint();
         if (!cellIndx.TryGetValue(input, out val))
         {
-            DenQLogger.SError(" could not find the name in csv source " + input);
+            Logger.SError(" could not find the name in csv source " + input);
             return 0;
         }
         return ulong.Parse(colums[(int)val]);
@@ -125,7 +128,7 @@ public class TableImporterBase
         var val = new uint();
         if (!cellIndx.TryGetValue(input, out val))
         {
-            DenQLogger.SError(" could not find the name in csv source " + input);
+            Logger.SError(" could not find the name in csv source " + input);
             return 0;
         }
         return float.Parse(colums[(int)val]);

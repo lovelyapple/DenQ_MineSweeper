@@ -46,7 +46,7 @@ public static class FieldItemTableHelper
         var outData = new FieldItemData();
         if(!db.TryGetValue(code,out outData))
         {
-            DenQLogger.SWarn("could not find fielditem Id : " + code);
+            Logger.SWarn("could not find fielditem Id : " + code);
         }
         return outData;
     }

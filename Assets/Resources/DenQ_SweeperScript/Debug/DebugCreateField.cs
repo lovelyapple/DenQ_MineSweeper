@@ -21,11 +21,6 @@ public class DebugCreateField : EditorWindow
                 GUILayout.Label("DebugFieldCreateWindow");
                 if (EditorApplication.isPlaying)
                 {
-
-                    if (GUILayout.Button("Create"))
-                    {
-                        FieldManager.GetInstance().DebugCreateFieldBlock();
-                    }
                     
 					GUILayout.BeginHorizontal();
 					{

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using DenQ.BaseStruct;
+using DenQ;
 public class UIVirtualMoveButton : MonoBehaviour
 {
 
@@ -46,7 +46,7 @@ public class UIVirtualMoveButton : MonoBehaviour
 
         if (buttonStateCtrl.GetButtonPress())
         {
-            panelMousePosition = DenQUIhelper.GetPanelPosition(canvasRectT, panelRectT);
+            //panelMousePosition = DenQUIhelper.GetPanelPosition(canvasRectT, panelRectT);
             alphaState = ALPHA_STATS.increase;
             float range = panelMousePosition.magnitude;
             if (range > panelRectT.rect.width / 2.0f)

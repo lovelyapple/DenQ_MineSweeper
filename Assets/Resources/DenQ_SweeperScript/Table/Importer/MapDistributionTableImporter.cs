@@ -17,7 +17,7 @@ public class MapDistributionTableImporter : TableImporterBase
     public override void PreImportData()
     {
         DenQOffLineDataBase.mapDistributionTable.Clear();
-        filePath = "MultiRewardTable";
+        filePath = "MapDistributionTable";
         isFinished = true;
     }
     public override void ImportData()
@@ -30,10 +30,10 @@ public class MapDistributionTableImporter : TableImporterBase
             data.distributionDatas.Add(itemCode, Read_uint("item_rate_01"));
         itemCode = Read_ulong("master_code_02");
         if (itemCode != 0)
-            data.distributionDatas.Add(itemCode, Read_uint("item_rate_01"));
+            data.distributionDatas.Add(itemCode, Read_uint("item_rate_02"));
         itemCode = Read_ulong("master_code_03");
         if (itemCode != 0)
-            data.distributionDatas.Add(itemCode, Read_uint("item_rate_01"));
+            data.distributionDatas.Add(itemCode, Read_uint("item_rate_03"));
 
         if (DenQOffLineDataBase.mapDistributionTable.ContainsKey(data.code)) return;
         DenQOffLineDataBase.mapDistributionTable.Add(data.code, data);
@@ -55,7 +55,7 @@ public static class MapDistributionTableHelper
         var outData = new MapDistributionData();
         if(!dbs.TryGetValue(code,out outData))
         {
-            DenQLogger.SError("coudl not find fieldData Code :" + code);
+            Logger.SError("coudl not find fieldData Code :" + code);
         }
         return outData;
     }
