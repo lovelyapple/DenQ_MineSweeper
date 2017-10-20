@@ -24,9 +24,7 @@ public class FieldItemTableImporter : TableImporterBase
     {
         var data = new FieldItemData();
         data.masterCode = Read_ulong("master_code");
-        data.type = Read_uint("type");
         data.name = Read_string("name");
-
         if (DenQOffLineDataBase.fieldItemTable.ContainsKey(data.masterCode)) return;
         DenQOffLineDataBase.fieldItemTable.Add(data.masterCode, data);
     }
@@ -34,8 +32,22 @@ public class FieldItemTableImporter : TableImporterBase
     {
         isFinished = true;
     }
-    public static Dictionary<ulong, FieldItemData> GetBombData()
+    public static Dictionary<ulong, FieldItemData> GetFieldItemDatas()
     {
         return DenQOffLineDataBase.fieldItemTable;
     }
+}
+public static class FieldItemTableHelper
+{
+    public static FieldItemData GetFieldItemData(ulong code)
+    {
+        var db = DenQOffLineDataBase.fieldItemTable;
+        var outData = new FieldItemData();
+        if(!db.TryGetValue(code,out outData))
+        {
+            Logger.SWarn("could not find fielditem Id : " + code);
+        }
+        return outData;
+    }
+
 }

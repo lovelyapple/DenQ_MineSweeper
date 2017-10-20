@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace DenQData
 {
-    public class DenQOffLineDataBase
+    public static class DenQOffLineDataBase
     {
         public static Dictionary<ulong, FieldData> fieldTable = new Dictionary<ulong, FieldData>();
 		public static Dictionary<ulong, MapDistributionData> mapDistributionTable = new Dictionary<ulong, MapDistributionData>();
@@ -13,5 +13,6 @@ namespace DenQData
         public static Dictionary<ulong, MultiRewardData> multiRewardTable = new Dictionary<ulong, MultiRewardData>();
         public static Dictionary<ulong, StackItemData>  stackItemTable = new Dictionary<ulong, StackItemData>();
         public static Dictionary<ulong, FieldItemData>  fieldItemTable = new Dictionary<ulong, FieldItemData>();
+        public static Dictionary<ulong, FieldBlockData> FieldBlockTable = new Dictionary<ulong, FieldBlockData>();
     }
 }

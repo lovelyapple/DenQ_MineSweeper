@@ -60,7 +60,7 @@ public static class FieldTableHelpfer
         var outData = new FieldData();
         if(!dbs.TryGetValue(fieldCode,out outData))
         {
-            DenQLogger.SError("coudl not find fieldData Code :" + fieldCode);
+            Logger.SError("coudl not find fieldData Code :" + fieldCode);
         }
         return outData;
     }

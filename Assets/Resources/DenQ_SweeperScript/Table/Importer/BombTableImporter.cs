@@ -39,7 +39,7 @@ public class BombTableImporter : TableImporterBase
 
         if (DenQOffLineDataBase.bombTable.ContainsKey(data.itemCode)) return;
         DenQOffLineDataBase.bombTable.Add(data.itemCode, data);
-        Debug.Log("bomb code" + data.itemCode + " name " + data.name);
+        //Debug.Log("bomb code" + data.itemCode + " name " + data.name);
     }
     public override void AfterImportData()
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using DenQ.Mgr;
+using DenQ;
 using System;
 
 [FlagsAttribute]
@@ -26,6 +26,7 @@ public class DebugInformation
     {
         dumpType = type;
         dumpMsg = msg;
+        
     }
 
     public void ShowMsg()
@@ -33,7 +34,22 @@ public class DebugInformation
         if (dumpMsg != null)
         {
 #if UNITY_EDITOR
-            Debug.Log("Debug " + dumpType.ToString() + ":" + dumpMsg);
+            switch((DUMP_TYPE)dumpType)
+            {
+                case DUMP_TYPE.GAM_DEBUG:
+                case DUMP_TYPE.SYS_DEBUG:
+                Debug.Log(dumpMsg);
+                break;
+                case DUMP_TYPE.GAM_WARMING:
+                case DUMP_TYPE.SYS_WARNING:
+                Debug.LogWarning(dumpMsg);
+                break;
+                case DUMP_TYPE.GAM_ERROR:
+                case DUMP_TYPE.SYS_ERROR:
+                Debug.LogError(dumpMsg);
+                break;
+            }
+            
 #endif
         }
     }
@@ -70,7 +86,7 @@ public class DebugDumpMangerWindow : EditorWindow
                     if (GUILayout.Button(string.Format("{0:s}", type.ToString()), GUILayout.Width(150)))
                     {
                         dumController ^= (int)type;
-                        DenQLogger.UpdateType(dumController);
+                        Logger.UpdateType(dumController);
                     }
                 }
                 GUILayout.EndHorizontal();

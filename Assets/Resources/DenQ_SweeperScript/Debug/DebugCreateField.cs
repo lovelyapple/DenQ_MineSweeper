@@ -21,11 +21,6 @@ public class DebugCreateField : EditorWindow
                 GUILayout.Label("DebugFieldCreateWindow");
                 if (EditorApplication.isPlaying)
                 {
-
-                    if (GUILayout.Button("Create"))
-                    {
-                        FieldManager.GetInstance().DebugCreateFieldBlock();
-                    }
                     
 					GUILayout.BeginHorizontal();
 					{
@@ -45,7 +40,7 @@ public class DebugCreateField : EditorWindow
 
                     if (GUILayout.Button("CreateAll"))
                     {
-                       FieldManager.GetInstance().DebugCreateFeildAll((uint)SizeX,(uint)SizeZ);
+                       //FieldManager.GetInstance().DebugCreateFeildAll((uint)SizeX,(uint)SizeZ);
                     }
                     if (GUILayout.Button("Clear"))
                     {

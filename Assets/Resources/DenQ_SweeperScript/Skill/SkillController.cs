@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DenQ;
+using DenQData;
 public class SkillController :MonoBehaviour
 {
     public Dictionary<SKILL_KIND, SkillBaseData> skillDatas = new Dictionary<SKILL_KIND, SkillBaseData>();
@@ -40,7 +40,6 @@ public class SkillController :MonoBehaviour
         var data = skillDatas[kind];
         activeTime = data.activeTime;
         data.ResetSkillTime();
-        data.Fire(selfData, selfData.actionCtrl.targetCtrl.GetTarget());
     }
     public bool CanFireSkill(SKILL_KIND kind)
     {

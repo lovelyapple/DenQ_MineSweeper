@@ -64,14 +64,4 @@ public class SkillBaseData
     {
         return activeTime;
     }
-    public void Fire(ObjectBaseData selfData, ObjectBaseData targetData)
-    {
-        if (targetData.IsDead()) { return; }
-        switch (skillType)
-        {
-            case SKILL_TYPE.fastOnce:
-                targetData.actionCtrl.targetCtrl.DamageObject(this);
-                break;
-        }
-    }
 }

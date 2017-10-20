@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System;
-using DenQ.BaseStruct;
+using DenQ;
 public class DebugPrefabChecker : EditorWindow
 {
-    static Dictionary<PREFAB_NAME ,bool> ExistList = new Dictionary<PREFAB_NAME ,bool>();
-
+//とりあえず、何もしない
     [MenuItem("Debug/PrefabChecker", true)]
     static bool OpenChecker()
     {
@@ -15,8 +14,7 @@ public class DebugPrefabChecker : EditorWindow
         {
             return false;
         }
-        ExistList = ResourcesManager.GetInstance().GetExistList();
-        return ExistList.Count > 0;
+        return true;
     }
     [MenuItem("Debug/PrefabChecker")]
     static void ExecutePrefabChecker(MenuCommand command)
@@ -31,16 +29,6 @@ public class DebugPrefabChecker : EditorWindow
 
             GUILayout.BeginVertical();
             {
-                
-                foreach(PREFAB_NAME  element in ExistList.Keys)
-                {
-                        GUILayout.BeginHorizontal("box");
-                        {
-                            GUILayout.Label(string.Format("{0:s}",element.ToString()));
-                            GUILayout.Button(string.Format("{0:s}",ExistList[element].ToString()),GUILayout.Width(200));  
-                        } 
-                         GUILayout.EndHorizontal();
-                }
             }
             GUILayout.EndVertical();
         }

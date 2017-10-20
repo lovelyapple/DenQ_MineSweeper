@@ -46,8 +46,7 @@ public class DebugTableTester : EditorWindow
             GUILayout.Label("DebugTalbeHelper");
             if (GUILayout.Button("read"))
             {
-                TableManager.Init();
-                SystemManager.GetInstance().ReadTable();
+                //TableManager.Init()
             }
         }
         GUILayout.EndVertical();
