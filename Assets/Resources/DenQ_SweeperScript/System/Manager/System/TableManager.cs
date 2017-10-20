@@ -7,7 +7,7 @@ using DenQ;
 public class TableManager : ManagerBase<TableManager>
 {
     private List<TableImporterBase> tableList = new List<TableImporterBase>();
-    private bool isFinished = false;
+    //private bool isFinished = false;
     [FlagsAttribute]
     enum TABLE_INIT_STATE
     {
@@ -45,6 +45,7 @@ public class TableManager : ManagerBase<TableManager>
         tableList.Add(new StackItemTableImporter());
         tableList.Add(new MapDistributionTableImporter());
         tableList.Add(new MapDefinedItemTableImporter());
+        tableList.Add(new FieldItemTableImporter());
         state |= TABLE_INIT_STATE.ADD_TABLE;
     }
     public void ReadTable()
@@ -54,7 +55,6 @@ public class TableManager : ManagerBase<TableManager>
     }
     IEnumerator IeReadTable()
     {
-        Debug.Log("start");
         yield return StartCoroutine(PreImportAll());
         yield return StartCoroutine(ImportTableAll());
         yield return StartCoroutine(AfterImportTablAll());
@@ -74,7 +74,6 @@ public class TableManager : ManagerBase<TableManager>
                 yield return null;
         }
         state |= TABLE_INIT_STATE.PRE_IMPORT;
-        Logger.SDebug("Table PreImport all finished");
     }
     IEnumerator ImportTableAll()
     {
@@ -86,7 +85,6 @@ public class TableManager : ManagerBase<TableManager>
             while (!importer.isFinished) yield return null;//表を一個ずつ読む、順番じゃないと壊れる可能性が
         }
         state |= TABLE_INIT_STATE.CORE_IMPORT;
-        Logger.SDebug("Table MianImport all finished");
     }
     IEnumerator AfterImportTablAll()
     {
@@ -98,7 +96,6 @@ public class TableManager : ManagerBase<TableManager>
             while (!importer.isFinished) yield return null;//表を一個ずつ読む、順番じゃないと壊れる可能性が
         }
         state |= TABLE_INIT_STATE.AFTER_IMPORT;
-        Logger.SDebug("Table AfterImport all finished");
     }
     public bool IsFinished()
     {

@@ -13,29 +13,29 @@ public class ResourcesManager : ManagerBase <ResourcesManager>
     static string resourcesPath = "/Resources/";
     static uint resourcePathCharaCnt = 0;
     ///masterCode を　キーとしたPrefabのDic
-    Dictionary<string, PrefabContainer> prefabPathList = new Dictionary<string, PrefabContainer>();
+    Dictionary<string, PrefabContainer> prefabPathDict = new Dictionary<string, PrefabContainer>();
     /// <summary>
     /// Awake is called when the script instance is being loaded.
     /// </summary>
     void Awake()
     {
-        //SetInstance(this);
+        SetInstance(this);
     }
     void OnEnable()
     {
-        //Instantiate();
+        ReadPath();
     }
     public void ReadPath()
     {
         resourcesPath = Application.dataPath + resourcesPath;
         resourcePathCharaCnt = (uint)resourcesPath.Length;
-        if (prefabPathList == null || prefabPathList.Count <= 0)
+        if (prefabPathDict == null || prefabPathDict.Count <= 0)
         {
-            prefabPathList = new Dictionary<string, PrefabContainer>();
+            prefabPathDict = new Dictionary<string, PrefabContainer>();
             var dir = new DirectoryInfo(Application.dataPath + fieldObjectPrefabPath);
             Debug.Log(dir);
             FileInfo[] infos = dir.GetFiles("*.prefab", SearchOption.AllDirectories);
-            prefabPathList = infos.ToDictionary(info => info.Name, info => new PrefabContainer(info,(int)resourcePathCharaCnt,prefabIdxCnt));
+            prefabPathDict = infos.ToDictionary(info => info.Name, info => new PrefabContainer(info,(int)resourcePathCharaCnt,prefabIdxCnt));
         }
     }
     ///FieldItemTableからNameを取り出し、インスタンスを作る
@@ -53,7 +53,8 @@ public class ResourcesManager : ManagerBase <ResourcesManager>
     public GameObject CreateFieldObjectInstance(string name, Transform parent, Vector3 pos,bool saveCache = true)
     {
         var container = new PrefabContainer();
-        if (!prefabPathList.TryGetValue(name, out container))
+        name += ".prefab";
+        if (!prefabPathDict.TryGetValue(name, out container))
         {
             Logger.GWarn("could not find the prefab in Dictionary name : " + name);
             return null;
@@ -62,7 +63,7 @@ public class ResourcesManager : ManagerBase <ResourcesManager>
         {
             return container.prefab;
         }
-        var go = (GameObject)Resources.Load(container.filePath);
+        var go = (GameObject)Resources.Load(container.loadPath);
         if (go == null)
         {
             Logger.SWarn("could not load resources in file : " + container.filePath);
@@ -81,9 +82,9 @@ public class ResourcesManager : ManagerBase <ResourcesManager>
     ///実験的に中身のチェック、基本実行しない
     void PreLoadPrefab()
     {
-        foreach (var name in prefabPathList.Keys)
+        foreach (var name in prefabPathDict.Keys)
         {
-            var container = prefabPathList[name];
+            var container = prefabPathDict[name];
             var go = (GameObject)Resources.Load(container.loadPath);
             if (go == null)
             {

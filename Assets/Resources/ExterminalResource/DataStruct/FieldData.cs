@@ -15,12 +15,12 @@ public class FieldData
     public ulong definedItemCode;
 
     //これ必要ある？
-    MultiRewardData _multiRewardData = null;
-    MapDefinedTiemData _mapDefinedItemData = null;
+    //MultiRewardData _multiRewardData = null;
+    //MapDefinedTiemData _mapDefinedItemData = null;
     MapDistributionData _mapDistributionData = null;
 
-    public MultiRewardData multiRewardData = null;
-    public MapDefinedTiemData mapDefinedItemData = null;
+    //public MultiRewardData multiRewardData = null;
+    //public MapDefinedTiemData mapDefinedItemData = null;
     public MapDistributionData mapDistributionData
     {
         private set

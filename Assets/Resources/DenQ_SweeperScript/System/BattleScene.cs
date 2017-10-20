@@ -15,6 +15,7 @@ public class BattleScene : MonoBehaviour
         if(!isInited)
         {
             TableManager.GetInstance().ReadTable();
+            ResourcesManager.GetInstance().ReadPath();
             isInited = true;
         }
     }

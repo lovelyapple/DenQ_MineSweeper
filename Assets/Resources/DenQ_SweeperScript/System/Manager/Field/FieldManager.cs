@@ -4,9 +4,9 @@ using UnityEngine;
 using DenQ;
 public class FieldManager : ManagerBase<FieldManager>
 {
-    public Vector3 satrtPos = new Vector3();
+    //public Vector3 satrtPos = new Vector3();
     
-    private static bool isCreatingMap = false;
+    //private static bool isCreatingMap = false;
     // Use this for initialization
     void Awake()
     {

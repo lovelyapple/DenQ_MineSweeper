@@ -46,6 +46,7 @@ public class TableImporterBase
 
     public void ReadeCSVTableCore()
     {
+        Debug.Log("begin load " + tableName + " table");
         isFinished = false;
         ReadIndex();
         var sr = new StreamReader(filePath, Encoding.GetEncoding("SHIFT_JIS"));

@@ -10,6 +10,7 @@ public class FieldBlock : FieldObjectData
     [SerializeField] GameObject blockObj;
     [SerializeField] GameObject plateObj;
     [SerializeField] GameObject numberObj;
+    [SerializeField] GameObject itemPosObj;
     [SerializeField] MeshRenderer numberRender;
     [SerializeField] Material[] numberMtrls;
     ///ブロックのタイプ、nullなら破壊されている
@@ -33,7 +34,7 @@ public class FieldBlock : FieldObjectData
     public void BreakBlock()
     {
         blockObj.SetActive(false);
-
+        plateObj.SetActive(true);
         if (contentItemCode.HasValue)
         {
             SetUpItem();
@@ -50,11 +51,10 @@ public class FieldBlock : FieldObjectData
 
         if (bombCnt <= 0)
         {
-            plateObj.SetActive(false);
+            numberObj.SetActive(false);
             return;
         }
-
-        plateObj.SetActive(true);
+        numberObj.SetActive(true);
 
         try
         {
@@ -62,18 +62,19 @@ public class FieldBlock : FieldObjectData
         }
         catch
         {
-            plateObj.SetActive(false);
+            numberObj.SetActive(false);
         }
 
     }
     ///上にItemの設置
     public void SetUpItem()
     {
-        if (!contentItemCode.HasValue)
+        if (!contentItemCode.HasValue || itemPosObj == null)
         {
             return;
         }
-        ResourcesManager.GetInstance().CreateFieldObjectInstance(contentItemCode.Value,this.gameObject.transform,Vector3.one);
+
+        ResourcesManager.GetInstance().CreateFieldObjectInstance(contentItemCode.Value, itemPosObj.gameObject.transform, itemPosObj.transform.position);
     }
     ///周囲のブロックを探知
     public List<FieldBlock> SearchBlockSrounded()
@@ -87,9 +88,7 @@ public class FieldBlock : FieldObjectData
         var blocks = SearchBlockSrounded();
         return (uint)blocks.Count(block => block.isBroken && block.contentItemCode.HasValue && DenQDataBaseHelper.IsBomb(block.contentItemCode.Value));
     }
-    /// <summary>
-    /// Update is called every frame, if the MonoBehaviour is enabled.
-    /// </summary>
+#if UNITY_EDITOR
     static uint BombCnt = 0;
     public ulong itemCode = 10002000;
     void Update()
@@ -99,10 +98,12 @@ public class FieldBlock : FieldObjectData
             BombCnt = (BombCnt + 1) % 5;
             numberRender.material = numberMtrls[BombCnt];
         }
-        if(Input.GetKeyDown(KeyCode.Y))
+
+        if (Input.GetKeyDown(KeyCode.Y))
         {
             contentItemCode = itemCode;
             BreakBlock();
         }
     }
+#endif
 }
