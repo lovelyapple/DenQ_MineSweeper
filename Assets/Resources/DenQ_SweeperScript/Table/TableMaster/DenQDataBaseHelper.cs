@@ -33,4 +33,8 @@ public static class DenQDataBaseHelper
     {
         return GetFieldItemToken(code) == (uint)FIELD_ITEM_TOKEN.FIELD_ITEM_BOMB;
     }
+    public static bool IsBlock(ulong code)
+    {
+        return GetFieldItemToken(code) == (uint)FIELD_ITEM_TOKEN.FIELD_ITEM_BLOCK;
+    }
 }

@@ -16,7 +16,7 @@ public class FieldItemTableImporter : TableImporterBase
     }
     public override void PreImportData()
     {
-        DenQOffLineDataBase.fieldItemTable.Clear();
+        DenQDataBase.fieldItemTable.Clear();
         filePath = "FieldItemTable";
         isFinished = true;
     }
@@ -25,8 +25,8 @@ public class FieldItemTableImporter : TableImporterBase
         var data = new FieldItemData();
         data.masterCode = Read_ulong("master_code");
         data.name = Read_string("name");
-        if (DenQOffLineDataBase.fieldItemTable.ContainsKey(data.masterCode)) return;
-        DenQOffLineDataBase.fieldItemTable.Add(data.masterCode, data);
+        if (DenQDataBase.fieldItemTable.ContainsKey(data.masterCode)) return;
+        DenQDataBase.fieldItemTable.Add(data.masterCode, data);
     }
     public override void AfterImportData()
     {
@@ -34,20 +34,33 @@ public class FieldItemTableImporter : TableImporterBase
     }
     public static Dictionary<ulong, FieldItemData> GetFieldItemDatas()
     {
-        return DenQOffLineDataBase.fieldItemTable;
+        return DenQDataBase.fieldItemTable;
     }
 }
 public static class FieldItemTableHelper
 {
     public static FieldItemData GetFieldItemData(ulong code)
     {
-        var db = DenQOffLineDataBase.fieldItemTable;
+        var db = DenQDataBase.fieldItemTable;
         var outData = new FieldItemData();
-        if(!db.TryGetValue(code,out outData))
+        if (!db.TryGetValue(code, out outData))
         {
             Logger.SWarn("could not find fielditem Id : " + code);
         }
         return outData;
     }
-
+    public static FieldItemData GetFieldItemData(string name)
+    {
+        var db = DenQDataBase.fieldItemTable;
+        FieldItemData outData = db.Values.Single(n => n.name == name);
+        if (outData == null)
+        {
+            Logger.SWarn("could not find fieldItem name : " + name);
+        }
+        return outData;
+    }
+    public static FieldItemData GetNormalBlockitemData()
+    {
+        return GetFieldItemData(10001000);
+    }
 }

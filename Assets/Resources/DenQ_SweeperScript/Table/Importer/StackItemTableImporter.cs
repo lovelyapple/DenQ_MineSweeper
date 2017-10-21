@@ -16,7 +16,7 @@ public class StackItemTableImporter : TableImporterBase
     }
     public override void PreImportData()
     {
-        DenQOffLineDataBase.stackItemTable.Clear();
+        DenQDataBase.stackItemTable.Clear();
         filePath = "StackItemTable";
         isFinished = true;
     }
@@ -27,8 +27,8 @@ public class StackItemTableImporter : TableImporterBase
         data.type = Read_uint("type");
         data.name = Read_string("name");
 
-        if (DenQOffLineDataBase.stackItemTable.ContainsKey(data.masterCode)) return;
-        DenQOffLineDataBase.stackItemTable.Add(data.masterCode, data);
+        if (DenQDataBase.stackItemTable.ContainsKey(data.masterCode)) return;
+        DenQDataBase.stackItemTable.Add(data.masterCode, data);
     }
     public override void AfterImportData()
     {
@@ -36,6 +36,6 @@ public class StackItemTableImporter : TableImporterBase
     }
     public static Dictionary<ulong, StackItemData> GetBombData()
     {
-        return DenQOffLineDataBase.stackItemTable;
+        return DenQDataBase.stackItemTable;
     }
 }

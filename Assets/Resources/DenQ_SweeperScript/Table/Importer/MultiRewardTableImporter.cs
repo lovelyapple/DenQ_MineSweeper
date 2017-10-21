@@ -16,7 +16,7 @@ public class MultiRewardTableImporter : TableImporterBase
     }
     public override void PreImportData()
     {
-        DenQOffLineDataBase.multiRewardTable.Clear();
+        DenQDataBase.multiRewardTable.Clear();
         filePath = "MultiRewardTable";
         isFinished = true;
     }
@@ -35,8 +35,8 @@ public class MultiRewardTableImporter : TableImporterBase
         if (itemCode != 0)
             data.rewardDict.Add(itemCode, Read_ulong("item_count_01"));
 
-        if (DenQOffLineDataBase.multiRewardTable.ContainsKey(data.code)) return;
-        DenQOffLineDataBase.multiRewardTable.Add(data.code, data);
+        if (DenQDataBase.multiRewardTable.ContainsKey(data.code)) return;
+        DenQDataBase.multiRewardTable.Add(data.code, data);
     }
     public override void AfterImportData()
     {
@@ -44,6 +44,6 @@ public class MultiRewardTableImporter : TableImporterBase
     }
     public static Dictionary<ulong, MultiRewardData> GetBombData()
     {
-        return DenQOffLineDataBase.multiRewardTable;
+        return DenQDataBase.multiRewardTable;
     }
 }

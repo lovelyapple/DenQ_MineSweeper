@@ -17,10 +17,12 @@ public class FieldBlock : FieldObjectData
     public uint? blockType;
     public ulong? contentItemCode;
     public bool isBroken { get; private set; }
+    FieldBlockData fieldBlockData;
 
     ///ブロック情報の設定(BlockData, FielditemAfterItBroken)
-    public void SetUpInfo(FieldBlockData data, ulong? itemCode)
+    public void SetUpInfo(FieldBlockData data, ulong? itemCode = null)
     {
+        this.fieldBlockData = data;
         this.hp = data.hp;
         this.blockType = data.blockType;
         this.contentItemCode = itemCode;
@@ -67,7 +69,7 @@ public class FieldBlock : FieldObjectData
 
     }
     ///上にItemの設置
-    public void SetUpItem()
+    void SetUpItem()
     {
         if (!contentItemCode.HasValue || itemPosObj == null)
         {

@@ -16,7 +16,7 @@ public class MapDefinedItemTableImporter : TableImporterBase
     }
     public override void PreImportData()
     {
-        DenQOffLineDataBase.mapDefinedTiemData.Clear();
+        DenQDataBase.mapDefinedTiemData.Clear();
         filePath = "MultiRewardTable";
         isFinished = true;
     }
@@ -35,8 +35,8 @@ public class MapDefinedItemTableImporter : TableImporterBase
         if (itemCode != 0)
             data.definedItemDatas.Add(itemCode, Read_uint("item_count_01"));
 
-        if (DenQOffLineDataBase.mapDefinedTiemData.ContainsKey(data.code)) return;
-        DenQOffLineDataBase.mapDefinedTiemData.Add(data.code, data);
+        if (DenQDataBase.mapDefinedTiemData.ContainsKey(data.code)) return;
+        DenQDataBase.mapDefinedTiemData.Add(data.code, data);
     }
     public override void AfterImportData()
     {
@@ -44,6 +44,6 @@ public class MapDefinedItemTableImporter : TableImporterBase
     }
     public static Dictionary<ulong, MapDefinedTiemData> GetBombData()
     {
-        return DenQOffLineDataBase.mapDefinedTiemData;
+        return DenQDataBase.mapDefinedTiemData;
     }
 }

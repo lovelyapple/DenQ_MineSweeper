@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DenQ;
-public class BattleScene : MonoBehaviour
+public class FieldScene : MonoBehaviour
 {
     void Awake()
     {
@@ -17,6 +17,13 @@ public class BattleScene : MonoBehaviour
             TableManager.GetInstance().ReadTable();
             ResourcesManager.GetInstance().ReadPath();
             isInited = true;
+        }
+        if(Input.GetKeyDown(KeyCode.T))
+        {
+            var go = RootHolder.effectRootObj;
+            go = RootHolder.fieldObjectRootObj;
+            go = RootHolder.systemRootObj;
+            go = RootHolder.UIRootObj;
         }
     }
 }

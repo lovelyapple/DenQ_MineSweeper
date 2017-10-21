@@ -46,6 +46,7 @@ public class TableManager : ManagerBase<TableManager>
         tableList.Add(new MapDistributionTableImporter());
         tableList.Add(new MapDefinedItemTableImporter());
         tableList.Add(new FieldItemTableImporter());
+        tableList.Add(new FieldBlockTableImporter());
         state |= TABLE_INIT_STATE.ADD_TABLE;
     }
     public void ReadTable()

@@ -21,7 +21,7 @@ public class BombTableImporter : TableImporterBase
     }
     public override void PreImportData()
     {
-        DenQOffLineDataBase.bombTable.Clear();
+        DenQDataBase.bombTable.Clear();
         filePath = "BombTable";
         isFinished = true;
     }
@@ -37,8 +37,8 @@ public class BombTableImporter : TableImporterBase
         data.damage = Read_uint("damage");
         data.damageRange = Read_float("damage_range");
 
-        if (DenQOffLineDataBase.bombTable.ContainsKey(data.itemCode)) return;
-        DenQOffLineDataBase.bombTable.Add(data.itemCode, data);
+        if (DenQDataBase.bombTable.ContainsKey(data.itemCode)) return;
+        DenQDataBase.bombTable.Add(data.itemCode, data);
         //Debug.Log("bomb code" + data.itemCode + " name " + data.name);
     }
     public override void AfterImportData()
@@ -47,6 +47,6 @@ public class BombTableImporter : TableImporterBase
     }
     public static Dictionary<ulong, BombData> GetBombData()
     {
-        return DenQOffLineDataBase.bombTable;
+        return DenQDataBase.bombTable;
     }
 }

@@ -13,6 +13,8 @@ public static class RootHolder
     static GameObject _effectRootObj = null;
     [SerializeField]
     static GameObject _UIRootObj = null;
+    [SerializeField]
+    static GameObject _fieldBlockRootObj = null;
     public static GameObject systemRootObj
     {
         private set { }
@@ -86,4 +88,22 @@ public static class RootHolder
         }
     }
 
+    public static GameObject FieldBLockRootObj
+    {
+        private set { }
+        get
+        {
+            if (_fieldBlockRootObj == null)
+            {
+                _fieldBlockRootObj = GameObject.Find("FieldBLockRoot");
+
+                if (_fieldBlockRootObj == null)
+                {
+                    Logger.SError("could not fine _fieldBlockRootObj!");
+                }
+            }
+
+            return _fieldBlockRootObj;
+        }
+    }
 }

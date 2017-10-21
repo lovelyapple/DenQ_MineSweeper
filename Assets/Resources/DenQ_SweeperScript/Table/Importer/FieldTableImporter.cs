@@ -21,17 +21,17 @@ public class FieldTableImporter : TableImporterBase
     }
     public override void PreImportData()
     {
-        DenQOffLineDataBase.fieldTable.Clear();
+        DenQDataBase.fieldTable.Clear();
         filePath = "BombTable";
         isFinished = true;
     }
     public override void ImportData()
     {
         var data = new FieldData();
-        data.code = Read_ulong("master_code");
+        data.mapCode = Read_ulong("master_code");
         data.name = Read_string("name");
         data.sizeX = Read_uint("size_x");
-        data.sizeY = Read_uint("size_y");
+        data.sizeZ = Read_uint("size_z");
         data.rewardGold = Read_uint("reward_gold");
         data.rewardExp = Read_ulong("reward_exp");
         data.rewardDia = Read_uint("reward_diamond");
@@ -39,9 +39,9 @@ public class FieldTableImporter : TableImporterBase
         data.definedItemCode = Read_ulong("defined_item_code");
         data.distributionCode = Read_ulong("distribution_code");
 
-        if (DenQOffLineDataBase.fieldTable.ContainsKey(data.code)) return;
-        DenQOffLineDataBase.fieldTable.Add(data.code, data);
-        Debug.Log("bomb code" + data.code + " name " + data.name);
+        if (DenQDataBase.fieldTable.ContainsKey(data.mapCode)) return;
+        DenQDataBase.fieldTable.Add(data.mapCode, data);
+        Debug.Log("bomb code" + data.mapCode + " name " + data.name);
     }
     public override void AfterImportData()
     {
@@ -49,14 +49,14 @@ public class FieldTableImporter : TableImporterBase
     }
     public static Dictionary<ulong, FieldData> GetBombData()
     {
-        return DenQOffLineDataBase.fieldTable;
+        return DenQDataBase.fieldTable;
     }
 }
 public static class FieldTableHelpfer
 {
     public static FieldData GetFieldData(ulong fieldCode)
     {
-        var dbs = DenQOffLineDataBase.fieldTable;
+        var dbs = DenQDataBase.fieldTable;
         var outData = new FieldData();
         if(!dbs.TryGetValue(fieldCode,out outData))
         {
