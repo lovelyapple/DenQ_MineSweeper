@@ -22,13 +22,13 @@ public class FieldTableImporter : TableImporterBase
     public override void PreImportData()
     {
         DenQDataBase.fieldTable.Clear();
-        filePath = "BombTable";
+        filePath = "FieldTable";
         isFinished = true;
     }
     public override void ImportData()
     {
         var data = new FieldData();
-        data.mapCode = Read_ulong("master_code");
+        data.fieldCode = Read_ulong("field_code");
         data.name = Read_string("name");
         data.sizeX = Read_uint("size_x");
         data.sizeZ = Read_uint("size_z");
@@ -39,9 +39,9 @@ public class FieldTableImporter : TableImporterBase
         data.definedItemCode = Read_ulong("defined_item_code");
         data.distributionCode = Read_ulong("distribution_code");
 
-        if (DenQDataBase.fieldTable.ContainsKey(data.mapCode)) return;
-        DenQDataBase.fieldTable.Add(data.mapCode, data);
-        Debug.Log("bomb code" + data.mapCode + " name " + data.name);
+        if (DenQDataBase.fieldTable.ContainsKey(data.fieldCode)) return;
+        DenQDataBase.fieldTable.Add(data.fieldCode, data);
+        Debug.Log("bomb code" + data.fieldCode + " name " + data.name);
     }
     public override void AfterImportData()
     {

@@ -5,7 +5,7 @@ using UnityEngine;
 using DenQData;
 public class FieldData
 {
-    public ulong mapCode;
+    public ulong fieldCode;
     public string name;
     public uint sizeX;
     public uint sizeZ;

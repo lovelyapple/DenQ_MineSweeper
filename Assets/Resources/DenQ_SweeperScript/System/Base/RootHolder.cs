@@ -95,7 +95,7 @@ public static class RootHolder
         {
             if (_fieldBlockRootObj == null)
             {
-                _fieldBlockRootObj = GameObject.Find("FieldBLockRoot");
+                _fieldBlockRootObj = GameObject.Find("FieldBlockRoot");
 
                 if (_fieldBlockRootObj == null)
                 {

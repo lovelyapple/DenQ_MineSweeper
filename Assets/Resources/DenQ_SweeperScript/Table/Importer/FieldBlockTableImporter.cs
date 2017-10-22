@@ -34,7 +34,7 @@ public class FieldBlockTableImporter : TableImporterBase
 
         if (DenQDataBase.FieldBlockTable.ContainsKey(data.itemCode)) return;
         DenQDataBase.FieldBlockTable.Add(data.itemCode, data);
-        Debug.Log("bomb code" + data.itemCode + " name " + data.name);
+        //Debug.Log("block code" + data.itemCode + " name " + data.name);
     }
     public override void AfterImportData()
     {

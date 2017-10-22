@@ -15,20 +15,25 @@ namespace DenQModel
         public Dictionary<long, FieldBlock> fieldBlockDic;
         public List<ulong> fieldBlockTable { get; private set; }
         public List<ulong> fieldItemTable { get; private set; }
-        //UnityEngine.Random random;
         public static FieldModel Get()
         {
             return ModelManager.GetModel<FieldModel>("fieldModel");
+        }
+        public void SetUp(ulong mapCode)
+        {
+            this.fieldData = FieldTableHelpfer.GetFieldData(mapCode);
+            SetUp(this.fieldData);
         }
         public void SetUp(FieldData c_fieldData)
         {
             this.fieldData = c_fieldData;
 
-            if (fieldData != null)
+            if (fieldData == null)
             {
-                fieldData.CreateDistributionMap();
+                return;
             }
 
+            fieldData.CreateDistributionMap();
             CreateBlockTable();
             CreateFieldItemTable();
         }
@@ -53,7 +58,7 @@ namespace DenQModel
             }
 
             var normalBlock = FieldItemTableHelper.GetNormalBlockitemData();
-            var distributionData = MapDistributionTableHelper.GetDistributionData(fieldData.mapCode);
+            var distributionData = MapDistributionTableHelper.GetDistributionData(fieldData.fieldCode);
             var mapBlocks = distributionData.Where(x => DenQDataBaseHelper.IsBlock(x.itemCode) && x.itemCode != normalBlock.masterCode).ToList();
             fieldBlockTable = new List<ulong>();
 
@@ -73,6 +78,7 @@ namespace DenQModel
             while (cntLeft > 0)
             {
                 fieldBlockTable.Add(normalBlock.masterCode);
+                cntLeft--;
             }
 
             return fieldBlockTable;
@@ -85,7 +91,7 @@ namespace DenQModel
                 return null;
             }
 
-            var distributionData = MapDistributionTableHelper.GetDistributionData(fieldData.mapCode);
+            var distributionData = MapDistributionTableHelper.GetDistributionData(fieldData.fieldCode);
             var mapItems = distributionData.Where(x => DenQDataBaseHelper.IsBomb(x.itemCode)).ToList();//今爆弾しかない
             fieldItemTable = new List<ulong>();
 
@@ -116,19 +122,28 @@ namespace DenQModel
             var idx = (int)UnityEngine.Random.Range(0, ClientSettings.MaxFieldItemRate - 1);
             return fieldBlockTable[idx];
         }
-        public void CreateField(FieldData data = null)
+        public void CreateField()
         {
-            if (data != null)
+            if (fieldData == null)
             {
-                SetUp(data);
+                return;
             }
 
-            //これ嫌いなぁs
-            for (uint z = 0; z < data.sizeX; z++)
+            Debug.Log("size X " + fieldData.sizeX + " size Z " + fieldData.sizeZ);
+
+            if (fieldData.sizeX > 5 || fieldData.sizeZ > 5)
             {
-                for (uint x = 0; x < data.sizeX; x++)
+                return;
+            }
+
+            fieldBlockDic = new Dictionary<long, FieldBlock>();
+            //これ嫌いなぁs
+            for (uint z = 0; z < fieldData.sizeZ; z++)
+            {
+                for (uint x = 0; x < fieldData.sizeX; x++)
                 {
                     var itemCode = GetBlockCodeRadam();
+                    Debug.Log(FieldPosition.CoordinateToPos(x, z).ToString());
                     InsertOneBLock(FieldPosition.CoordinateToPos(x, z), itemCode);
                 }
             }
@@ -150,6 +165,7 @@ namespace DenQModel
             }
 
             var worldPos = pos.GetWorldPostion();
+
             var blockInfo = ResourcesManager.GetInstance().CreateFieldObjectInstance(blockCode, RootHolder.FieldBLockRootObj.transform, worldPos).GetComponent<FieldBlock>();
 
             if (blockInfo != null)

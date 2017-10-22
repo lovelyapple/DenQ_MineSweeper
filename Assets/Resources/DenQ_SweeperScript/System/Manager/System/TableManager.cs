@@ -47,6 +47,7 @@ public class TableManager : ManagerBase<TableManager>
         tableList.Add(new MapDefinedItemTableImporter());
         tableList.Add(new FieldItemTableImporter());
         tableList.Add(new FieldBlockTableImporter());
+        tableList.Add(new FieldTableImporter());
         state |= TABLE_INIT_STATE.ADD_TABLE;
     }
     public void ReadTable()
@@ -100,7 +101,7 @@ public class TableManager : ManagerBase<TableManager>
     }
     public bool IsFinished()
     {
-        if(0 == (state & TABLE_INIT_STATE.ALL))
+        if (0 == (state & TABLE_INIT_STATE.ALL))
         {
             state = TABLE_INIT_STATE.OVER;
             return true;

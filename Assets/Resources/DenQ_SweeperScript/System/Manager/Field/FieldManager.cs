@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DenQ;
+using DenQModel;
 public class FieldManager : ManagerBase<FieldManager>
 {
     //public Vector3 satrtPos = new Vector3();
@@ -22,7 +23,8 @@ public class FieldManager : ManagerBase<FieldManager>
     }
     public void CreateField(ulong fieldCode)
     {
-        
+        FieldModel.Get().SetUp(fieldCode);
+        FieldModel.Get().CreateField();
     }
     public void ClearField()
     {

@@ -54,29 +54,27 @@ public class ResourcesManager : ManagerBase <ResourcesManager>
     {
         var container = new PrefabContainer();
         name += ".prefab";
+
         if (!prefabPathDict.TryGetValue(name, out container))
         {
             Logger.GWarn("could not find the prefab in Dictionary name : " + name);
             return null;
         }
-        if (container.prefab != null)
+
+        if (container.prefab == null)
         {
-            return container.prefab;
+            container.prefab = (GameObject)Resources.Load(container.loadPath);
+            
         }
-        var go = (GameObject)Resources.Load(container.loadPath);
-        if (go == null)
+
+        if (container.prefab == null)
         {
             Logger.SWarn("could not load resources in file : " + container.filePath);
             return null;
         }
-        if (saveCache)
-        {
-            container.prefab = go;
-            return (GameObject)Instantiate(container.prefab,pos,Quaternion.identity, parent);
-        }
         else
         {
-            return (GameObject)Instantiate(go, pos,Quaternion.identity,parent);
+           return  (GameObject)Instantiate(container.prefab,pos,Quaternion.identity, parent);
         }
     }
     ///実験的に中身のチェック、基本実行しない
