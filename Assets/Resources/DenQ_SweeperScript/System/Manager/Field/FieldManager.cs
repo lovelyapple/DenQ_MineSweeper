@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DenQ;
+using DenQData;
 using DenQModel;
 public class FieldManager : ManagerBase<FieldManager>
 {
@@ -28,5 +29,10 @@ public class FieldManager : ManagerBase<FieldManager>
     }
     public void ClearField()
     {
+    }
+
+    public void ObjectTouched(FieldObjectData objData)
+    {
+        
     }
 }

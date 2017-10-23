@@ -5,8 +5,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DenQ;
+using DenQData;
 ///ここでリソースのロードを行う媒体
-public class ResourcesManager : ManagerBase <ResourcesManager>
+public class ResourcesManager : ManagerBase<ResourcesManager>
 {
     const string fieldObjectPrefabPath = "/Resources/DenQ_SweeperPrefab";
     const int prefabIdxCnt = 7;
@@ -35,11 +36,11 @@ public class ResourcesManager : ManagerBase <ResourcesManager>
             var dir = new DirectoryInfo(Application.dataPath + fieldObjectPrefabPath);
             Debug.Log(dir);
             FileInfo[] infos = dir.GetFiles("*.prefab", SearchOption.AllDirectories);
-            prefabPathDict = infos.ToDictionary(info => info.Name, info => new PrefabContainer(info,(int)resourcePathCharaCnt,prefabIdxCnt));
+            prefabPathDict = infos.ToDictionary(info => info.Name, info => new PrefabContainer(info, (int)resourcePathCharaCnt, prefabIdxCnt));
         }
     }
     ///FieldItemTableからNameを取り出し、インスタンスを作る
-    public GameObject CreateFieldObjectInstance(ulong itemCode, Transform parent, Vector3 pos,bool saveCache = true)
+    public GameObject CreateFieldObjectInstance(ulong itemCode, Transform parent, Vector3 pos, bool saveCache = true)
     {
         var fieldItemData = FieldItemTableHelper.GetFieldItemData(itemCode);
         if (fieldItemData == null)
@@ -47,10 +48,16 @@ public class ResourcesManager : ManagerBase <ResourcesManager>
             Logger.GWarn("could not find itemCode + " + itemCode);
             return null;
         }
-        return CreateFieldObjectInstance(fieldItemData.name, parent, pos,saveCache);
+        var go = CreateFieldObjectInstance(fieldItemData.name, parent, pos, saveCache);
+        var fieldObjctData = go.GetComponent<FieldObjectData>();
+        if (fieldObjctData != null)
+        {
+            fieldObjctData.masterCode = itemCode;
+        }
+        return go;
     }
     ///PrefabPathDictionから名前のcontainerを探し、Prefabがなければ作り、なければLoad
-    public GameObject CreateFieldObjectInstance(string name, Transform parent, Vector3 pos,bool saveCache = true)
+    public GameObject CreateFieldObjectInstance(string name, Transform parent, Vector3 pos, bool saveCache = true)
     {
         var container = new PrefabContainer();
         name += ".prefab";
@@ -64,7 +71,7 @@ public class ResourcesManager : ManagerBase <ResourcesManager>
         if (container.prefab == null)
         {
             container.prefab = (GameObject)Resources.Load(container.loadPath);
-            
+
         }
 
         if (container.prefab == null)
@@ -74,7 +81,7 @@ public class ResourcesManager : ManagerBase <ResourcesManager>
         }
         else
         {
-           return  (GameObject)Instantiate(container.prefab,pos,Quaternion.identity, parent);
+            return (GameObject)Instantiate(container.prefab, pos, Quaternion.identity, parent);
         }
     }
     ///実験的に中身のチェック、基本実行しない
@@ -95,12 +102,12 @@ public class ResourcesManager : ManagerBase <ResourcesManager>
 public class PrefabContainer
 {
     public PrefabContainer() { }
-    public PrefabContainer(FileInfo fileInfo,int headIndxCnt,int lastIdxCnt)
+    public PrefabContainer(FileInfo fileInfo, int headIndxCnt, int lastIdxCnt)
     {
         this.filePath = fileInfo.FullName;
         this.fileName = fileInfo.Name;
         this.loadPath = filePath.Remove(this.filePath.Length - lastIdxCnt, lastIdxCnt);
-        this.loadPath = this.loadPath.Remove(0,headIndxCnt);
+        this.loadPath = this.loadPath.Remove(0, headIndxCnt);
         return;
     }
     public string fileName;

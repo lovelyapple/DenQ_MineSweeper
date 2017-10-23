@@ -12,6 +12,8 @@ namespace DenQData
     public class ObjectBaseData : MonoBehaviour
     {
         [SerializeField] private ulong? _objectId;
+        ///ItemCode
+        public ulong? masterCode;
         public FieldPosition fieldPos = null;
         public ulong objectId
         {

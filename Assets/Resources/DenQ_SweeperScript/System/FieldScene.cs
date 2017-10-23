@@ -18,7 +18,7 @@ public class FieldScene : MonoBehaviour
             ResourcesManager.GetInstance().ReadPath();
             isInited = true;
         }
-        if(Input.GetKeyDown(KeyCode.T))
+        if(UnityEngine.Input.GetKeyDown(KeyCode.T))
         {
             var go = RootHolder.effectRootObj;
             go = RootHolder.fieldObjectRootObj;

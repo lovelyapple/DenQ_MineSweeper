@@ -18,7 +18,13 @@ public enum TOUCH_INFO
     /// タッチキャンセル
     Canceled = 4,
 }
-public class DenQ_Input : MonoBehaviour
+/*
+ * 入力情報取得用クラス
+ *
+ *
+ *
+ */
+public class DenQInput
 {
     private static Vector3 TouchPosition = Vector3.zero;
     private static Vector3 PrevTouchPosition = Vector3.zero;
@@ -45,7 +51,7 @@ public class DenQ_Input : MonoBehaviour
     {
         if (Application.isEditor)
         {
-            TOUCH_INFO touch = DenQ_Input.GetTouch();
+            TOUCH_INFO touch = DenQInput.GetTouch();
             if (touch != TOUCH_INFO.None)
             {
                 PrevTouchPosition = Input.mousePosition;
@@ -68,7 +74,7 @@ public class DenQ_Input : MonoBehaviour
     {
         if (Application.isEditor)
         {
-            var info = (TOUCH_INFO)DenQ_Input.GetTouch();
+            var info = (TOUCH_INFO)DenQInput.GetTouch();
             if (info != TOUCH_INFO.None)
             {
                 Vector3 currentPosition = Input.mousePosition;
