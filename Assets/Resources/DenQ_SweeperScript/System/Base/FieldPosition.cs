@@ -91,12 +91,13 @@ namespace DenQData
         ///convert FieldPostion to Code
         public static uint PosToCode(FieldPosition p)
         {
-            return (uint)(p.posZ * 1000 + p.posX);
+            return (uint)(p.posZ * ClientSettings.MaxFieldSize + p.posX + ClientSettings.TopDigit);
         }
         ///Convert Code To Fieldposition
         public static FieldPosition CodeToPos(uint code)
         {
-            return new FieldPosition(code / ClientSettings.MaxFieldSize, code % ClientSettings.MaxFieldSize);
+            var z = (uint)(code % ClientSettings.TopDigit / ClientSettings.MaxFieldSize);
+            return new FieldPosition(z, code % ClientSettings.MaxFieldSize);
         }
         ///Convert WorldPostion to FieldPostion
         public static FieldPosition WorldToPos(Vector3 world)
@@ -106,11 +107,12 @@ namespace DenQData
 
         public static uint CoordinateToCode(uint x, uint z)
         {
-            return z * 1000 + x;
+            return z * ClientSettings.MaxFieldSize + x + ClientSettings.TopDigit;
         }
         public static FieldPosition CoordinateToPos(uint x, uint z)
         {
-            return CodeToPos(CoordinateToCode(x, z));
+            var Code = CoordinateToCode(x, z);
+            return CodeToPos(Code);
         }
     }
 

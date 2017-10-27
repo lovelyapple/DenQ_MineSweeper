@@ -34,7 +34,7 @@ public class ResourcesManager : ManagerBase<ResourcesManager>
         {
             prefabPathDict = new Dictionary<string, PrefabContainer>();
             var dir = new DirectoryInfo(Application.dataPath + fieldObjectPrefabPath);
-            Debug.Log(dir);
+            //Debug.Log(dir);
             FileInfo[] infos = dir.GetFiles("*.prefab", SearchOption.AllDirectories);
             prefabPathDict = infos.ToDictionary(info => info.Name, info => new PrefabContainer(info, (int)resourcePathCharaCnt, prefabIdxCnt));
         }
@@ -48,11 +48,19 @@ public class ResourcesManager : ManagerBase<ResourcesManager>
             Logger.GWarn("could not find itemCode + " + itemCode);
             return null;
         }
+
         var go = CreateFieldObjectInstance(fieldItemData.name, parent, pos, saveCache);
-        var fieldObjctData = go.GetComponent<FieldObjectData>();
-        if (fieldObjctData != null)
+
+        ObjectBaseData objData = null;
+        objData = go.GetComponent<FieldObjectData>();
+
+        if (objData != null)
         {
-            fieldObjctData.masterCode = itemCode;
+            objData.masterCode = itemCode;
+        }
+        else
+        {
+            Logger.GError("could not find objectData");
         }
         return go;
     }

@@ -98,6 +98,7 @@ public class TableManager : ManagerBase<TableManager>
             while (!importer.isFinished) yield return null;//表を一個ずつ読む、順番じゃないと壊れる可能性が
         }
         state |= TABLE_INIT_STATE.AFTER_IMPORT;
+        Logger.SDebug("All Table is Imported");
     }
     public bool IsFinished()
     {

@@ -122,46 +122,52 @@ namespace DenQModel
             var idx = (int)UnityEngine.Random.Range(0, ClientSettings.MaxFieldItemRate - 1);
             return fieldBlockTable[idx];
         }
-        public void CreateField()
+        bool isCreating;
+        public IEnumerator CreateField()
         {
             if (fieldData == null)
             {
-                return;
+                yield break;
             }
-
-            Debug.Log("size X " + fieldData.sizeX + " size Z " + fieldData.sizeZ);
 
             if (fieldData.sizeX > 5 || fieldData.sizeZ > 5)
             {
-                return;
+                yield break;
             }
 
-            fieldBlockDic = new Dictionary<long, FieldBlock>();
+            ClearAllBlock();
+            while (fieldBlockDic.Count > 0)
+            {
+                Debug.Log("waiting clear");
+                yield return null;
+            }
+
             //これ嫌いなぁs
             for (uint z = 0; z < fieldData.sizeZ; z++)
             {
                 for (uint x = 0; x < fieldData.sizeX; x++)
                 {
                     var itemCode = GetBlockCodeRadam();
-                    Debug.Log(FieldPosition.CoordinateToPos(x, z).ToString());
                     InsertOneBLock(FieldPosition.CoordinateToPos(x, z), itemCode);
                 }
             }
         }
 
-        public FieldBlock InsertOneBLock(FieldPosition pos, ulong blockCode)
+        public void InsertOneBLock(FieldPosition pos, ulong blockCode)
         {
             var posCode = pos.GetPositionCode();
+
             if (fieldBlockDic.ContainsKey(posCode))
             {
                 Logger.GError("could not place a block where already exist " + pos.ToString());
+                return;
             }
 
             var data = FieldBlockTableHelper.GetFieldBLockDataByID(blockCode);
 
             if (data == null)
             {
-                return null;
+                return;
             }
 
             var worldPos = pos.GetWorldPostion();
@@ -174,10 +180,25 @@ namespace DenQModel
             }
 
             fieldBlockDic.Add(posCode, blockInfo);
-            return blockInfo;
         }
 
+        public void ClearAllBlock()
+        {
+            if (fieldBlockDic == null || fieldBlockDic.Count <= 0)
+            {
+                fieldBlockDic = new Dictionary<long, FieldBlock>();
+                return;
+            }
 
+            foreach (var code in fieldBlockDic.Keys)
+            {
+                fieldBlockDic[code].gameObject.transform.parent = null;
+                GameObject.Destroy(fieldBlockDic[code].gameObject);
+            }
+
+            fieldBlockDic.Clear();
+            fieldBlockDic = new Dictionary<long, FieldBlock>();
+        }
     }
 
 }

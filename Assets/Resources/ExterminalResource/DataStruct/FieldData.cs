@@ -15,18 +15,6 @@ public class FieldData
     public ulong multiRewardCode;
     public ulong distributionCode;
     public ulong definedItemCode;
-
-    //これ必要ある？
-    //MultiRewardData _multiRewardData = null;
-    //MapDefinedTiemData _mapDefinedItemData = null;
-    List<MapDistributionData> mapBlocks = null;
-    List<ulong> blockMap;
-    List<MapDistributionData> mapItems = null;
-    List<ulong> itemMap;
-
-    //public MultiRewardData multiRewardData = null;
-    //public MapDefinedTiemData mapDefinedItemData = null;
-
     public List<ulong> distributionBombMap = null;
     private uint? elementCount = null;
 

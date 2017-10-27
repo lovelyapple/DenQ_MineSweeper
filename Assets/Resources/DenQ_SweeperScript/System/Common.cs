@@ -11,9 +11,10 @@ namespace DenQData
     {
         ///ブロック一個あたりの幅
         public static float FieldBlockSize { get { return 2.0f; } }
-        public static uint MaxFieldSize { get { return 1000; } }
+        public static uint MaxFieldSize { get { return 100; } }
+        public static uint TopDigit { get { return MaxFieldSize * MaxFieldSize; } }
         public static Vector3 SroundBlockVector { get { return Vector3.one * FieldBlockSize; } }
-        public static uint MaxFieldItemRate { get { return 1000; } }
+        public static uint MaxFieldItemRate { get { return 100; } }
     }
 }
 // public class DenQHelper : MonoBehaviour

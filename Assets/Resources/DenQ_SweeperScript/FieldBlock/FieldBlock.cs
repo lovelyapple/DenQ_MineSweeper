@@ -16,10 +16,11 @@ public class FieldBlock : FieldObjectData
     ///ブロックのタイプ、nullなら破壊されている
     public uint? blockType;
     public ulong? contentItemCode;
+    public ulong ContentItemCode;
     public bool isBroken { get; private set; }
     FieldBlockData fieldBlockData;
     /// 中身のオブジェクト
-    FieldObjectData containingObjData;
+    //FieldObjectData containingObjData;
 
     ///ブロック情報の設定(BlockData, FielditemAfterItBroken)
     public void SetUpInfo(FieldBlockData data, ulong? itemCode = null)
@@ -28,6 +29,14 @@ public class FieldBlock : FieldObjectData
         this.hp = data.hp;
         this.blockType = data.blockType;
         this.contentItemCode = itemCode;
+        if (contentItemCode.HasValue)
+        {
+            ContentItemCode = (ulong)contentItemCode.Value;
+        }
+    }
+    public FieldBlockData GetBlockData()
+    {
+        return fieldBlockData;
     }
     ///ブロック情報の更新
     public void UpdateBlock()
@@ -78,7 +87,7 @@ public class FieldBlock : FieldObjectData
             return;
         }
 
-        var go = ResourcesManager.GetInstance().CreateFieldObjectInstance(contentItemCode.Value, itemPosObj.gameObject.transform, itemPosObj.transform.position);
+        ResourcesManager.GetInstance().CreateFieldObjectInstance(contentItemCode.Value, itemPosObj.gameObject.transform, itemPosObj.transform.position);
         //TODOデータの設定
     }
     ///周囲のブロックを探知
