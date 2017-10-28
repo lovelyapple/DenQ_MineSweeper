@@ -27,7 +27,7 @@ public class FieldBlock : FieldObjectData
     public void SetUpInfo(FieldBlockData data, ulong? itemCode = null)
     {
         this.fieldBlockData = data;
-        this.hp = data.hp;
+        this.maxHp = data.hp;
         this.blockType = data.blockType;
         this.contentItemCode = itemCode;
         if (contentItemCode.HasValue)

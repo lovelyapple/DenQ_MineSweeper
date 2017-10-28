@@ -33,7 +33,7 @@ public class SkillTableImporter : TableImporterBase
         data.type = Read_uint("type");
         data.targetCount = Read_uint("target_count");
         data.range = Read_uint("range");
-        data.baseDamage = Read_float("base_damage");
+        data.baseDamage = Read_uint("base_damage");
         data.coolTime = Read_uint("cool_time");
         data.effectCode = Read_uint("effect_code");
         data.finishedActionCode = Read_uint("finished_action_code");

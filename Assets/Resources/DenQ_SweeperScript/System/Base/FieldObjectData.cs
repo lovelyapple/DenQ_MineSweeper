@@ -6,11 +6,13 @@ namespace DenQData
 {
     public class FieldObjectData : ObjectBaseData
     {
-        public uint hp;
-        public uint baseAttack;
+        public uint maxHp;
+        public uint recHp;
         public float? baseMoveSpeed;
         public float? baseSearctRange;
         public float? baseAttackRange;
+
+        public bool isDead { get { return recHp <= 0; } }
     }
 
 }

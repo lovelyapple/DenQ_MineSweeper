@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace DenQData
 {
-
+    public enum SkillType
+    {
+        OneShot = 0,        //一回のみ放出
+    }
     public class SkillData
     {
         public ulong code;
@@ -11,7 +14,7 @@ namespace DenQData
         public uint type;
         public uint targetCount;
         public uint range;
-        public float baseDamage;
+        public uint baseDamage;
         public uint coolTime;
         public uint effectCode;
         public uint finishedActionCode;
