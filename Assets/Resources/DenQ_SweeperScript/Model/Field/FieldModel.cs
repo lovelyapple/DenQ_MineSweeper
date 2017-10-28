@@ -182,7 +182,7 @@ namespace DenQModel
 
             if (blockInfo != null)
             {
-                blockInfo.SetUpInfo(data);
+                blockInfo.SetUpInfo(data,itemCode);
             }
 
             fieldBlockDic.Add(posCode, blockInfo);

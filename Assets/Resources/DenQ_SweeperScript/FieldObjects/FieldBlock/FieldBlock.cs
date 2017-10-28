@@ -19,6 +19,7 @@ public class FieldBlock : FieldObjectData
     public ulong ContentItemCode;
     public bool isBroken { get; private set; }
     FieldBlockData fieldBlockData;
+    List<FieldBlock> blocksNearBy;
     /// 中身のオブジェクト
     //FieldObjectData containingObjData;
 
@@ -46,11 +47,15 @@ public class FieldBlock : FieldObjectData
     ///ブロックの破壊
     public void BreakBlock()
     {
+        isBroken = true;
         blockObj.SetActive(false);
         plateObj.SetActive(true);
         if (contentItemCode.HasValue)
         {
             SetUpItem();
+            SearchBlockSrounded();
+            UpdatePlatesSrounded();
+
         }
         else
         {
@@ -60,18 +65,20 @@ public class FieldBlock : FieldObjectData
     ///番号の更新
     public void UpdatePlateInfo()
     {
-        var bombCnt = GetSroundedBombCount();
+        SearchBlockSrounded();
+        var bombCnt = GetSroundedBombCount(blocksNearBy);
 
         if (bombCnt <= 0)
         {
             numberObj.SetActive(false);
             return;
         }
+
         numberObj.SetActive(true);
 
         try
         {
-            numberRender.material = numberMtrls[bombCnt];
+            numberRender.material = numberMtrls[bombCnt - 1];//添え字０スタート
         }
         catch
         {
@@ -91,33 +98,30 @@ public class FieldBlock : FieldObjectData
         //TODOデータの設定
     }
     ///周囲のブロックを探知
-    public List<FieldBlock> SearchBlockSrounded()
+    public void SearchBlockSrounded(bool searchForce = false)
     {
-        var hits = Physics.OverlapBox(gameObject.transform.position, ClientSettings.SroundBlockVector).Where(x => x.gameObject.tag == "FieldBlock").Select(x => x.gameObject);
-        return hits.Select(x => x.GetComponent<FieldBlock>()).ToList();
+        if (blocksNearBy == null || blocksNearBy.Count <= 0 || searchForce)
+        {
+            var hits = Physics.OverlapBox(gameObject.transform.position, ClientSettings.SroundBlockVector).Where(x => x.gameObject.GetComponent<FieldBlock>() != null).Select(x => x.gameObject).ToList();
+            blocksNearBy = hits.Select(x => x.GetComponent<FieldBlock>()).ToList(); 
+        }
+    }
+    ///周囲のブロックプレイと更新
+    public void UpdatePlatesSrounded()
+    {
+        foreach (var block in blocksNearBy)
+        {
+            if (!block.isBroken || block.contentItemCode.HasValue)
+            {
+                continue;
+            }
+
+            block.UpdatePlateInfo();
+        }
     }
     ///周りの爆弾の数を取得する
-    public uint GetSroundedBombCount()
+    public uint GetSroundedBombCount(List<FieldBlock> blocks)
     {
-        var blocks = SearchBlockSrounded();
-        return (uint)blocks.Count(block => block.isBroken && block.contentItemCode.HasValue && DenQDataBaseHelper.IsBomb(block.contentItemCode.Value));
+        return (uint)blocks.Count(block => !block.isBroken && block.contentItemCode.HasValue && DenQDataBaseHelper.IsBomb(block.contentItemCode.Value));
     }
-#if UNITY_EDITOR
-    static uint BombCnt = 0;
-    public ulong itemCode = 10002000;
-    void Update()
-    {
-        if (UnityEngine.Input.GetKeyDown(KeyCode.T))
-        {
-            BombCnt = (BombCnt + 1) % 5;
-            numberRender.material = numberMtrls[BombCnt];
-        }
-
-        if (UnityEngine.Input.GetKeyDown(KeyCode.Y))
-        {
-            contentItemCode = itemCode;
-            BreakBlock();
-        }
-    }
-#endif
 }
