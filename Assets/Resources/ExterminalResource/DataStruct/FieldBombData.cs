@@ -4,7 +4,7 @@ using UnityEngine;
 namespace DenQData
 {
 
-    public class BombData
+    public class FieldBombData
     {
         public ulong itemCode;
         public string name;

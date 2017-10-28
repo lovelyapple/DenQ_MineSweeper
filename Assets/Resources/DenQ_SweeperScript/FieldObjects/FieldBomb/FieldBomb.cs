@@ -4,15 +4,7 @@ using UnityEngine;
 using DenQData;
 
 public class FieldBomb : FieldObjectData
- {
-
-	// Use this for initialization
-	void Start () {
-		
-	}
+{
+    public FieldBombData bombData { get; private set; }
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }

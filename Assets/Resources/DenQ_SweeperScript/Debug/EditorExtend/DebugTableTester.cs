@@ -69,7 +69,7 @@ public class DebugTableTester : EditorWindow
                     {
                         objs.Add(data);
                     }
-                    ClassLensSetup(typeof(BombData), objs);
+                    ClassLensSetup(typeof(FieldBombData), objs);
                 }
             }
             GUILayout.EndHorizontal();

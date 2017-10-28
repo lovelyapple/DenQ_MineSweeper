@@ -27,7 +27,7 @@ public class BombTableImporter : TableImporterBase
     }
     public override void ImportData()
     {
-        var data = new BombData();
+        var data = new FieldBombData();
         data.itemCode = Read_ulong("master_code");
         data.name = Read_string("name");
         data.bombType = Read_uint("bomb_type");
@@ -45,7 +45,7 @@ public class BombTableImporter : TableImporterBase
     {
         isFinished = true;
     }
-    public static Dictionary<ulong, BombData> GetBombData()
+    public static Dictionary<ulong, FieldBombData> GetBombData()
     {
         return DenQDataBase.bombTable;
     }
