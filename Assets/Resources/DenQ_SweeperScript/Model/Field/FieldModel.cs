@@ -122,6 +122,11 @@ namespace DenQModel
             var idx = (int)UnityEngine.Random.Range(0, ClientSettings.MaxFieldItemRate - 1);
             return fieldBlockTable[idx];
         }
+        public ulong? GetBlockItemCodeRadam()
+        {
+            var idx = (int)UnityEngine.Random.Range(0, ClientSettings.MaxFieldItemRate - 1);
+            return fieldItemTable[idx] == 0 ? new ulong?() : fieldItemTable[idx];
+        }
         bool isCreating;
         public IEnumerator CreateField()
         {
@@ -142,18 +147,19 @@ namespace DenQModel
                 yield return null;
             }
 
-            //これ嫌いなぁs
+            //これ嫌いなぁ
             for (uint z = 0; z < fieldData.sizeZ; z++)
             {
                 for (uint x = 0; x < fieldData.sizeX; x++)
                 {
-                    var itemCode = GetBlockCodeRadam();
-                    InsertOneBLock(FieldPosition.CoordinateToPos(x, z), itemCode);
+                    var blockCode = GetBlockCodeRadam();
+                    var itemCode = GetBlockItemCodeRadam();
+                    InsertOneBLock(FieldPosition.CoordinateToPos(x, z), blockCode, itemCode);
                 }
             }
         }
 
-        public void InsertOneBLock(FieldPosition pos, ulong blockCode)
+        public void InsertOneBLock(FieldPosition pos, ulong blockCode, ulong? itemCode = null)
         {
             var posCode = pos.GetPositionCode();
 

@@ -28,7 +28,7 @@ public class SkillTableImporter : TableImporterBase
     public override void ImportData()
     {
         var data = new SkillData();
-        data.code = Read_ulong("field_code");
+        data.code = Read_ulong("code");
         data.name = Read_string("name");
         data.type = Read_uint("type");
         data.targetCount = Read_uint("target_count");
