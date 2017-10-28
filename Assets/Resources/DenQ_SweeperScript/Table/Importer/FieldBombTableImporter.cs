@@ -9,7 +9,7 @@ using System.Text;
 
 using DenQ;
 using DenQData;
-public class BombTableImporter : TableImporterBase
+public class FieldBombTableImporter : TableImporterBase
 {
 
 
@@ -22,7 +22,7 @@ public class BombTableImporter : TableImporterBase
     public override void PreImportData()
     {
         DenQDataBase.bombTable.Clear();
-        filePath = "BombTable";
+        filePath = "FieldBombTable";
         isFinished = true;
     }
     public override void ImportData()

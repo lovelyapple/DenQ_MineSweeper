@@ -40,7 +40,7 @@ public class TableManager : ManagerBase<TableManager>
     void Init()
     {
         tableList.Clear();
-        tableList.Add(new BombTableImporter());
+        tableList.Add(new FieldBombTableImporter());
         tableList.Add(new MultiRewardTableImporter());
         tableList.Add(new StackItemTableImporter());
         tableList.Add(new MapDistributionTableImporter());
