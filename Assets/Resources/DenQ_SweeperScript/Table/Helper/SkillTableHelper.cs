@@ -7,7 +7,7 @@ using DenQData;
 public static class SkillTableHelper {
 	public static SkillData GetSkillDataById(ulong id)
 	{
-		var db = DenQDataBase.SkillTable;
+		var db = DenQDataBase.skillTable;
 		return db.ContainsKey(id)? db[id] : null;
 	}
 }

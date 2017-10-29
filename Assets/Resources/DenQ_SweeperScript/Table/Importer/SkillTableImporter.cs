@@ -21,7 +21,7 @@ public class SkillTableImporter : TableImporterBase
     }
     public override void PreImportData()
     {
-        DenQDataBase.SkillTable.Clear();
+        DenQDataBase.skillTable.Clear();
         filePath = "SkillTable";
         isFinished = true;
     }
@@ -38,8 +38,8 @@ public class SkillTableImporter : TableImporterBase
         data.effectCode = Read_uint("effect_code");
         data.finishedActionCode = Read_uint("finished_action_code");
 
-        if (DenQDataBase.SkillTable.ContainsKey(data.code)) return;
-        DenQDataBase.SkillTable.Add(data.code, data);
+        if (DenQDataBase.skillTable.ContainsKey(data.code)) return;
+        DenQDataBase.skillTable.Add(data.code, data);
     }
     public override void AfterImportData()
     {

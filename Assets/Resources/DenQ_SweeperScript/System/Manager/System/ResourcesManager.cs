@@ -40,7 +40,7 @@ public class ResourcesManager : ManagerBase<ResourcesManager>
         }
     }
     ///FieldItemTableからNameを取り出し、インスタンスを作る
-    public GameObject CreateFieldObjectInstance(ulong itemCode, Transform parent, Vector3 pos, bool saveCache = true)
+    public GameObject CreateFieldObjectInstance(ulong itemCode, Transform parent, Vector3 pos, bool isFieldObj = true, bool saveCache = true)
     {
         var fieldItemData = FieldItemTableHelper.GetFieldItemData(itemCode);
         if (fieldItemData == null)
@@ -51,17 +51,32 @@ public class ResourcesManager : ManagerBase<ResourcesManager>
 
         var go = CreateFieldObjectInstance(fieldItemData.name, parent, pos, saveCache);
 
-        ObjectBaseData objData = null;
-        objData = go.GetComponent<FieldObjectData>();
+        if (isFieldObj)
+        {
+            ObjectBaseData objData = null;
+            objData = go.GetComponent<FieldObjectData>();
 
-        if (objData != null)
-        {
-            objData.masterCode = itemCode;
+            if (objData != null)
+            {
+                objData.masterCode = itemCode;
+            }
+            else
+            {
+                Logger.GError("could not find objectData");
+            }
         }
-        else
+        return go;
+    }
+    public GameObject CreateEffectObjectInstance(ulong effectCode, Transform parent, Vector3 pos, bool saveCache = true)
+    {
+        var effectData = EffectTableHelper.GetEffectDataById(effectCode);
+        if (effectData == null)
         {
-            Logger.GError("could not find objectData");
+            Logger.GWarn("could not find effectData Code + " + effectCode);
+            return null;
         }
+
+        var go = CreateFieldObjectInstance(effectData.name, parent, pos, saveCache);
         return go;
     }
     ///PrefabPathDictionから名前のcontainerを探し、Prefabがなければ作り、なければLoad

@@ -49,6 +49,7 @@ public class TableManager : ManagerBase<TableManager>
         tableList.Add(new FieldBlockTableImporter());
         tableList.Add(new FieldTableImporter());
         tableList.Add(new SkillTableImporter());
+        tableList.Add(new EffectTableImorter());
         state |= TABLE_INIT_STATE.ADD_TABLE;
     }
     public void ReadTable()

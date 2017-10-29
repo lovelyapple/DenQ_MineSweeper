@@ -32,8 +32,8 @@ public class FieldBlockTableImporter : TableImporterBase
         data.level = Read_uint("level");
         data.hp = Read_uint("hp");
 
-        if (DenQDataBase.FieldBlockTable.ContainsKey(data.itemCode)) return;
-        DenQDataBase.FieldBlockTable.Add(data.itemCode, data);
+        if (DenQDataBase.fieldBlockTable.ContainsKey(data.itemCode)) return;
+        DenQDataBase.fieldBlockTable.Add(data.itemCode, data);
         //Debug.Log("block code" + data.itemCode + " name " + data.name);
     }
     public override void AfterImportData()
@@ -42,6 +42,6 @@ public class FieldBlockTableImporter : TableImporterBase
     }
     public static Dictionary<ulong, FieldBlockData> GetFieldBlockData()
     {
-        return DenQDataBase.FieldBlockTable;
+        return DenQDataBase.fieldBlockTable;
     }
 }
