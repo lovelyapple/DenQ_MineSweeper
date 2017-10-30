@@ -36,7 +36,6 @@ public class SkillTableImporter : TableImporterBase
         data.baseDamage = Read_uint("base_damage");
         data.coolTime = Read_uint("cool_time");
         data.effectCode = Read_uint("effect_code");
-        data.finishedActionCode = Read_uint("finished_action_code");
 
         if (DenQDataBase.skillTable.ContainsKey(data.code)) return;
         DenQDataBase.skillTable.Add(data.code, data);

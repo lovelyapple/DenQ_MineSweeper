@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkillSelfExploNormal : SkillBase
+public class Skill_Explosion : SkillBase
 {
 	public override void FireSkill()
 	{
