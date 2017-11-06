@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Linq;
 
 using DenQData;
-public static class BombTableHelper {
+public static class FieldBombTableHelper {
 	public static FieldBombData GetBombDataByID(ulong id)
 	{
 		var list = FieldBombTableImporter.GetBombData();

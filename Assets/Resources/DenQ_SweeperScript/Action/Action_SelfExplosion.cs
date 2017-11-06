@@ -20,6 +20,6 @@ public class Action_SelfExplosion : ActionBase
     public override void PlayAction()
     {
         skillInfo.FireSkill();
-        //TODO FieldObjectStateにkillself を呼び出し
+        self.KillSelf();
     }
 }

@@ -177,8 +177,11 @@ namespace DenQModel
             }
 
             var worldPos = pos.GetWorldPostion();
+            FieldObjectData objectData;
 
-            var blockInfo = ResourcesManager.GetInstance().CreateFieldObjectInstance(blockCode, RootHolder.FieldBLockRootObj.transform, worldPos).GetComponent<FieldBlock>();
+            ResourcesManager.GetInstance().CreateFieldObjectInstance(blockCode, RootHolder.FieldBLockRootObj.transform, worldPos,out objectData);
+
+            var blockInfo = (FieldBlock)objectData;
 
             if (blockInfo != null)
             {

@@ -94,8 +94,16 @@ public class FieldBlock : FieldObjectData
             return;
         }
 
-        ResourcesManager.GetInstance().CreateFieldObjectInstance(contentItemCode.Value, itemPosObj.gameObject.transform, itemPosObj.transform.position);
-        //TODOデータの設定
+        FieldObjectData objData;
+        ResourcesManager.GetInstance().CreateFieldObjectInstance(contentItemCode.Value, itemPosObj.gameObject.transform, itemPosObj.transform.position, out objData);
+
+        switch ((FIELD_ITEM_TOKEN)contentItemCode.Value)
+        {
+            case FIELD_ITEM_TOKEN.FIELD_ITEM_BOMB:
+                var fieldBomb = (FieldBomb)objData;
+                fieldBomb.SetupBomb(contentItemCode.Value);
+                break;
+        }
     }
     ///周囲のブロックを探知
     public void SearchBlockSrounded(bool searchForce = false)
@@ -103,7 +111,7 @@ public class FieldBlock : FieldObjectData
         if (blocksNearBy == null || blocksNearBy.Count <= 0 || searchForce)
         {
             var hits = Physics.OverlapBox(gameObject.transform.position, ClientSettings.SroundBlockVector).Where(x => x.gameObject.GetComponent<FieldBlock>() != null).Select(x => x.gameObject).ToList();
-            blocksNearBy = hits.Select(x => x.GetComponent<FieldBlock>()).ToList(); 
+            blocksNearBy = hits.Select(x => x.GetComponent<FieldBlock>()).ToList();
         }
     }
     ///周囲のブロックプレイと更新

@@ -40,9 +40,13 @@ public class ResourcesManager : ManagerBase<ResourcesManager>
         }
     }
     ///FieldItemTableからNameを取り出し、インスタンスを作る
-    public GameObject CreateFieldObjectInstance(ulong itemCode, Transform parent, Vector3 pos, bool isFieldObj = true, bool saveCache = true)
+    public GameObject CreateFieldObjectInstance(ulong itemCode, Transform parent, Vector3 pos, 
+    out FieldObjectData fieldObjectData,
+    bool isFieldObj = true, bool saveCache = true)
     {
+        fieldObjectData = null;
         var fieldItemData = FieldItemTableHelper.GetFieldItemData(itemCode);
+
         if (fieldItemData == null)
         {
             Logger.GWarn("could not find itemCode + " + itemCode);
@@ -53,18 +57,18 @@ public class ResourcesManager : ManagerBase<ResourcesManager>
 
         if (isFieldObj)
         {
-            ObjectBaseData objData = null;
-            objData = go.GetComponent<FieldObjectData>();
+            fieldObjectData = go.GetComponent<FieldObjectData>();
 
-            if (objData != null)
+            if (fieldObjectData != null)
             {
-                objData.masterCode = itemCode;
+                fieldObjectData.masterCode = itemCode;
             }
             else
             {
                 Logger.GError("could not find objectData");
             }
         }
+
         return go;
     }
     public GameObject CreateEffectObjectInstance(ulong effectCode, Transform parent, Vector3 pos, bool saveCache = true)

@@ -63,7 +63,7 @@ public class DebugTableTester : EditorWindow
                 if (GUILayout.Button("Open"))
                 {
                     lensing = true;
-                    var datas = BombTableHelper.GetBombAllDatas();
+                    var datas = FieldBombTableHelper.GetBombAllDatas();
                     List<object> objs = new List<object>();
                     foreach (var data in datas)
                     {
