@@ -22,7 +22,7 @@ public class TableImporterBase
     {
         set
         {
-            //tableName = value;
+            tableName = value;
             _filePath = string.Format("{0}/Resources/ExterminalResource/TableCSV/{1}.csv", GetApplicationPath(), value);
         }
         get
@@ -30,7 +30,7 @@ public class TableImporterBase
             return _filePath;
         }
     }
-    //string tableName = "";
+    string tableName = "";
     Dictionary<string, uint> cellIndx = new Dictionary<string, uint>();
     ///ファイルのPath取得
     public virtual string GetFilePath() { return ""; }
@@ -46,7 +46,7 @@ public class TableImporterBase
 
     public void ReadeCSVTableCore()
     {
-        //Debug.Log("begin load " + tableName + " table");
+        Debug.Log("begin load " + tableName + " table");
         isFinished = false;
         ReadIndex();
         var sr = new StreamReader(filePath, Encoding.GetEncoding("SHIFT_JIS"));
@@ -68,8 +68,15 @@ public class TableImporterBase
         while (e.MoveNext())
         {
             var str = e.Current as string;
-            cellIndx.Add(str, idx);
-            //Logger.SDebug(tableName + "  "+ str + "   idx " + idx);
+            try
+            {
+                cellIndx.Add(str, idx);
+            }
+            catch
+            {
+                Logger.SError(tableName + "  "+ str + "   idx " + idx);
+            }
+
             idx++;
         }
     }

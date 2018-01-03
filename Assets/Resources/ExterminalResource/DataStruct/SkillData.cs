@@ -16,7 +16,6 @@ namespace DenQData
         public uint range;
         public uint baseDamage;
         public uint coolTime;
-        public uint effectCode;
 
     }
 

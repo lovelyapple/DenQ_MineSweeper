@@ -17,7 +17,7 @@ public class MapDefinedItemTableImporter : TableImporterBase
     public override void PreImportData()
     {
         DenQDataBase.mapDefinedTiemData.Clear();
-        filePath = "MultiRewardTable";
+        filePath = "MapDefinedItemTable";
         isFinished = true;
     }
     public override void ImportData()

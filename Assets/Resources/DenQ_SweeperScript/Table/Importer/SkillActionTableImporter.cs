@@ -9,7 +9,7 @@ using System.Text;
 
 using DenQ;
 using DenQData;
-public class SkillTableImporter : TableImporterBase
+public class SkillActionTableImporter : TableImporterBase
 {
 
 
@@ -21,24 +21,22 @@ public class SkillTableImporter : TableImporterBase
     }
     public override void PreImportData()
     {
-        DenQDataBase.skillTable.Clear();
-        filePath = "SkillTable";
+        DenQDataBase.skillActionTable.Clear();
+        filePath = "SkillActionTable";
         isFinished = true;
     }
     public override void ImportData()
     {
-        var data = new SkillData();
-        data.code = Read_ulong("code");
+        var data = new SkillActionData();
+        data.code = Read_uint("code");
         data.name = Read_string("name");
-        data.type = Read_uint("type");
-        data.targetCount = Read_uint("target_count");
-        data.range = Read_uint("range");
-        data.baseDamage = Read_uint("base_damage");
-        data.coolTime = Read_uint("cool_time");
-  
+        data.skillActionType = Read_uint("skill_action_type");
+        data.effectCode = Read_uint("effect_code");
+        data.param01 = Read_ulong("param_01");
+        data.param02 = Read_ulong("param_02");
 
-        if (DenQDataBase.skillTable.ContainsKey(data.code)) return;
-        DenQDataBase.skillTable.Add(data.code, data);
+        if (DenQDataBase.skillActionTable.ContainsKey(data.code)) return;
+        DenQDataBase.skillActionTable.Add(data.code, data);
     }
     public override void AfterImportData()
     {

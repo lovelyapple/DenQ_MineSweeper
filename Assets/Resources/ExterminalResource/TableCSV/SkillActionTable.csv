@@ -1,0 +1,4 @@
+#,code,name,skill_action_type,effect_code,param_01,param_01_detail,param_02,param_02_detail
+#,uint,string,uint,uint,ulong,string,ulong,string
+,10000000,standby,0,0,50,waiting_time(0.1sec),0,xx
+,10000001,suisideExplosion,1,10000000,0,xx,0,xx

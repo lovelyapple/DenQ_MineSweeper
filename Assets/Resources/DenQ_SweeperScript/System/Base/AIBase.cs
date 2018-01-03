@@ -5,31 +5,49 @@ using DenQData;
 
 public class AIBase : MonoBehaviour
 {
-    public FieldObjectData self { get; private set; }
-    public ActionController actionCtrl { get; private set; }
-    void Awake()
+    public enum DenQAIModes
     {
-        CatchSelfInfos();
+        StandBy,
+        Attacking,
     }
-    public bool CatchSelfInfos()
+    public uint AIMode = 0;
+    [SerializeField] FieldObjectData _self;
+    public FieldObjectData self
     {
-        self = gameObject.GetComponent<FieldObjectData>();
-
-        if (self == null)
+        get
         {
-            Logger.GError("could not find FieldObject");
-            return false;
+            if (_self == null)
+            {
+                _self = gameObject.GetComponent<FieldObjectData>();
+
+                if (_self == null)
+                {
+                    Logger.GError("could not find gameObject!");
+                }
+            }
+
+            return _self;
         }
-
-        actionCtrl = gameObject.GetComponent<ActionController>();
-
-        if (actionCtrl == null)
-        {
-            Logger.GError("could not find actionController!");
-            return false;
-        }
-
-        return true;
     }
+    [SerializeField] ActionController _actionCtrl;
+    public ActionController actionController
+    {
+        get
+        {
+            if (_actionCtrl == null)
+            {
+                _actionCtrl = gameObject.GetComponent<ActionController>();
 
+                if (_actionCtrl == null)
+                {
+                    Logger.GError("coudl not find actionCtrl!");
+                }
+            }
+            return _actionCtrl;
+        }
+    }
+    public virtual void InitialzieAI()
+    {
+
+    }
 }

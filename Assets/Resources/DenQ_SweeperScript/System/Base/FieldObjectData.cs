@@ -13,10 +13,28 @@ namespace DenQData
         public float? baseAttackRange;
 
         public bool isDead { get { return recHp <= 0; } }
-        public FieldObjectStateController stateController;
-        void Awake()
+        FieldObjectStateController _stateController;
+        public FieldObjectStateController StateController{
+            get{
+                if(_stateController == null)
+                {
+                    _stateController = new FieldObjectStateController(this);
+                }
+
+                return _stateController;
+            }
+        }
+        TargetController _targetController;
+        public TargetController TargetController
         {
-            stateController = new FieldObjectStateController(this);
+            get{
+                if(_targetController == null)
+                {
+                    _targetController = new TargetController(this);
+                }
+
+                return _targetController;
+            }
         }
         public void DestroyObj()
         {
@@ -26,12 +44,7 @@ namespace DenQData
         }
         public void KillSelf()
         {
-            if (stateController == null)
-            {
-                stateController = new FieldObjectStateController(this);
-            }
-            
-            stateController.KillThis();
+            StateController.KillThis();
         }
     }
 

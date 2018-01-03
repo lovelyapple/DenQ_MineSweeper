@@ -16,5 +16,7 @@ namespace DenQData
         public static Dictionary<ulong, FieldBlockData> fieldBlockTable = new Dictionary<ulong, FieldBlockData>();
         public static Dictionary<ulong, SkillData>  skillTable = new Dictionary<ulong, SkillData>();
         public static Dictionary<ulong, EffectData> effectTable = new Dictionary<ulong, EffectData>();
+        public static Dictionary<uint, SkillActionData> skillActionTable = new Dictionary<uint, SkillActionData>();
+        public static List<SkillActionGroupData> skillActionGroupTable = new List<SkillActionGroupData>();
     }
 }
