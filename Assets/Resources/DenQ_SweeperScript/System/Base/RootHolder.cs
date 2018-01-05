@@ -76,7 +76,7 @@ public static class RootHolder
         {
             if (_UIRootObj == null)
             {
-                _UIRootObj = GameObject.Find("UIRoot");
+                _UIRootObj = GameObject.Find("UIRoot_MainCavans");
 
                 if (_UIRootObj == null)
                 {
