@@ -13,11 +13,6 @@ namespace Resource
     }
     public class WindowManager : ManagerBase<WindowManager>
     {
-        //todo resoucesmanager さらにversionupしたら、入れる
-        static string windowPrefabPath
-        {
-            get { return "Assets/ExternalResources/UI_Prefab/"; }
-        }
         static Dictionary<WindowIndex, string> _windowDirectory = new Dictionary<WindowIndex, string>()
         {
             {WindowIndex.FieldMenu,"Part_FieldMenu/Window/FieldMenu.prefab"},
@@ -89,7 +84,7 @@ namespace Resource
         //todo resoucesmanager さらにversionupしたら、入れる
         public static GameObject LoadResources_Window(WindowIndex index)
         {
-            var loadPath = windowPrefabPath + _windowDirectory[index];
+            var loadPath = ResourcesPath.WindowPrefabPath + _windowDirectory[index];
             return (GameObject)AssetDatabase.LoadMainAssetAtPath(loadPath);
         }
     }
