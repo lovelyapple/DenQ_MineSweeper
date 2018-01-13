@@ -5,8 +5,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DenQ;
+using DenQData;
 ///ここでリソースのロードを行う媒体
-public class ResourcesManager : ManagerBase <ResourcesManager>
+public class ResourcesManager : ManagerBase<ResourcesManager>
 {
     const string fieldObjectPrefabPath = "/Resources/DenQ_SweeperPrefab";
     const int prefabIdxCnt = 7;
@@ -33,50 +34,81 @@ public class ResourcesManager : ManagerBase <ResourcesManager>
         {
             prefabPathDict = new Dictionary<string, PrefabContainer>();
             var dir = new DirectoryInfo(Application.dataPath + fieldObjectPrefabPath);
-            Debug.Log(dir);
+            //Debug.Log(dir);
             FileInfo[] infos = dir.GetFiles("*.prefab", SearchOption.AllDirectories);
-            prefabPathDict = infos.ToDictionary(info => info.Name, info => new PrefabContainer(info,(int)resourcePathCharaCnt,prefabIdxCnt));
+            prefabPathDict = infos.ToDictionary(info => info.Name, info => new PrefabContainer(info, (int)resourcePathCharaCnt, prefabIdxCnt));
         }
     }
     ///FieldItemTableからNameを取り出し、インスタンスを作る
-    public GameObject CreateFieldObjectInstance(ulong itemCode, Transform parent, Vector3 pos,bool saveCache = true)
+    public GameObject CreateFieldObjectInstance(ulong itemCode, Transform parent, Vector3 pos, 
+    out FieldObjectData fieldObjectData,
+    bool isFieldObj = true, bool saveCache = true)
     {
+        fieldObjectData = null;
         var fieldItemData = FieldItemTableHelper.GetFieldItemData(itemCode);
+
         if (fieldItemData == null)
         {
             Logger.GWarn("could not find itemCode + " + itemCode);
             return null;
         }
-        return CreateFieldObjectInstance(fieldItemData.name, parent, pos,saveCache);
+
+        var go = CreateFieldObjectInstance(fieldItemData.name, parent, pos, saveCache);
+
+        if (isFieldObj)
+        {
+            fieldObjectData = go.GetComponent<FieldObjectData>();
+
+            if (fieldObjectData != null)
+            {
+                fieldObjectData.masterCode = itemCode;
+            }
+            else
+            {
+                Logger.GError("could not find objectData");
+            }
+        }
+
+        return go;
+    }
+    public GameObject CreateEffectObjectInstance(ulong effectCode, Transform parent, Vector3 pos, bool saveCache = true)
+    {
+        var effectData = EffectTableHelper.GetEffectDataById(effectCode);
+        if (effectData == null)
+        {
+            Logger.GWarn("could not find effectData Code + " + effectCode);
+            return null;
+        }
+
+        var go = CreateFieldObjectInstance(effectData.name, parent, pos, saveCache);
+        return go;
     }
     ///PrefabPathDictionから名前のcontainerを探し、Prefabがなければ作り、なければLoad
-    public GameObject CreateFieldObjectInstance(string name, Transform parent, Vector3 pos,bool saveCache = true)
+    public GameObject CreateFieldObjectInstance(string name, Transform parent, Vector3 pos, bool saveCache = true)
     {
         var container = new PrefabContainer();
         name += ".prefab";
+
         if (!prefabPathDict.TryGetValue(name, out container))
         {
             Logger.GWarn("could not find the prefab in Dictionary name : " + name);
             return null;
         }
-        if (container.prefab != null)
+
+        if (container.prefab == null)
         {
-            return container.prefab;
+            container.prefab = (GameObject)Resources.Load(container.loadPath);
+
         }
-        var go = (GameObject)Resources.Load(container.loadPath);
-        if (go == null)
+
+        if (container.prefab == null)
         {
             Logger.SWarn("could not load resources in file : " + container.filePath);
             return null;
         }
-        if (saveCache)
-        {
-            container.prefab = go;
-            return (GameObject)Instantiate(container.prefab,pos,Quaternion.identity, parent);
-        }
         else
         {
-            return (GameObject)Instantiate(go, pos,Quaternion.identity,parent);
+            return (GameObject)Instantiate(container.prefab, pos, Quaternion.identity, parent);
         }
     }
     ///実験的に中身のチェック、基本実行しない
@@ -97,12 +129,12 @@ public class ResourcesManager : ManagerBase <ResourcesManager>
 public class PrefabContainer
 {
     public PrefabContainer() { }
-    public PrefabContainer(FileInfo fileInfo,int headIndxCnt,int lastIdxCnt)
+    public PrefabContainer(FileInfo fileInfo, int headIndxCnt, int lastIdxCnt)
     {
         this.filePath = fileInfo.FullName;
         this.fileName = fileInfo.Name;
         this.loadPath = filePath.Remove(this.filePath.Length - lastIdxCnt, lastIdxCnt);
-        this.loadPath = this.loadPath.Remove(0,headIndxCnt);
+        this.loadPath = this.loadPath.Remove(0, headIndxCnt);
         return;
     }
     public string fileName;

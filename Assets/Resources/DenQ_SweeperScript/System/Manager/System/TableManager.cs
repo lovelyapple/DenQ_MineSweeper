@@ -40,12 +40,17 @@ public class TableManager : ManagerBase<TableManager>
     void Init()
     {
         tableList.Clear();
-        tableList.Add(new BombTableImporter());
+        tableList.Add(new EffectTableImorter());
+        tableList.Add(new FieldBombTableImporter());
+        tableList.Add(new FieldItemTableImporter());
+        tableList.Add(new FieldBlockTableImporter());
+        tableList.Add(new FieldTableImporter());
         tableList.Add(new MultiRewardTableImporter());
         tableList.Add(new StackItemTableImporter());
         tableList.Add(new MapDistributionTableImporter());
         tableList.Add(new MapDefinedItemTableImporter());
-        tableList.Add(new FieldItemTableImporter());
+        tableList.Add(new SkillTableImporter());
+        tableList.Add(new SkillActionTableImporter());
         state |= TABLE_INIT_STATE.ADD_TABLE;
     }
     public void ReadTable()
@@ -96,10 +101,11 @@ public class TableManager : ManagerBase<TableManager>
             while (!importer.isFinished) yield return null;//表を一個ずつ読む、順番じゃないと壊れる可能性が
         }
         state |= TABLE_INIT_STATE.AFTER_IMPORT;
+        Logger.SDebug("All Table is Imported");
     }
     public bool IsFinished()
     {
-        if(0 == (state & TABLE_INIT_STATE.ALL))
+        if (0 == (state & TABLE_INIT_STATE.ALL))
         {
             state = TABLE_INIT_STATE.OVER;
             return true;

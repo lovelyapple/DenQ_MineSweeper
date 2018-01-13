@@ -1,0 +1,4 @@
+#,map_code,item_code,item_rate
+#,ulong,ulong,uint
+,10000000,10001000,100
+,10000000,10002000,50

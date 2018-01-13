@@ -6,12 +6,12 @@ using DenQData;
 public static class FieldBlockTableHelper {
 	public static FieldBlockData GetFieldBLockDataByID(ulong id)
 	{
-		var list = DenQOffLineDataBase.FieldBlockTable;
+		var list = DenQDataBase.fieldBlockTable;
 		return list.ContainsKey(id)? list[id] : null;
 	}
 	public static List<FieldBlockData> GetBombAllDatas()
 	{
-		var dict = DenQOffLineDataBase.FieldBlockTable;
+		var dict = DenQDataBase.fieldBlockTable;
 		return dict.Select(t => t.Value).ToList();
 	}
 }

@@ -16,47 +16,34 @@ public class MapDistributionTableImporter : TableImporterBase
     }
     public override void PreImportData()
     {
-        DenQOffLineDataBase.mapDistributionTable.Clear();
+        DenQDataBase.mapDistributionTable.Clear();
         filePath = "MapDistributionTable";
         isFinished = true;
     }
     public override void ImportData()
     {
         var data = new MapDistributionData();
-        data.code = Read_ulong("code");
-        data.distributionDatas = new Dictionary<ulong, uint>();
-        var itemCode = Read_ulong("master_code_01");
-        if (itemCode != 0)
-            data.distributionDatas.Add(itemCode, Read_uint("item_rate_01"));
-        itemCode = Read_ulong("master_code_02");
-        if (itemCode != 0)
-            data.distributionDatas.Add(itemCode, Read_uint("item_rate_02"));
-        itemCode = Read_ulong("master_code_03");
-        if (itemCode != 0)
-            data.distributionDatas.Add(itemCode, Read_uint("item_rate_03"));
+        data.mapCode = Read_ulong("map_code");
+        data.itemCode = Read_ulong("item_code");
+        data.itemRate = Read_uint("item_rate");
 
-        if (DenQOffLineDataBase.mapDistributionTable.ContainsKey(data.code)) return;
-        DenQOffLineDataBase.mapDistributionTable.Add(data.code, data);
+        DenQDataBase.mapDistributionTable.Add(data);
     }
     public override void AfterImportData()
     {
         isFinished = true;
     }
-    public static Dictionary<ulong, MapDistributionData> GetBombData()
+    public static List<MapDistributionData> GetBombData()
     {
-        return DenQOffLineDataBase.mapDistributionTable;
+        return DenQDataBase.mapDistributionTable;
     }
 }
 public static class MapDistributionTableHelper
 {
-    public static MapDistributionData GetDistributionData(ulong code)
+    public static List<MapDistributionData> GetDistributionData(ulong mapCode)
     {
-        var dbs = DenQOffLineDataBase.mapDistributionTable;
-        var outData = new MapDistributionData();
-        if(!dbs.TryGetValue(code,out outData))
-        {
-            Logger.SError("coudl not find fieldData Code :" + code);
-        }
-        return outData;
+        var db = DenQDataBase.mapDistributionTable;
+        var outList = db.Where(x => x.mapCode == mapCode).ToList();
+        return outList;
     }
 }

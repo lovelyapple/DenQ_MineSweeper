@@ -1,0 +1,4 @@
+#,skill_code,skill_action_code,action_index
+#,uint,uint,uint
+,10000000,10000000,0
+,10000000,10000001,1

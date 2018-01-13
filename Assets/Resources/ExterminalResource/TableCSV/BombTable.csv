@@ -1,3 +1,0 @@
-#,master_code,name,bomb_type,level,hp,time,damage,damage_range
-#,ulong,string,uint,uint,uint,float,uint,float
-,10001000,FieldBlock_000,0,1,100,0.5,5,3

@@ -11,6 +11,10 @@ namespace DenQData
         //{set { posX = 0; } get { return posX; }  }
         public uint posZ;
         //{set { posZ = 0; } get { return posZ; }  }
+        public override string ToString()
+        {
+            return ("FieldPos( X " + posX + " Z " + posZ + " )");
+        }
         public FieldPosition()
         {
         }
@@ -74,7 +78,7 @@ namespace DenQData
             return PosToWorld(this);
         }
         ///Get the uint PosCode of this FIeldPosition
-        public uint GetCode()
+        public uint GetPositionCode()
         {
             return PosToCode(this);
         }
@@ -87,12 +91,13 @@ namespace DenQData
         ///convert FieldPostion to Code
         public static uint PosToCode(FieldPosition p)
         {
-            return (uint)(p.posX * 1000 + p.posZ);
+            return (uint)(p.posZ * ClientSettings.MaxFieldSize + p.posX + ClientSettings.TopDigit);
         }
         ///Convert Code To Fieldposition
         public static FieldPosition CodeToPos(uint code)
         {
-            return new FieldPosition(code / ClientSettings.MaxFieldSize, code % ClientSettings.MaxFieldSize);
+            var z = (uint)(code % ClientSettings.TopDigit / ClientSettings.MaxFieldSize);
+            return new FieldPosition(z, code % ClientSettings.MaxFieldSize);
         }
         ///Convert WorldPostion to FieldPostion
         public static FieldPosition WorldToPos(Vector3 world)
@@ -100,6 +105,15 @@ namespace DenQData
             return new FieldPosition((uint)(world.x / ClientSettings.FieldBlockSize), (uint)(world.z / ClientSettings.FieldBlockSize));
         }
 
+        public static uint CoordinateToCode(uint x, uint z)
+        {
+            return z * ClientSettings.MaxFieldSize + x + ClientSettings.TopDigit;
+        }
+        public static FieldPosition CoordinateToPos(uint x, uint z)
+        {
+            var Code = CoordinateToCode(x, z);
+            return CodeToPos(Code);
+        }
     }
 
 }

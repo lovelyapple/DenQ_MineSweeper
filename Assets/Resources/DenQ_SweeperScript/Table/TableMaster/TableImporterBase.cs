@@ -68,8 +68,15 @@ public class TableImporterBase
         while (e.MoveNext())
         {
             var str = e.Current as string;
-            cellIndx.Add(str, idx);
-            //Logger.SDebug(tableName + "  "+ str + "   idx " + idx);
+            try
+            {
+                cellIndx.Add(str, idx);
+            }
+            catch
+            {
+                Logger.SError(tableName + "  "+ str + "   idx " + idx);
+            }
+
             idx++;
         }
     }

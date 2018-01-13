@@ -19,7 +19,7 @@ public class FieldBlockTableImporter : TableImporterBase
     }
     public override void PreImportData()
     {
-        DenQOffLineDataBase.fieldItemTable.Clear();
+        DenQDataBase.fieldItemTable.Clear();
         filePath = "FieldBlockTable";
         isFinished = true;
     }
@@ -32,9 +32,9 @@ public class FieldBlockTableImporter : TableImporterBase
         data.level = Read_uint("level");
         data.hp = Read_uint("hp");
 
-        if (DenQOffLineDataBase.FieldBlockTable.ContainsKey(data.itemCode)) return;
-        DenQOffLineDataBase.FieldBlockTable.Add(data.itemCode, data);
-        Debug.Log("bomb code" + data.itemCode + " name " + data.name);
+        if (DenQDataBase.fieldBlockTable.ContainsKey(data.itemCode)) return;
+        DenQDataBase.fieldBlockTable.Add(data.itemCode, data);
+        //Debug.Log("block code" + data.itemCode + " name " + data.name);
     }
     public override void AfterImportData()
     {
@@ -42,6 +42,6 @@ public class FieldBlockTableImporter : TableImporterBase
     }
     public static Dictionary<ulong, FieldBlockData> GetFieldBlockData()
     {
-        return DenQOffLineDataBase.FieldBlockTable;
+        return DenQDataBase.fieldBlockTable;
     }
 }
