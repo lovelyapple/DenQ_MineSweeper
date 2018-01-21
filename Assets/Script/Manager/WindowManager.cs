@@ -15,7 +15,7 @@ namespace Resource
     {
         static Dictionary<WindowIndex, string> _windowDirectory = new Dictionary<WindowIndex, string>()
         {
-            {WindowIndex.FieldMenu,"Part_FieldMenu/Window/FieldMenu.prefab"},
+            {WindowIndex.FieldMenu,"FieldMenu"},
         };
         public static Dictionary<WindowIndex, WindowBase> _windowDict;
         /// <summary>
@@ -57,7 +57,7 @@ namespace Resource
         }
         static WindowBase CreateWindow(WindowIndex index)
         {
-            var go = LoadResources_Window(index);
+            var go = ResourcesManager.GetInstance().LoadWindowObject(_windowDirectory[index]);
 
             if (go == null)
             {
@@ -67,7 +67,7 @@ namespace Resource
 
             var targetolder = RootHolder.UIRootObj;
 
-            if(targetolder == null) return null;
+            if (targetolder == null) return null;
 
             go.transform.SetParent(targetolder.transform);
 
@@ -80,12 +80,6 @@ namespace Resource
             }
 
             return wndBase;
-        }
-        //todo resoucesmanager さらにversionupしたら、入れる
-        public static GameObject LoadResources_Window(WindowIndex index)
-        {
-            var loadPath = ResourcesPath.WindowPrefabPath + _windowDirectory[index];
-            return (GameObject)AssetDatabase.LoadMainAssetAtPath(loadPath);
         }
     }
 }

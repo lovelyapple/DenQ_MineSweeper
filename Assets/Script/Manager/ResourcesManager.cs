@@ -4,8 +4,53 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 using DenQ;
 using DenQData;
+
+public class ResourcesManager : ManagerBase<ResourcesManager>
+{
+    Dictionary<string, GameObject> prefabContainerDict;
+    void Awake()
+    {
+        SetInstance(this);
+        prefabContainerDict = new Dictionary<string, GameObject>();
+    }
+    public GameObject LoadPrefabResource(string prefabName)
+    {
+        return (GameObject)Resources.Load(prefabName);
+    }
+    public GameObject LoadPrefabExternalResource(string prefabLoadPath)
+    {
+        return (GameObject)AssetDatabase.LoadMainAssetAtPath(prefabLoadPath);
+    }
+    public GameObject LoadFieldObject(uint objToken, uint objId)
+    {
+        var objName = ResourcesPath.GetFieldObjectName(objToken, objId);
+        GameObject sourceObj;
+
+        if (prefabContainerDict.TryGetValue(objName, out sourceObj))
+        {
+            return (GameObject)Instantiate(sourceObj);
+        }
+
+        sourceObj = LoadPrefabResource(objName);
+
+        if (sourceObj == null)
+        {
+            Debug.LogError("could not Load Prefab : " + objName);
+            return null;
+        }
+
+        prefabContainerDict.Add(objName, sourceObj);
+        return sourceObj;
+    }
+    public GameObject LoadWindowObject(string windowName)
+    {
+        return LoadPrefabResource(windowName);
+    }
+}
+/* 
 ///ここでリソースのロードを行う媒体
 public class ResourcesManager : ManagerBase<ResourcesManager>
 {
@@ -129,7 +174,7 @@ public class ResourcesManager : ManagerBase<ResourcesManager>
 public class PrefabContainer
 {
     public PrefabContainer() { }
-    public PrefabContainer(FileInfo fileInfo, int headIndxCnt, int lastIdxCnt)
+    public PrefabContainer(FileInfo fileInfo, int headIndxCnt, int last　IdxCnt)
     {
         this.filePath = fileInfo.FullName;
         this.fileName = fileInfo.Name;
@@ -143,3 +188,4 @@ public class PrefabContainer
     public string loadPath { get; private set; }
     public GameObject prefab = null;
 }
+*/

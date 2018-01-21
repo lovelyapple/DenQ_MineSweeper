@@ -23,7 +23,7 @@ public class TableImporterBase
         set
         {
             tableName = value;
-            _filePath = string.Format("{0}/Resources/ExterminalResource/TableCSV/{1}.csv", GetApplicationPath(), value);
+            _filePath = string.Format(ResourcesPath.TableMasterPath + "{0}.csv", value);
         }
         get
         {
@@ -34,7 +34,6 @@ public class TableImporterBase
     Dictionary<string, uint> cellIndx = new Dictionary<string, uint>();
     ///ファイルのPath取得
     public virtual string GetFilePath() { return ""; }
-    public string GetApplicationPath() { return Application.dataPath; }
     /// インポート準備 Tableのデータ構造の初期化
     public virtual void PreImportData() { }
     /// 本インポート Tableの大体はここで読む
